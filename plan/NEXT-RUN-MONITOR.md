@@ -6,13 +6,15 @@ Wording, Kaspa Pulse (@gokugalax), 7 Oct 2026: sign-and-send processes are sende
 
 # Next run monitor
 
-This page lists the monitor lines already written in [MONITOR.md](MONITOR.md) and in [NEXT-STORM-PLAN.md](https://github.com/STP-KAS/tn10-storm-throughput-questions/blob/main/plan/NEXT-STORM-PLAN.md). It does not add a demand. It does not give the storm GO, does not lock the plan, and does not start a sender.
+This page lists the monitor lines already written in [MONITOR.md](MONITOR.md) and in [NEXT-STORM-PLAN.md](https://github.com/STP-KAS/tn10-storm-throughput-questions/blob/main/plan/NEXT-STORM-PLAN.md). It does not add a demand. It does not lock the questions plan.
+
+**Start.** Sending this GitHub to Grok Build or to the bot means go: start the operation. The bot's runner uses desk node B and runs only during the storm. Miners point at desk node B and pay the Grok Bot address `kaspatest:qzffl5xy9np46gkttyuftqnv2w04pr8g3wsp7c3vv8se3txtelx6q7c0v0ldx`.
 
 If this page and the questions plan disagree, the plan wins. If they disagree on which node a side uses, [PLAN.md](PLAN.md) wins.
 
 The next run is Friday 9 Oct 2026, 21:30 UTC, for 8 hours, ending Saturday 10 Oct 2026, 05:30 UTC. If that day is not ready, Monday 13 Oct 2026, 21:30 UTC. The hours after 00:25 UTC stay unnamed until the storm GO chooses. His counter is 21:25 UTC through 05:35 UTC. It does not move T0.
 
-A required line with no reading is **not measured**. That fails the pass in [MONITOR.md](MONITOR.md). Do not invent the other side. Do not ping Kaspa Pulse. Do not send him the sheet. No key, seed, address, or txid in git.
+A required line with no reading is **not measured**. That fails the pass in [MONITOR.md](MONITOR.md). Do not invent the other side. Do not ping Kaspa Pulse. Do not send him the sheet. No key, no seed, and no txid in git. The mining address is the Grok Bot address named above.
 
 The printable copy is `plan/next-run-monitor.pdf` in this repo. If the PDF and this page disagree, this page wins.
 
@@ -40,11 +42,11 @@ The desk rows are in the combo repo, `tonight-8-oct/RESULTS.md`, commit `593a4ba
 
 ## Before T0
 
-Stop unless the storm GO and `steps-utc.json` are in hand, and the clock is at or after the first time in that file. This page does not supply either.
+Stop unless this GitHub has been sent to Grok Build or to the bot, and `steps-utc.json` is in hand, and the clock is at or after the first time in that file. That send is the storm GO. The runner runs only during the storm.
 
 | Check | Owner | Pass |
 |---|---|---|
-| n0 synced, tip lag seconds, mempool, box disk | Bot | Send only if synced and lag is at or under 300 seconds, and the disk gate in the plan passes. Otherwise sender count 0 and the row says `waiting`. |
+| Desk node B synced, tip lag seconds, mempool, box disk | Bot | The runner runs only during the storm. Send only if node B is synced and lag is at or under 300 seconds, and the disk gate in the plan passes. Otherwise sender count 0 and the row says `waiting`. |
 | Locus synced, UTXO index, mempool, normal fee, free RAM, desk disk | Build | Send only on loopback Borsh. Free RAM under 1 GB, or a dead process, stops Build. |
 | NTP, five samples, both machines | Each side | Desk: `w32tm` against time.windows.com. Box: two public servers. Repeat at the end. A desk move over 50 ms flags Build's confirmation times. |
 | Older fleet halt file | Build | First line still `halt`. |
@@ -54,7 +56,7 @@ Stop unless the storm GO and `steps-utc.json` are in hand, and the clock is at o
 
 The desk writes the sheet. The box prints its block. Copy the block. A missing block stays **not measured**.
 
-| Field | Bot, n0 | Build, locus |
+| Field | Bot, desk node B | Build, locus |
 |---|---|---|
 | UTC | row time | row time |
 | Session | up, down, or waiting | up or down |
@@ -65,15 +67,15 @@ The desk writes the sheet. The box prints its block. Copy the block. A missing b
 | Node | synced, lag seconds, mempool, CPU | synced, UTXO index, mempool, normal fee, free RAM |
 | Rates | submitted tx/s and accepted tx/s | submitted tx/s and accepted tx/s |
 | Combined | sum of the two submitted rates, and sum of the two accepted rates | same two sums |
-| Pools | n0 mempool | locus mempool, plus the six public names, each named |
+| Pools | desk node B mempool | locus mempool, plus the six public names, each named |
 | Indexer | the latest 30-second sample | same check if the box row is missing |
-| Miners | box count, on or off, still on n0 | desk count, on or off, no switch |
+| Miners | count, on or off, pointed at desk node B | same miners, pointed at desk node B |
 
-While n0 is waiting, the combined accepted rate for that minute is Build's rate alone, and the row says so.
+While the bot's runner is waiting, the combined accepted rate for that minute is Build's rate alone, and the row says so.
 
 ## Every UTC second, per sender
 
-One line: sender id, target, submitted, accepted, endpoint `n0` or `locus`, that node's mempool, submit latency. Accept time is when that side's own node reports the transaction.
+One line: sender id, target, submitted, accepted, endpoint `desk-nodeB` or `locus`, that node's mempool, submit latency. Accept time is when that side's own node reports the transaction.
 
 Per-transaction logging stays on. The 8 Oct high-rate rounds turned it off. This run does not.
 
@@ -87,7 +89,7 @@ On top of the second log.
 |---|---|
 | minute | `YYYY-MM-DDTHH:MM:00Z` |
 | sender id | that sender |
-| node | `n0` or `locus`. Not the word "public". |
+| node | `desk-nodeB` or `locus`. Not the word "public". |
 | tx_sent | submissions by that sender in that minute |
 | tx ids | five, spread across the minute, not the first five |
 
@@ -99,10 +101,10 @@ Each one already has a plan section. The next run produces the reading.
 
 | # | Question | Where it is logged |
 |---|---|---|
-| 1 | Accepted tx/s against submitted, and where acceptance flattens | Per second, both sides, by fee tier. Saturation: from 60 seconds after the step start, accepted under 95% of submit-OK for 60 consecutive seconds. Report yes or no, and the onset. The chain rule uses n0. A waiting bot is not a zero-second failure. |
+| 1 | Accepted tx/s against submitted, and where acceptance flattens | Per second, both sides, by fee tier. Saturation: from 60 seconds after the step start, accepted under 95% of submit-OK for 60 consecutive seconds. Report yes or no, and the onset. The chain rule uses desk node B for the bot's runner. A waiting runner is not a zero-second failure. |
 | 2 | Confirmation time, median and worst, 1× against 1.5× | Per transaction: sequence, submit time, accept time, fee tier. Probes about 450 per tier per step. Report n, p50, p95, p99, worst, and the share over 30 seconds and over 60 seconds. |
 | 3 | Indexer freeze, at what sustained tx/s, and for how long | `GET https://api-tn10.kaspa.org/info/health` every 30 seconds. Log HTTP, `isSynced`, `acceptedTxBlockTimeDiff`, `blueScoreDiff`. Freeze: 3 samples of 503 or timeout, or lag above 120 seconds and rising, or a visibility delay above 300 seconds. One already-accepted id polled once a minute until it is visible. Give up after 30 minutes. The id stays local. |
-| 4 | Mempool depth over time | n0 mempool every 1 second. Fee estimate every 10 seconds. Locus mempool on the per-second line. The six public names on the 10-minute row. |
+| 4 | Mempool depth over time | Desk node B mempool every 1 second. Fee estimate every 10 seconds. Locus mempool on the per-second line. The six public names on the 10-minute row. |
 | 5 | Whether order holds under load | Ordered stream, 2 per second at 1× and at 1.5×. Reorder rate, out-of-order accepts, stalls, and fee-driven overtakes, each as a count and a percentage, with n and a 95% interval. |
 
 The two headlines stay order under load, and whether 1.5× fee buys inclusion while 1× waits.
@@ -116,8 +118,8 @@ These are already in the plan. They were not part of the 8 Oct desk rows.
 - B0 is 10 minutes. Lane senders off. The plan keeps the box probes and the ordered stream on in B0. Build sends nothing in B0.
 - Steps stay 2×, 5×, 10×, 20×, 30×, then max. Nothing changes inside a step. Never eight box runners.
 - Miners-off control at the 2× load, matched to the same load with miners on. The control is imperfect. Other miners still change templates. Say that next to the pair. The miners-off share should read about 0% of our own blocks.
-- When accepted flattens, log n0 CPU, mempool-cap hits, and reject reasons. Label the plateau box-bound, network-bound, or unclear, by the plan's §6a. n0's about 100,000 cap does not apply to locus.
-- Mining share per node, per step: blocks total, blocks ours, percent. Box miners count on n0. Desk miners count on locus. Do not switch either set from this page.
+- When accepted flattens, log desk node B CPU, mempool-cap hits, and reject reasons. Label the plateau by the plan's §6a. The questions plan's about 100,000 cap on n0 does not apply to locus or to desk node B.
+- Mining share per node, per step: blocks total, blocks ours, percent. Miners point at desk node B and pay the Grok Bot address.
 - At T0, cite the SHA of the last commit that changed `plan/NEXT-STORM-PLAN.md`. A deviation gets a time and a reason.
 - Raw files next to the summary stay the plan's §8 list. They are not written by this page.
 

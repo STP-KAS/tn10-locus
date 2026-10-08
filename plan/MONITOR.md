@@ -6,19 +6,19 @@ Wording, Kaspa Pulse (@gokugalax), 7 Oct 2026: sign-and-send processes are sende
 
 # Monitoring tasks
 
-The goal is the combined included rate. Each task names who does it. A number that was not read is **not measured**. No key, no seed, no address, and no txid in git.
+The goal is the combined included rate. Each task names who does it. A number that was not read is **not measured**. No key, no seed, and no txid in git. The mining address is named in the plan.
 
 If this page and [PLAN.md](PLAN.md) disagree, the plan wins. The 8 Oct checkout rows stay in the combo repo. They are not copied here.
 
 The next run covers every line below, including the lines 8 Oct left unread. The checklist is [NEXT-RUN-MONITOR.md](NEXT-RUN-MONITOR.md). A required line with no reading is **not measured** and fails Task 10. That page does not add a demand.
 
-## Task 1. n0, before the bot sends
+## Task 1. Desk node B, before the bot's runner sends
 
-Owner: TN10 ops.
+Owner: the bot.
 
-- Read synced, tip lag in seconds, mempool, and free disk.
-- Send only if synced and lag is at or under 300 seconds, and the box disk gate in the plan passes.
-- If not, sender count is 0. The row says `waiting`. Do not point the runners at locus.
+- Read synced, tip lag in seconds, mempool, and free disk on the box.
+- The runner runs only during the storm. Send only if desk node B is synced and lag is at or under 300 seconds, and the box disk gate in the plan passes.
+- If not, sender count is 0. The row says `waiting`.
 
 Repeat this check every 10 minutes, and at once if submits start failing because the node fell behind. Falling behind mid-step stops the bot's senders. It does not stop Build.
 
@@ -28,13 +28,13 @@ Owner: Grok Build.
 
 - Read synced, UTXO index, mempool, normal fee, process RSS, free RAM, and free disk.
 - Send only if synced and the UTXO index is on, on loopback Borsh.
-- If free RAM is under 1 GB, or the process dies, stop Build's senders. Do not move them to n0.
+- If free RAM is under 1 GB, or the process dies, stop Build's senders. Keep them on locus.
 
 ## Task 3. The 10-minute row
 
 Owner: the desk writes the sheet. The box prints its block. A missing block stays **not measured**. Do not invent the other side.
 
-| Field | Bot, n0 | Build, locus |
+| Field | Bot, desk node B | Build, locus |
 |---|---|---|
 | UTC | row time | row time |
 | Session | up, down, or waiting | up or down |
@@ -44,9 +44,9 @@ Owner: the desk writes the sheet. The box prints its block. A missing block stay
 | Node | synced, lag seconds, mempool, CPU | synced, UTXO index, mempool, normal fee, RSS, free RAM |
 | Rates | submitted tx/s and accepted tx/s | submitted tx/s and accepted tx/s |
 | Combined | sum of the two submitted rates, and sum of the two accepted rates | same two sums, one line for the minute |
-| Pools | n0 mempool | locus mempool, plus the six public names, each named |
+| Pools | desk node B mempool | locus mempool, plus the six public names, each named |
 | Indexer | api-tn10 `/info/health` | same check if the box row is missing |
-| Miners | box count, on or off, still on n0 | desk count, on or off, no switch |
+| Miners | count, on or off, pointed at desk node B | same miners, pointed at desk node B, paying the Grok Bot address |
 
 Rows are due on the questions plan's clock once a run is armed. Between runs, a row is still owed if a side is sending.
 
@@ -54,7 +54,7 @@ Rows are due on the questions plan's clock once a run is armed. Between runs, a 
 
 Owner: the side that sends.
 
-One line: sender id, target, submitted, accepted, endpoint (`n0` or `locus`), that node's mempool, submit latency.
+One line: sender id, target, submitted, accepted, endpoint (`desk-nodeB` or `locus`), that node's mempool, submit latency.
 
 On a sample of transactions, and on every reject: submit time and accept time, UTC, with milliseconds and Z.
 
@@ -68,7 +68,7 @@ On top of the second log. This is the 8 Oct ask.
 |---|---|
 | minute | `YYYY-MM-DDTHH:MM:00Z` |
 | sender id | that sender |
-| node | `n0` for the bot, `locus` for Build |
+| node | `desk-nodeB` for the bot's runner, `locus` for Build |
 | tx_sent | submissions by that sender in that minute |
 | tx ids | five, spread across the minute, not the first five |
 
@@ -102,7 +102,7 @@ Owner: whichever side is up. The box if both are up.
 
 Owner: each node, for the blocks it sees.
 
-Per second, then published per step: blocks total, blocks ours, share in percent. The miners-off step should read about 0%. Box miners count on n0. Desk miners count on locus. The questions plan's §7 is the rule.
+Per second, then published per step: blocks total, blocks ours, share in percent. The miners-off step should read about 0%. Miners point at desk node B and pay the Grok Bot address. The questions plan's §7 is the rule. Count the share on the blocks desk node B sees, and on the blocks locus sees.
 
 ## Task 9. Clocks
 
@@ -113,12 +113,12 @@ NTP offset on the box and on the desk, at the start and at the end of a run. If 
 A run that claims the combined goal shows all of these:
 
 - Combined accepted tx/s is on the sheet, next to each side's own accepted tx/s.
-- The bot's minutes are either `n0` with a match, or `waiting` with sender count 0. A missing n0 sync check fails the bot's part.
+- The bot's minutes are either `desk-nodeB` with a match, or `waiting` with sender count 0. A missing node B sync check fails the bot's part. The runner is off outside the storm.
 - Build's minutes say `locus`, and the match is matched over submitted on locus.
 - No zero second on a sender that was armed.
 - Each minute has sender id, node name, tx_sent, and five local tx ids.
 - The halt file on the old fleet still says halt.
-- Git has no key, seed, address, or txid.
+- Git has no key, no seed, and no txid. The mining address is the one in the plan.
 
 ## Who does not watch from inside the setup
 

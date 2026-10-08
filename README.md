@@ -10,16 +10,18 @@ Private note. Kaspa Testnet-10 only. Every clock on this page is UTC.
 
 **Goal.** The highest included tx/s the two sides can hold at the same time. Submitted and accepted stay two numbers. The score is accepted.
 
+**Start.** Sending this GitHub to Grok Build or to the bot means go: start the operation. The same sentence is the forward rule in [STP-KAS/grok-bot-build-combo](https://github.com/STP-KAS/grok-bot-build-combo) `TWO-NODES.md`.
+
 **Who sends where.**
 
 | Who | Wallet | Node | When |
 |---|---|---|---|
-| TN10 ops, on the box | Bot only | n0, the box kaspad | Only while n0 is synced and its tip lag is at or under 300 seconds |
-| Grok Build, on the desk | Build only | locus, the desk kaspad | While locus is synced and its UTXO index is on |
+| The bot's runner | Bot only | desk node B, the second kaspad on the desk | Only during the storm, and only while node B is synced and its tip lag is at or under 300 seconds |
+| Grok Build, on the desk | Build only | locus, the first desk kaspad | While locus is synced and its UTXO index is on |
 
-The bot does not send to locus. Build does not send to n0. While n0 is still syncing, the bot's senders stay off and Build keeps sending on locus. That minute's combined rate is Build's rate alone.
+Outside the storm the bot's runner stays off. While node B is still syncing, that runner stays off and Build keeps sending on locus. That minute's combined rate is Build's rate alone.
 
-This page does not give the storm GO, does not lock the questions plan, and does not start a sender.
+This page does not lock the questions plan.
 
 ## Where this comes from
 
@@ -35,18 +37,22 @@ If this repo and `plan/NEXT-STORM-PLAN.md` disagree about a clock, a fee, or one
 
 ## The two nodes
 
-**n0** is the box kaspad. The bot's senders use it. The questions plan's §6a and §9 still describe that machine, including the disk guard.
+**Desk node B** is the second kaspad on the desk. Network `testnet-10`, UTXO index on. The bot's runner uses it, and only during the storm. On the desk that runner uses Borsh `ws://127.0.0.1:17310`. From the box it uses the node B tunnel in the desk handoff, and only after that handoff lists one.
 
-**locus** is the name in the logs for the desk kaspad. Network `testnet-10`, UTXO index on. It is not a public DNS name. Build reaches it on loopback Borsh. Desk miners stay on the desk gRPC. This page does not retarget them.
+**Miners** point at desk node B. On the desk that is gRPC `127.0.0.1:16310`. Coinbase pays the Grok Bot address `kaspatest:qzffl5xy9np46gkttyuftqnv2w04pr8g3wsp7c3vv8se3txtelx6q7c0v0ldx`. Mine only while node B is synced.
 
-Never `bore.pub`. Never `159.223.110.159`.
+**locus** is the name in the logs for the first desk kaspad. Network `testnet-10`, UTXO index on. It is not a public DNS name. Build reaches it on loopback Borsh.
+
+**n0** is the box kaspad. The questions plan's §6a and §9 still describe that machine, including the disk guard. The bot's runner does not use it for this operation.
+
+`bore.pub` and `159.223.110.159` stay closed.
 
 ## Pastes and the sheet
 
 | Who | Paste | Where it sends |
 |---|---|---|
 | Grok Build | [plan/PROMPT-BUILD.md](plan/PROMPT-BUILD.md) | locus |
-| TN10 ops | [plan/PROMPT-BOT.md](plan/PROMPT-BOT.md) | n0, once synced |
+| The bot's runner | [plan/PROMPT-BOT.md](plan/PROMPT-BOT.md) | desk node B, only during the storm |
 
 The plan is [plan/PLAN.md](plan/PLAN.md). The monitoring tasks are [plan/MONITOR.md](plan/MONITOR.md). If a paste and the plan disagree, the plan wins.
 
@@ -56,7 +62,7 @@ T0 is Friday 9 Oct 2026, 21:30 UTC, for 8 hours, ending Saturday 10 Oct 2026, 05
 
 Kaspa Pulse ([@gokugalax](https://x.com/gokugalax)) counts Friday 21:25 UTC through Saturday 05:35 UTC. That is his clock. It does not move T0.
 
-A storm still waits for a storm GO from stp and for `steps-utc.json`. Pasting a prompt does not start it.
+Sending this GitHub to Grok Build or to the bot is the storm GO. The runner still runs only during the storm, and it still needs `steps-utc.json` for the step times. The hours after 00:25 UTC stay unnamed until that GO chooses them.
 
 ---
 
