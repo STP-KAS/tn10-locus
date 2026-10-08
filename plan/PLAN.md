@@ -33,7 +33,7 @@ A process that signs and sends is a sender. The whole setup is a runner. TN10 op
 
 Rules:
 
-- The bot's runner uses desk node B, the second kaspad on the desk. On the desk that is Borsh `ws://127.0.0.1:17310`. From the box it is the node B tunnel in the desk handoff, after that handoff lists one. It runs only during the storm. It sends only while node B is synced and tip lag is at or under 300 seconds. Otherwise those senders stay off.
+- The bot's runner uses desk node B, the second kaspad on the desk. On the desk that is Borsh `ws://127.0.0.1:17310`. stp provides the tunnel when node B is ready for the bot. Until that tunnel is in hand, the box runner waits. It runs only during the storm. It sends only while node B is synced and tip lag is at or under 300 seconds. Otherwise those senders stay off.
 - Build sends on locus for every paced step, the long hold, and the max step. Loopback Borsh on the first desk kaspad.
 - A seventh runner only on the max step. Never eight. Eight collapsed in the 1–3 Oct storm. The questions plan is the source of that count.
 - No auto-scale. No mempool pause inside a step. Each sender spends its own coins.

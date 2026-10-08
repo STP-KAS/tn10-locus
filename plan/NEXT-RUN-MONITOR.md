@@ -47,6 +47,7 @@ Stop unless this GitHub has been sent to Grok Build or to the bot, and `steps-ut
 | Check | Owner | Pass |
 |---|---|---|
 | Desk node B synced, tip lag seconds, mempool, box disk | Bot | The runner runs only during the storm. Send only if node B is synced and lag is at or under 300 seconds, and the disk gate in the plan passes. Otherwise sender count 0 and the row says `waiting`. |
+| Node B tunnel for the bot | stp | stp provides the tunnel when node B is ready for the bot. Until that tunnel is in hand, the box runner waits. On the desk the runner uses Borsh `ws://127.0.0.1:17310`. |
 | Locus synced, UTXO index, mempool, normal fee, free RAM, desk disk | Build | Send only on loopback Borsh. Free RAM under 1 GB, or a dead process, stops Build. |
 | NTP, five samples, both machines | Each side | Desk: `w32tm` against time.windows.com. Box: two public servers. Repeat at the end. A desk move over 50 ms flags Build's confirmation times. |
 | Older fleet halt file | Build | First line still `halt`. |

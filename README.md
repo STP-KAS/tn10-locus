@@ -37,7 +37,7 @@ If this repo and `plan/NEXT-STORM-PLAN.md` disagree about a clock, a fee, or one
 
 ## The two nodes
 
-**Desk node B** is the second kaspad on the desk. Network `testnet-10`, UTXO index on. The bot's runner uses it, and only during the storm. On the desk that runner uses Borsh `ws://127.0.0.1:17310`. From the box it uses the node B tunnel in the desk handoff, and only after that handoff lists one.
+**Desk node B** is the second kaspad on the desk. Network `testnet-10`, UTXO index on. The bot's runner uses it, and only during the storm. On the desk that runner uses Borsh `ws://127.0.0.1:17310`. stp provides the tunnel when node B is ready for the bot. Until that tunnel is in hand, the box runner waits.
 
 **Miners** point at desk node B. On the desk that is gRPC `127.0.0.1:16310`. Coinbase pays the Grok Bot address `kaspatest:qzffl5xy9np46gkttyuftqnv2w04pr8g3wsp7c3vv8se3txtelx6q7c0v0ldx`. Mine only while node B is synced.
 

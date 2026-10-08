@@ -22,7 +22,7 @@ Stop unless all three are true:
 - `steps-utc.json` is in hand. Box and Build use the same UTC times.
 - The clock is at or after the first time in that file. The runner runs only during the storm.
 
-Then read desk node B. Send only if it is synced and tip lag is at or under 300 seconds. If it is not, sender count stays 0 and the row says `waiting`. Check again on the next 10-minute row. On the desk the runner uses Borsh `ws://127.0.0.1:17310`. From the box it uses the node B tunnel in the desk handoff, after that handoff lists one.
+Then read desk node B. Send only if it is synced and tip lag is at or under 300 seconds. If it is not, sender count stays 0 and the row says `waiting`. Check again on the next 10-minute row. On the desk the runner uses Borsh `ws://127.0.0.1:17310`. stp provides the tunnel when node B is ready for the bot. Until that tunnel is in hand, the box runner waits.
 
 Read free disk before T0. Go only with at least 35 GB free. From 28 to 35 GB, this side's steps shrink to 10 minutes and that is written as a deviation. Below 28 GB, this side does not send. Keep about 19 GB free for pruning on the box. A short box disk does not stop Build.
 
