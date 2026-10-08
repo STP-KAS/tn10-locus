@@ -40,7 +40,7 @@ The hours from 00:25 UTC to 05:30 UTC have no named phase. If the storm GO does 
 
 ## Logs
 
-Do the bot columns of [MONITOR.md](MONITOR.md). Per minute the node cell is `n0`, or the row is `waiting`. The match is matched over submitted on n0. A waiting minute has no match to owe. Five tx ids stay local.
+Do the bot columns of [MONITOR.md](MONITOR.md), and every bot line in [NEXT-RUN-MONITOR.md](NEXT-RUN-MONITOR.md). Print the 10-minute block for the desk to copy: session, sender count, box disk, NTP, n0 synced, lag seconds, n0 mempool, n0 CPU, submit tx/s, accepted tx/s, rejects, miner count. Per minute the node cell is `n0`, or the row is `waiting`. The match is matched over submitted on n0. A waiting minute has no match to owe. Five tx ids stay local. A missing block stays **not measured** and fails the bot's part of the pass.
 
 The lane runners stay off in B0, in the two settles, and in B1.
 

@@ -40,7 +40,7 @@ n0's sync is not this side's gate. If the bot is waiting, keep this side on locu
 
 ## Logs
 
-Do the Build columns of [MONITOR.md](MONITOR.md). Per minute the node cell is `locus`. Five tx ids stay local. B0 is the first 10 minutes. Send nothing in B0.
+Do the Build columns of [MONITOR.md](MONITOR.md), and every Build line in [NEXT-RUN-MONITOR.md](NEXT-RUN-MONITOR.md). Per-transaction logging stays on. Per minute the node cell is `locus`. Five tx ids stay local. The 10-minute row includes locus mempool, the six public pools by name, indexer health, desk disk, free RAM, miner count, submit tx/s, and accepted tx/s. B0 is the first 10 minutes. Send nothing in B0. A blank required line fails the pass.
 
 ---
 

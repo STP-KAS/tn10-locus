@@ -1,0 +1,132 @@
+> **Experimental. We are just trying this.**
+>
+> [Disclaimer](../DISCLAIMER.md)
+
+Wording, Kaspa Pulse (@gokugalax), 7 Oct 2026: sign-and-send processes are senders; runner is the setup; bot is reserved for the operator.
+
+# Next run monitor
+
+This page lists the monitor lines already written in [MONITOR.md](MONITOR.md) and in [NEXT-STORM-PLAN.md](https://github.com/STP-KAS/tn10-storm-throughput-questions/blob/main/plan/NEXT-STORM-PLAN.md). It does not add a demand. It does not give the storm GO, does not lock the plan, and does not start a sender.
+
+If this page and the questions plan disagree, the plan wins. If they disagree on which node a side uses, [PLAN.md](PLAN.md) wins.
+
+The next run is Friday 9 Oct 2026, 21:30 UTC, for 8 hours, ending Saturday 10 Oct 2026, 05:30 UTC. If that day is not ready, Monday 13 Oct 2026, 21:30 UTC. The hours after 00:25 UTC stay unnamed until the storm GO chooses. His counter is 21:25 UTC through 05:35 UTC. It does not move T0.
+
+A required line with no reading is **not measured**. That fails the pass in [MONITOR.md](MONITOR.md). Do not invent the other side. Do not ping Kaspa Pulse. Do not send him the sheet. No key, seed, address, or txid in git.
+
+The printable copy is `plan/next-run-monitor.pdf` in this repo. If the PDF and this page disagree, this page wins.
+
+## What 8 Oct left unread
+
+The desk rows are in the combo repo, `tonight-8-oct/RESULTS.md`, commit `593a4ba`. The checkout note is the questions repo, `plan/AFTER-8-OCT.md`, commit `ee2ecc1`. These lines were not read. The next run reads each one.
+
+| Line | 8 Oct |
+|---|---|
+| Bot block on every 10-minute row | Not printed. Every bot cell is **not measured**. |
+| Rows 18:00 and 18:10 UTC | Not read. |
+| Usage, both sides | **not measured**. |
+| n0 synced, lag, mempool, CPU | Not read. |
+| Box disk, box NTP | Not read. |
+| Desk NTP at 18:00 and at 20:00 as a pair | The 18:00 row and the exact 20:00 pair were not both read. The 50 ms flag was not scored. |
+| Per-minute tx sent, node name, five tx ids | Evening locus rounds turned per-transaction logging off. The 18:30 sample was skipped. |
+| Indexer every 30 seconds, and one visibility poll | One health sample on the 10-minute row. No freeze by the written rule. |
+| n0 mempool every second, fee every 10 seconds | Spot reads about every 10 minutes. |
+| Confirmation time, 1× against 1.5× | **not measured**. |
+| Ordered stream, send order against accept order | Off. **not measured**. |
+| Saturation on n0, 60 seconds under 95% | **not measured**. n0 was not read. |
+| Mining share, per node, per step | **not measured**. |
+| Miners-off control at the 2× load | Left for this next run. |
+| Combined accepted tx/s | Missing the bot side. Locus accept is not the combined rate. |
+
+## Before T0
+
+Stop unless the storm GO and `steps-utc.json` are in hand, and the clock is at or after the first time in that file. This page does not supply either.
+
+| Check | Owner | Pass |
+|---|---|---|
+| n0 synced, tip lag seconds, mempool, box disk | Bot | Send only if synced and lag is at or under 300 seconds, and the disk gate in the plan passes. Otherwise sender count 0 and the row says `waiting`. |
+| Locus synced, UTXO index, mempool, normal fee, free RAM, desk disk | Build | Send only on loopback Borsh. Free RAM under 1 GB, or a dead process, stops Build. |
+| NTP, five samples, both machines | Each side | Desk: `w32tm` against time.windows.com. Box: two public servers. Repeat at the end. A desk move over 50 ms flags Build's confirmation times. |
+| Older fleet halt file | Build | First line still `halt`. |
+| Quote | Each side, from its own node | If the normal quote is already above 200, that side does not start. |
+
+## Every 10 minutes, both sides
+
+The desk writes the sheet. The box prints its block. Copy the block. A missing block stays **not measured**.
+
+| Field | Bot, n0 | Build, locus |
+|---|---|---|
+| UTC | row time | row time |
+| Session | up, down, or waiting | up or down |
+| Sender count | lane runners, or 0 while waiting | Build senders |
+| Disk free | box GB | desk GB |
+| Clock | NTP offset | `w32tm`, 5 samples at start and end; the row can cite the latest |
+| Usage | product counter, or **not measured** | product counter, or **not measured** |
+| Node | synced, lag seconds, mempool, CPU | synced, UTXO index, mempool, normal fee, free RAM |
+| Rates | submitted tx/s and accepted tx/s | submitted tx/s and accepted tx/s |
+| Combined | sum of the two submitted rates, and sum of the two accepted rates | same two sums |
+| Pools | n0 mempool | locus mempool, plus the six public names, each named |
+| Indexer | the latest 30-second sample | same check if the box row is missing |
+| Miners | box count, on or off, still on n0 | desk count, on or off, no switch |
+
+While n0 is waiting, the combined accepted rate for that minute is Build's rate alone, and the row says so.
+
+## Every UTC second, per sender
+
+One line: sender id, target, submitted, accepted, endpoint `n0` or `locus`, that node's mempool, submit latency. Accept time is when that side's own node reports the transaction.
+
+Per-transaction logging stays on. The 8 Oct high-rate rounds turned it off. This run does not.
+
+On a sample of transactions, and on every reject: submit time and accept time, UTC, with milliseconds and `Z`.
+
+## Every UTC minute, per sender
+
+On top of the second log.
+
+| Field | What it is |
+|---|---|
+| minute | `YYYY-MM-DDTHH:MM:00Z` |
+| sender id | that sender |
+| node | `n0` or `locus`. Not the word "public". |
+| tx_sent | submissions by that sender in that minute |
+| tx ids | five, spread across the minute, not the first five |
+
+One combined line for the same minute: both submitted sums, both accepted sums. The five ids stay in the local log. Git gets the count of ids saved, not the ids. His accepted count is his.
+
+## His five questions
+
+Each one already has a plan section. The next run produces the reading.
+
+| # | Question | Where it is logged |
+|---|---|---|
+| 1 | Accepted tx/s against submitted, and where acceptance flattens | Per second, both sides, by fee tier. Saturation: from 60 seconds after the step start, accepted under 95% of submit-OK for 60 consecutive seconds. Report yes or no, and the onset. The chain rule uses n0. A waiting bot is not a zero-second failure. |
+| 2 | Confirmation time, median and worst, 1× against 1.5× | Per transaction: sequence, submit time, accept time, fee tier. Probes about 450 per tier per step. Report n, p50, p95, p99, worst, and the share over 30 seconds and over 60 seconds. |
+| 3 | Indexer freeze, at what sustained tx/s, and for how long | `GET https://api-tn10.kaspa.org/info/health` every 30 seconds. Log HTTP, `isSynced`, `acceptedTxBlockTimeDiff`, `blueScoreDiff`. Freeze: 3 samples of 503 or timeout, or lag above 120 seconds and rising, or a visibility delay above 300 seconds. One already-accepted id polled once a minute until it is visible. Give up after 30 minutes. The id stays local. |
+| 4 | Mempool depth over time | n0 mempool every 1 second. Fee estimate every 10 seconds. Locus mempool on the per-second line. The six public names on the 10-minute row. |
+| 5 | Whether order holds under load | Ordered stream, 2 per second at 1× and at 1.5×. Reorder rate, out-of-order accepts, stalls, and fee-driven overtakes, each as a count and a percentage, with n and a 95% interval. |
+
+The two headlines stay order under load, and whether 1.5× fee buys inclusion while 1× waits.
+
+The other 95% rule is separate. The Build gate is mean submit at least 95% of that side's target, with no zero second on a sender that was armed. Sender-limited means submit-OK stayed under 95% of target. Report it. Do not call it a network ceiling.
+
+## Also on this run
+
+These are already in the plan. They were not part of the 8 Oct desk rows.
+
+- B0 is 10 minutes. Lane senders off. The plan keeps the box probes and the ordered stream on in B0. Build sends nothing in B0.
+- Steps stay 2×, 5×, 10×, 20×, 30×, then max. Nothing changes inside a step. Never eight box runners.
+- Miners-off control at the 2× load, matched to the same load with miners on. The control is imperfect. Other miners still change templates. Say that next to the pair. The miners-off share should read about 0% of our own blocks.
+- When accepted flattens, log n0 CPU, mempool-cap hits, and reject reasons. Label the plateau box-bound, network-bound, or unclear, by the plan's §6a. n0's about 100,000 cap does not apply to locus.
+- Mining share per node, per step: blocks total, blocks ours, percent. Box miners count on n0. Desk miners count on locus. Do not switch either set from this page.
+- At T0, cite the SHA of the last commit that changed `plan/NEXT-STORM-PLAN.md`. A deviation gets a time and a reason.
+- Raw files next to the summary stay the plan's §8 list. They are not written by this page.
+
+## Pass
+
+The run does not claim the combined goal unless every line in Task 10 of [MONITOR.md](MONITOR.md) is present, and every row in the table "What 8 Oct left unread" has a reading or a written **not measured** with the UTC it was due.
+
+Kaspa Pulse counts the chain from outside the setup. Comparison comes to us first.
+
+---
+
+Intentions are good; thought process is questionable. STP remains delusional. Si vis pacem, para bellum.

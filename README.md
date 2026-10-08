@@ -26,6 +26,7 @@ This page does not give the storm GO, does not lock the questions plan, and does
 | Record | What it still is |
 |---|---|
 | [STP-KAS/tn10-storm-throughput-questions](https://github.com/STP-KAS/tn10-storm-throughput-questions) | The questions, the Friday clock, the fee pair, and the raw files from earlier runs. |
+| [plan/NEXT-RUN-MONITOR.md](plan/NEXT-RUN-MONITOR.md) | The next run's monitor. Every line already in the plan. A blank required line fails the pass. |
 | [STP-KAS/grok-bot-build-combo](https://github.com/STP-KAS/grok-bot-build-combo) | The private combo hub and the 8 Oct checkout sheet. |
 
 An earlier commit of this repo sent both sides to locus and retired n0. That routing is withdrawn. The clock, the fee pair, and "never eight box runners" stay.
