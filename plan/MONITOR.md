@@ -4,113 +4,117 @@
 
 Wording, Kaspa Pulse (@gokugalax), 7 Oct 2026: sign-and-send processes are senders; runner is the setup; bot is reserved for the operator.
 
-# Monitor
+# Monitoring tasks
 
-Fields Kaspa Pulse ([@gokugalax](https://x.com/gokugalax)) asked for, pointed at **locus**. The questions plan's §3c, §4, §6, and §7 still name the measurements. Where those sections say n0, read locus. If this page and [PLAN.md](PLAN.md) disagree, the plan wins.
+The goal is the combined included rate. Each task names who does it. A number that was not read is **not measured**. No key, no seed, no address, and no txid in git.
 
-A number that was not read is **not measured**. No key, no seed, no address, and no txid in git.
+If this page and [PLAN.md](PLAN.md) disagree, the plan wins. The 8 Oct checkout rows stay in the combo repo. They are not copied here.
 
-The 8 Oct checkout rows stay in [grok-bot-build-combo](https://github.com/STP-KAS/grok-bot-build-combo). They are not copied here. This sheet is the one that starts with locus.
+## Task 1. n0, before the bot sends
 
-## Every 10 minutes, both sides
+Owner: TN10 ops.
 
-| Field | TN10 ops, on the box | Grok Build, on the desk |
+- Read synced, tip lag in seconds, mempool, and free disk.
+- Send only if synced and lag is at or under 300 seconds, and the box disk gate in the plan passes.
+- If not, sender count is 0. The row says `waiting`. Do not point the runners at locus.
+
+Repeat this check every 10 minutes, and at once if submits start failing because the node fell behind. Falling behind mid-step stops the bot's senders. It does not stop Build.
+
+## Task 2. Locus, before Build sends
+
+Owner: Grok Build.
+
+- Read synced, UTXO index, mempool, normal fee, process RSS, free RAM, and free disk.
+- Send only if synced and the UTXO index is on, on loopback Borsh.
+- If free RAM is under 1 GB, or the process dies, stop Build's senders. Do not move them to n0.
+
+## Task 3. The 10-minute row
+
+Owner: the desk writes the sheet. The box prints its block. A missing block stays **not measured**. Do not invent the other side.
+
+| Field | Bot, n0 | Build, locus |
 |---|---|---|
-| UTC | the row time | the row time |
-| Session | up or down | up or down |
-| Sender count | lane runners on locus | Build senders on locus |
-| Disk free | box GB, the operator machine, not the node disk | desk GB, the locus disk |
-| Clock | NTP offset, two public servers | `w32tm` offset, 5 samples |
-| Usage | product counter, or not measured | product counter, or not measured |
-| locus | the published Borsh URL answered, synced, UTXO index on, mempool, normal fee | same node, read on loopback: synced, UTXO index, mempool, normal fee, process RSS |
-| Pools | locus mempool | locus mempool, plus the six public names, each named |
-| Indexer | api-tn10 `/info/health`: HTTP, `isSynced`, `acceptedTxBlockTimeDiff`, `blueScoreDiff` | same check if the box row is missing |
-| Rates | submitted tx/s and accepted tx/s, two columns | submitted tx/s and accepted tx/s, two columns |
-| Miners | box count, on or off, gRPC target is locus | desk count, on or off, no switch |
+| UTC | row time | row time |
+| Session | up, down, or waiting | up or down |
+| Sender count | lane runners, or 0 while waiting | Build senders |
+| Disk free | box GB | desk GB |
+| Clock | NTP offset, two public servers | `w32tm`, 5 samples |
+| Node | synced, lag seconds, mempool, CPU | synced, UTXO index, mempool, normal fee, RSS, free RAM |
+| Rates | submitted tx/s and accepted tx/s | submitted tx/s and accepted tx/s |
+| Combined | sum of the two submitted rates, and sum of the two accepted rates | same two sums, one line for the minute |
+| Pools | n0 mempool | locus mempool, plus the six public names, each named |
+| Indexer | api-tn10 `/info/health` | same check if the box row is missing |
+| Miners | box count, on or off, still on n0 | desk count, on or off, no switch |
 
-There is no n0 column. Lag of n0, sync of n0, and an n0 match are not rows.
+Rows are due on the questions plan's clock once a run is armed. Between runs, a row is still owed if a side is sending.
 
-## Every UTC second, per sender
+## Task 4. Every UTC second, per sender
 
-Submitted and accepted stay two fields. Also: sender id, target, the endpoint, locus mempool, each named public pool, submit latency.
+Owner: the side that sends.
 
-On a sample of transactions, and on every reject: submit time and accept time, UTC, with milliseconds and Z. Accept time is the time locus reports the transaction in the virtual chain.
+One line: sender id, target, submitted, accepted, endpoint (`n0` or `locus`), that node's mempool, submit latency.
 
-Saturation, from the questions plan: accepted under 95% of submitted, sustained 60 seconds. Score it from 60 seconds after the step start. Report yes or no, and the onset UTC if yes. The other 95% is the gate in the questions plan: mean achieved send rate at least 95% of the target, with no zero seconds. The two rules stay separate.
+On a sample of transactions, and on every reject: submit time and accept time, UTC, with milliseconds and Z.
 
-## Every UTC minute, per sender
+Saturation, per side: accepted under 95% of submitted, sustained 60 seconds, scored from 60 seconds after that side's start. Report yes or no, and the onset if yes. The other 95% is mean send rate against that side's target, with no zero seconds, and only for seconds the side was armed. A waiting bot is not a zero-second failure.
 
-On top of the second log. This is the 8 Oct ask. It does not replace the second log.
+## Task 5. Every UTC minute, per sender
+
+On top of the second log. This is the 8 Oct ask.
 
 | Field | What it is |
 |---|---|
 | minute | `YYYY-MM-DDTHH:MM:00Z` |
 | sender id | that sender |
-| node | `locus` |
+| node | `n0` for the bot, `locus` for Build |
 | tx_sent | submissions by that sender in that minute |
 | tx ids | five, spread across the minute, not the first five |
 
-The node cell is the word locus. It is not "public", and it is not n0. Mempool in the same minute is locus, plus each public name when that pool was read. His accepted count is his. Do not invent it. The five ids stay in the local log. They do not go in git.
+Add one combined line for the same minute: both submitted sums, both accepted sums. His accepted count is his. Do not invent it. The five ids stay in the local log.
 
-## Locus, every second, from the desk
+## Task 6. Label a flat accept rate
 
-The questions plan logged these on n0 so a flat accept rate could be labelled. The same list, on locus:
+Owner: the desk, from both logs. One label per side, over the step's last 10 minutes, or from saturation onset.
 
-- locus process CPU and RSS
-- desk total CPU and free RAM
-- each sender process CPU on the machine where it runs
-- locus mempool size
-- locus reject reasons
-- fee estimate every 10 seconds
+**Sender-limited** if that side's submit-OK stays under 95% of its target, or any of its sender processes stays at or above 95% of one core for 60 seconds.
 
-Box CPU is the sender machine. It is not the node. A runner at one core can be sender-limited while locus is fine. Write that as sender-limited. Do not call it locus-bound.
+**Node-bound** if the senders are not the limit and, for 60 seconds, that side's node is unsynced, its mempool is at the cap read from its own flags, or (locus only) desk free RAM is under 1 GB or the process is dead.
 
-### Plateau label
+n0's cap in the questions plan is about 100,000 transactions, from `--ram-scale=0.1`. Locus does not run that flag. Do not apply 99,000 to locus.
 
-Over the step's last 10 minutes, or from saturation onset if that is earlier. One label.
-
-**Sender-limited** if submit-OK stays under 95% of target, or any sender process stays at or above 95% of one core for 60 seconds.
-
-**Locus-bound** if the senders are not the limit, and any of these holds for 60 seconds:
-
-- locus unsynced
-- desk free RAM under 1 GB
-- locus process dead
-- locus mempool at the cap the T0 flag read says, and mempool-full rejects are above 1% of submits
-
-**Network-bound** if none of the above holds, and blocks stay at or above 90% of compute mass, or accepted tx/s stays flat within 5% from one step to the next while submit-OK rises.
+**Network-bound** if neither side is sender-limited or node-bound, and blocks stay at or above 90% of compute mass, or the combined accepted rate stays flat within 5% while combined submit-OK rises.
 
 **Unclear** otherwise.
 
-The old box-bound tests that used n0's 100,000 cap, n0 RSS, and "n0 shares the box with the runners" do not transfer. n0's cap was `--ram-scale=0.1`. Locus does not run that flag. The 99,000 line is not a locus rule.
+**Not sure / open for debate.** The thresholds are our choice. Network-bound means TN10 that night, with our miners on.
 
-**Not sure / open for debate.** These thresholds are our choice. Network-bound means TN10 that night, with our miners on, as the questions plan already says.
+## Task 7. Indexer
 
-## Mining share
+Owner: whichever side is up. The box if both are up.
 
-For blocks locus sees, compare the coinbase payout with our mining addresses. Log it per second. Publish it per step: blocks total, blocks ours, share in percent. Include the miners-off step, where the share should be about 0%. The questions plan's §7 is the rule. The node the blocks are read from is locus.
+- `GET https://api-tn10.kaspa.org/info/health` every 30 seconds, cache bypassed. Log HTTP, `isSynced`, `acceptedTxBlockTimeDiff`, `blueScoreDiff`.
+- Freeze: 3 consecutive samples (90 seconds) with 503 or timeout, or a lag above 120 seconds and rising, or a visibility delay above 300 seconds.
+- One already-accepted id polled once a minute until it is visible, give up after 30 minutes. The id stays local.
 
-## Indexer
+## Task 8. Mining share
 
-Unchanged from the questions plan's §6, except the mempool beside it is locus:
+Owner: each node, for the blocks it sees.
 
-- `GET /info/health` every 30 seconds, cache bypassed
-- one already-accepted transaction polled once a minute until it is visible, give up after 30 minutes
-- freeze: 3 consecutive samples (90 seconds) with 503 or timeout, or a lag above 120 seconds and rising, or a visibility delay above 300 seconds
+Per second, then published per step: blocks total, blocks ours, share in percent. The miners-off step should read about 0%. Box miners count on n0. Desk miners count on locus. The questions plan's §7 is the rule.
 
-## Clocks
+## Task 9. Clocks
 
-NTP offset on the box and on the desk, at the start and at the end. If the desk offset moves by more than 50 ms between those two reads, flag confirmation times. The questions plan's rule is the same flag.
+NTP offset on the box and on the desk, at the start and at the end of a run. If the desk offset moves by more than 50 ms between those two reads, flag Build's confirmation times.
 
-## Pass, for a run that claims the gate
+## Task 10. Pass
 
-- Mean submitted rate on each side is at least 95% of that side's target.
-- No zero second on a sender that was armed for the step.
-- Each second has sender id, target, submitted, accepted, endpoint, locus mempool, submit latency.
-- Each minute has minute, sender id, node `locus`, tx_sent, and five local tx ids.
-- Accept time is present on the sample and on every reject.
-- NTP exists at the start and at the end on both sides.
-- Locus match is matched/total. A missing match fails the run.
+A run that claims the combined goal shows all of these:
+
+- Combined accepted tx/s is on the sheet, next to each side's own accepted tx/s.
+- The bot's minutes are either `n0` with a match, or `waiting` with sender count 0. A missing n0 sync check fails the bot's part.
+- Build's minutes say `locus`, and the match is matched over submitted on locus.
+- No zero second on a sender that was armed.
+- Each minute has sender id, node name, tx_sent, and five local tx ids.
 - The halt file on the old fleet still says halt.
 - Git has no key, seed, address, or txid.
 
