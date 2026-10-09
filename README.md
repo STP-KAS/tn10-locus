@@ -16,10 +16,10 @@ Private note. Kaspa Testnet-10 only. Every clock on this page is UTC.
 
 | Who | Wallet | Node | When |
 |---|---|---|---|
-| The bot's runner | Bot only | desk node B, the second kaspad on the desk | Only during the storm, and only while node B is synced and its tip lag is at or under 300 seconds |
+| The bot's runner | Bot only | keel, the second kaspad on the desk | Only during the storm, and only while keel is synced and its tip lag is at or under 300 seconds |
 | Grok Build, on the desk | Build only | locus, the first desk kaspad | While locus is synced and its UTXO index is on |
 
-Outside the storm the bot's runner stays off. While node B is still syncing, that runner stays off and Build keeps sending on locus. That minute's combined rate is Build's rate alone.
+Outside the storm the bot's runner stays off. While keel is still syncing, that runner stays off and Build keeps sending on locus. That minute's combined rate is Build's rate alone.
 
 This page does not lock the questions plan.
 
@@ -31,19 +31,19 @@ This page does not lock the questions plan.
 | [plan/NEXT-RUN-MONITOR.md](plan/NEXT-RUN-MONITOR.md) | The next run's monitor. Every line already in the plan. A blank required line fails the pass. |
 | [STP-KAS/grok-bot-build-combo](https://github.com/STP-KAS/grok-bot-build-combo) | The private combo hub and the 8 Oct checkout sheet. |
 
-An earlier commit of this repo sent both sides to locus and retired n0. That routing is withdrawn. The clock, the fee pair, and "never eight box runners" stay.
+An earlier commit of this repo sent both sides to locus. That routing stays withdrawn. Build stays on locus. The bot uses keel. n0 will not run. The clock, the fee pair, and "never eight box runners" stay.
 
 If this repo and `plan/NEXT-STORM-PLAN.md` disagree about a clock, a fee, or one of Kaspa Pulse's questions, the questions plan wins. If they disagree about which node a side uses, this repo wins.
 
 ## The two nodes
 
-**Desk node B** is the second kaspad on the desk. Network `testnet-10`, UTXO index on. The bot's runner uses it, and only during the storm. On the desk that runner uses Borsh `ws://127.0.0.1:17310`. stp provides the tunnel when node B is ready for the bot. Until that tunnel is in hand, the box runner waits.
+**locus** is the first kaspad on this desk. Network `testnet-10`, UTXO index on. It is not a public DNS name. Build reaches it on loopback Borsh. The node cell is `locus`.
 
-**Miners** point at desk node B. On the desk that is gRPC `127.0.0.1:16310`. Coinbase pays the Grok Bot address `kaspatest:qzffl5xy9np46gkttyuftqnv2w04pr8g3wsp7c3vv8se3txtelx6q7c0v0ldx`. Mine only while node B is synced.
+**keel** is the second kaspad on this desk. Same network, UTXO index on. It is not a public DNS name. The handoff still writes `node=desk-nodeB`. New logs use `keel`. On the desk its own sockets are Borsh `ws://127.0.0.1:17310` and gRPC `127.0.0.1:16310`. The bot does not use those loopback addresses. The bot's runner and the bot's miners use the tunnel stp provides. The runner uses the tunnel's Borsh `ws://` address, only during the storm, and only while keel is synced and tip lag is at or under 300 seconds. The miners use the tunnel's gRPC host and port, pay the Grok Bot address `kaspatest:qzffl5xy9np46gkttyuftqnv2w04pr8g3wsp7c3vv8se3txtelx6q7c0v0ldx`, and mine only while keel is synced. Until the handoff lists the tunnel, both wait. Do not invent a host.
 
-**locus** is the name in the logs for the first desk kaspad. Network `testnet-10`, UTXO index on. It is not a public DNS name. Build reaches it on loopback Borsh.
+**keel is already in the score.** Read at 2026-10-09T07:59:26Z: block download 69%, last block 2026-10-08T17:03:33Z, not synced, tunnels closed. Those minutes contribute 0 from keel and the row says `waiting`. The combined rate is locus alone. Desk miners stay on locus until keel is synced.
 
-**n0** is the box kaspad. The questions plan's §6a and §9 still describe that machine, including the disk guard. The bot's runner does not use it for this operation.
+**n0 will not run.** It is the box kaspad. Do not start it, resync it, or keep disk aside for its pruning. The questions plan's older §6a and §9 sentences about n0 are the record of that machine. They are not this operation.
 
 `bore.pub` and `159.223.110.159` stay closed.
 
@@ -52,7 +52,7 @@ If this repo and `plan/NEXT-STORM-PLAN.md` disagree about a clock, a fee, or one
 | Who | Paste | Where it sends |
 |---|---|---|
 | Grok Build | [plan/PROMPT-BUILD.md](plan/PROMPT-BUILD.md) | locus |
-| The bot's runner | [plan/PROMPT-BOT.md](plan/PROMPT-BOT.md) | desk node B, only during the storm |
+| The bot's runner | [plan/PROMPT-BOT.md](plan/PROMPT-BOT.md) | keel, only during the storm |
 
 The plan is [plan/PLAN.md](plan/PLAN.md). The monitoring tasks are [plan/MONITOR.md](plan/MONITOR.md). If a paste and the plan disagree, the plan wins.
 
