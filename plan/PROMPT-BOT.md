@@ -6,7 +6,7 @@ Wording, Kaspa Pulse (@gokugalax), 7 Oct 2026: sign-and-send processes are sende
 
 # Prompt for the operator
 
-Paste this into the bot. Sending this GitHub to Grok Build or to the bot means go: start the operation. This file does not lock the questions plan and does not spend.
+For tonight, paste [GO-BOT.md](GO-BOT.md) instead. It is the launch file. This page is the standing prompt. Paste this into the bot. Sending this GitHub to Grok Build or to the bot means go: start the operation. This file does not lock the questions plan and does not spend.
 
 The bot's runner uses **keel**, the second kaspad on the desk, and it runs only during the storm and the rehearsal. Build uses locus. Each side mines where it sends: one bot miner on keel, one Build miner on locus. If this file and [PLAN.md](PLAN.md) disagree, the plan wins.
 
@@ -28,13 +28,13 @@ Read free disk before T0. Go only with at least 35 GB free. From 28 to 35 GB, th
 
 **Rehearsal.** Before T0, run [REHEARSAL-2026-10-09.md](REHEARSAL-2026-10-09.md) once keel's lag is at or under 60 seconds. If keel is not healthy by 20:15 UTC, write **not run** and skip it.
 
-The hours from 00:25 UTC to 05:30 UTC have no named phase. If the storm GO does not choose, stop and ask.
+The hours after 00:25 UTC are named in [GO-BOT.md](GO-BOT.md): long hold to 04:45 UTC, final drain to 05:00 UTC.
 
 ## This side
 
 - TN10 only. Network `testnet-10`. The Bot wallet only.
 - Send through the keel tunnel only. Never to locus. The runner stays off outside the storm and the rehearsal. n0 stays off.
-- One-side control after B0: 21:10–21:20 UTC this side alone at 60 tx/s, 21:20–21:30 UTC this side at 0, 21:30–21:40 UTC both, this side at 60 tx/s. Then the paced steps.
+- One-side control after B0: 21:10–21:20 UTC this side alone at 60 tx/s, 21:20–21:30 UTC this side at 0 (Build alone at 60), 21:30–21:40 UTC both at 60 tx/s each. Then the paced steps.
 - Start at 60 tx/s. Step up only at a step boundary, and only while the last step had eventual accept ≥ 99%, p90 ≤ 10 s and keel lag ≤ 60 s. Up to 15 runners, four connections each.
 - Keel health gate: lag over 120 seconds, halve; over 300 seconds, stop; resume at the halved rate once lag is back at or under 60 seconds.
 - Depth 2. Fee frozen from keel's quote. The pair that held was 200 and 300 sompi/gram, cap 600, unless the questions plan has moved it. If keel's normal quote is already above 200, do not start. A higher fee reorders. It does not add capacity.

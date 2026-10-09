@@ -12,11 +12,10 @@ The rehearsal is not the storm. It does not move T0, it is not the storm GO, and
 
 ## When
 
-- 30 minutes, once, before T0.
-- It starts only once keel is synced and its tip lag is at or under 60 seconds.
-- Latest start 20:30 UTC (T0 − 30), so it ends by 21:00 UTC.
-- If keel is not healthy by 20:15 UTC (T0 − 45), the rehearsal is skipped. The log writes **not run**, with the last keel lag and the UTC of that read. A skipped rehearsal is not a failed storm gate.
-- Write the actual start as R. Every step below is R + minutes.
+- 30 minutes, once, at a fixed time: R = 20:30 UTC, ending 21:00 UTC. Both sides use the same clock without talking to each other.
+- It runs only if keel is synced and its lag is at or under 60 seconds at 20:15 UTC (T0 − 45) and again at 20:30 UTC. Keel lag = UTC now − timestamp of keel's sink block.
+- If not, the rehearsal is skipped. The log writes **not run**, with the last keel lag and the UTC of that read. A skipped rehearsal is not a failed storm gate. The miners still start at 20:30 UTC.
+- Every step below is R + minutes. The launch files [GO-BOT.md](GO-BOT.md) and [GO-BUILD.md](GO-BUILD.md) print the same steps in UTC.
 
 ## Rules
 
@@ -34,10 +33,10 @@ The rehearsal is not the storm. It does not move T0, it is not the storm GO, and
 | 2 | 0–30 | Miner split live | 1 miner (box CPU `kaspa-miner`, 1 thread) on keel through the keel tunnel, paying `kaspatest:qzffl5xy9np46gkttyuftqnv2w04pr8g3wsp7c3vv8se3txtelx6q7c0v0ldx`, user agent suffix `stp grok bot` | 1 miner on locus | Each miner finds at least 1 block that its own node accepts. Mining share per node is written: blocks total, blocks ours, percent, on the blocks keel sees and on the blocks locus sees. A miner with 0 blocks is **fail: no block**. |
 | 3 | 0–10 | Bot runners at 60 tx/s | 60 tx/s on keel, fixed, up to 15 runners | 0 | Eventual accept ≥ 99%, p90 submit-to-accept ≤ 10 s, keel lag ≤ 60 s, rejects 0 outside tunnel events. |
 | 4 | 10–20 | Light-tx lane | runners 0; light lane at 20 tx/s for 5 min, then 50 tx/s for 5 min | 0 | Keel takes every hop into its mempool, with no reject. At least 99% of each half's ids are in keel's `getVirtualChainFromBlock` `acceptedTransactionIds` within 2 minutes of that half's end. p90 ≤ 10 s. The 50 tx/s half runs only if the 20 tx/s half passed. |
-| 5 | 20–29 | Duplicate-share sample | 60 tx/s, then 0, then 60 tx/s | 0, then its fixed rate, then its fixed rate | Each 3-minute block has a reading: tx slots/s in blocks, unique ids/s, duplicate share = 1 − unique/slots, and unique accepted/s from `acceptedTransactionIds`. Order: Bot only (3 min), Build only (3 min), both (3 min). |
+| 5 | 20–29 | Duplicate-share sample | 60 tx/s, then 0, then 60 tx/s | 0, then 60 tx/s, then 60 tx/s | Each 3-minute block has a reading: tx slots/s in blocks, unique ids/s, duplicate share = 1 − unique/slots, and unique accepted/s from `acceptedTransactionIds`. Order: Bot only (3 min), Build only (3 min), both (3 min). |
 | — | 29–30 | Wrap | runners 0, miner stays on | senders 0, miner stays on | The rehearsal block is printed. |
 
-Build's fixed rate for step 5 is the rate it plans for the storm's one-side control. Build writes it before R.
+Build's fixed rate in step 5 is 60 tx/s, the same as the bot and the same as the storm's one-side control.
 
 **Light lane.** P2SH with redeem script `OP_TRUE`. Each hop is 1 input, 1 output, unsigned, 637 mass. Today's 13:47 UTC probe found it standard-valid on keel: a fund transaction of 1,701 mass and 3 hops of 637 mass, all accepted into keel's mempool. Small amounts only, from a pre-split fund. Every light-lane number carries the label **anyone-can-spend hops, not realistic payments**.
 

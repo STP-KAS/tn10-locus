@@ -22,7 +22,13 @@ A lighter hop does fit. A one-input, one-output hop with no signature measured 6
 
 Both runners write into the same 500,000 mass. Once blocks are full, the second runner takes slots from the first. It does not open a second budget.
 
-A synced node can show more transactions inside blocks than the virtual chain accepts. Those extras sit in blocks that are not merged. Extra miners raise the chance of finding a block, and the difficulty adjustment spends that hash to hold about 10 blocks a second. Hash above that line makes more blocks that miss the selected chain. Transactions in those blocks do not raise the accepted rate.
+A synced node can show more transaction slots inside blocks than the virtual chain accepts. On 9 Oct the extras were duplicates, not lost transactions.
+
+- **Claim (measured on TN10):** on keel, 9 Oct 2026, 48–49% of tx slots in blocks were copies of a transaction already in another block of the same minute (12:29 and 12:55 UTC). In 3 of the 4 valid windows, 97–100% of distinct transactions were accepted, and every transaction seen only in a red block was accepted too. Transactions in blocks off the selected chain still count when a chain block merges them. Source: [tn10-monitoring-plan-2026-10-09](../tn10-monitoring-plan-2026-10-09/README.md), commit `94929a9`.
+- **Not sure / open for debate:** parallel blocks built from overlapping mempools pick the same transactions. The duplicate share was about 48% when our miners made 35% of the blocks, and 13–15% when they made 2–4%.
+- **Needs more testing:** whether one miner per side, mining where that side sends, lowers the duplicate share. Tonight's one-side control measures it.
+
+Extra hash does not add blocks. The difficulty adjustment spends it to hold about 10 blocks a second.
 
 A fee above the competing transactions takes slots inside a full block. It does not make the block larger. Submit faster than the mass you actually win, and the mempool fills. The chain rate does not move.
 
@@ -30,12 +36,13 @@ A fee above the competing transactions takes slots inside a full block. It does 
 
 For a signed payment, the reachable line is about 3,080 accepted tx/s:
 
-1. One filler near 3,100 tx/s. The other runner only fills mass the first one leaves empty.
-2. Enough miners to hold about 10 blocks a second, and no more. Most blocks should be blue.
-3. Pay the live normal quote, so the filler's transactions are the ones in the block.
-4. Keep the hop at one input, one output, no change.
+1. Raise distinct transactions per block, not submits. Fewer copies of the same transaction across parallel blocks is the room left under about 3,080.
+2. Each side mines where it sends, one miner per node. Cutting miners is not tonight's change. **Needs more testing.**
+3. No filler aimed at 3,100 tx/s. The steps find where acceptance flattens.
+4. Keep the fee pair 200 and 300 unless the normal quote is above 200. A higher fee reorders inside full blocks. It does not add room.
+5. Keep the hop at one input, one output, no change.
 
-To go past that line, and to make 3,500 fit, use the 643-mass hop. Keep the same rule on miners and on submit: do not send more than a full block can accept.
+To go past that line, and to make 3,500 fit, use the 643-mass hop. Its outputs are anyone-can-spend: label every number from it **anyone-can-spend hops, not realistic payments**. Do not send more than a full block can accept.
 
 ## How to read it
 
@@ -44,6 +51,7 @@ Count for one minute on a synced node.
 - Unique accepted transaction ids from the virtual-chain notification. That is the rate.
 - Blocks added, and the transactions carried in those blocks.
 - Selected-chain blocks in the same minute.
+- Duplicate share: 1 − unique ids in blocks / tx slots in blocks.
 
 Write the minute in UTC. A blank minute is not measured. Hosts, addresses, and transaction ids stay out of this repo.
 

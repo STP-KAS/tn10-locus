@@ -10,6 +10,8 @@ TN10 only. Every clock time in this repo is UTC. This page does not lock the que
 
 **Start.** Sending this GitHub to Grok Build or to the bot means go: start the operation. The bot's runner and the bot's one miner use the tunnel to keel, and the runner runs only during the storm, apart from the rehearsal in §3a. n0 will not run.
 
+**Launch files.** Tonight is launched by pasting [GO-BOT.md](GO-BOT.md) into the bot and [GO-BUILD.md](GO-BUILD.md) into Grok Build. Pasting is the GO for that side. Each is self-contained, with the exact UTC schedule and rates.
+
 The question list, the step table, and the fee pair stay in [NEXT-STORM-PLAN.md](https://github.com/STP-KAS/tn10-storm-throughput-questions/blob/main/plan/NEXT-STORM-PLAN.md). This page sets the node split, the mining split, and the combined goal. Under the repo's own rule, a node or miner question is decided here.
 
 ## 1. Goal
@@ -60,21 +62,21 @@ T0 is Friday 9 Oct 2026, 21:00 UTC. End is Saturday 10 Oct 2026, 05:00 UTC. Eigh
 
 The old line "Monday 13 Oct 2026, 21:30 UTC" is dropped. 13 Oct 2026 is a Tuesday, not a Monday. This run is not Monday 12 Oct and not Tuesday 13 Oct.
 
-B0 is the first 10 minutes. First load step is 21:10 UTC: the one-side control in §3b, then the questions plan's 2× step at 21:40 UTC. Paced table still ends 00:25 UTC (T0+205: the questions plan's 175 minutes plus the 30-minute control). The hours after 00:25 UTC stay unnamed until the storm GO names them, or ends the storm at 00:25. This page does not choose.
+B0 is the first 10 minutes. First load step is 21:10 UTC: the one-side control in §3b, then the questions plan's 2× step at 21:40 UTC. Paced table still ends 00:25 UTC (T0+205: the questions plan's 175 minutes plus the 30-minute control). The storm GO names the hours after 00:25 UTC: the GO files run a long hold 00:25–04:45 UTC at each side's last clean rate, then a final drain to 05:00 UTC.
 
 His counter stays 21:25 UTC through 05:35 UTC. It does not move T0. Our T0 is 25 minutes before that counter. Both clocks are written so the gap is visible.
 
 Before any send, all three:
 
 1. This GitHub has been sent to Grok Build or to the bot. That is the storm GO. A dry-run GO is not this.
-2. `steps-utc.json`, with a UTC start and a UTC end for every step.
+2. `steps-utc.json`, with a UTC start and a UTC end for every step. Each side writes it from the table in its GO file.
 3. The clock is at or after the first time in that file. The runner runs only during the storm.
 
 B0 is the first 10 minutes. Lane senders stay off. Build sends nothing in B0.
 
 ### 3a. Rehearsal
 
-A 30-minute rehearsal runs before T0, only once keel's lag is at or under 60 seconds. If keel is not healthy by 20:15 UTC (T0 − 45), it is skipped and written **not run**. Steps and pass rules: [REHEARSAL-2026-10-09.md](REHEARSAL-2026-10-09.md). stp approved it on 9 Oct 2026, 16:08 UTC. It does not move T0 and it is not the storm GO.
+A 30-minute rehearsal runs before T0 at a fixed time, 20:30–21:00 UTC, only if keel's lag is at or under 60 seconds at 20:15 UTC (T0 − 45) and at 20:30 UTC. Otherwise it is skipped and written **not run**. Steps and pass rules: [REHEARSAL-2026-10-09.md](REHEARSAL-2026-10-09.md). stp approved it on 9 Oct 2026, 16:08 UTC. It does not move T0 and it is not the storm GO.
 
 ### 3b. One-side control, before the ramp
 
@@ -83,8 +85,8 @@ Three steps at fixed rates, right after B0, before the 2× step. Both single min
 | Step | UTC | Bot on keel | Build on locus |
 |---|---|---|---|
 | C1, bot alone | 21:10–21:20 | 60 tx/s | 0 |
-| C2, Build alone | 21:20–21:30 | 0 | its fixed control rate, written in `steps-utc.json` |
-| C3, both | 21:30–21:40 | 60 tx/s | the same fixed rate |
+| C2, Build alone | 21:20–21:30 | 0 | 60 tx/s |
+| C3, both | 21:30–21:40 | 60 tx/s | 60 tx/s |
 
 Per step: tx slots per second in blocks, unique ids per second, duplicate share = 1 − unique/slots, and unique accepted tx/s from keel's `getVirtualChainFromBlock` `acceptedTransactionIds`. Locus gives the same reading if Build can read it. Each step is at least 10 minutes. If keel fails its gate in C1 or C3, the bot's cell is `waiting` and that step is written as Build-only data, not as a control.
 
@@ -122,7 +124,7 @@ From the questions plan's §9, for the box only:
 - The storm GO is this GitHub sent to Grok Build or to the bot. It is open until that send.
 - `steps-utc.json`.
 - The questions plan is still unlocked. At T0 the run log writes the SHA of the last commit that changed `plan/NEXT-STORM-PLAN.md`, and the SHA of this file.
-- The unnamed hours after 00:25 UTC.
+- The hours after 00:25 UTC are named in the GO files.
 
 ## 4. Fees
 

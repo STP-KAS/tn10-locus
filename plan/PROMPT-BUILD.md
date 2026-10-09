@@ -6,7 +6,7 @@ Wording, Kaspa Pulse (@gokugalax), 7 Oct 2026: sign-and-send processes are sende
 
 # Prompt for Grok Build
 
-Paste this into Grok Build on the desk. Sending this GitHub to Grok Build or to the bot means go: start the operation. This file does not lock the questions plan and does not spend.
+For tonight, paste [GO-BUILD.md](GO-BUILD.md) instead. It is the launch file. This page is the standing prompt. Paste this into Grok Build on the desk. Sending this GitHub to Grok Build or to the bot means go: start the operation. This file does not lock the questions plan and does not spend.
 
 Build uses **locus**, the first desk kaspad. The bot's runner uses keel, the second kaspad on the desk, and it runs only during the storm and the rehearsal. Each side mines where it sends: one Build miner on locus, one bot miner on keel. If this file and [PLAN.md](PLAN.md) disagree, the plan wins.
 
@@ -26,9 +26,9 @@ Also stop this side unless locus is synced and its UTXO index is on. If desk fre
 
 **Pre-check.** Before T0, find what runs on the desk about every 10 minutes: this side's sender steps or restarts, locus or keel pruning, Defender scans of the kaspad data folders, Task Scheduler. Write each one with its times. On 9 Oct keel froze for 3–5 minutes about every 10 minutes from about 14:05 UTC, with no bot load and nobody at the desk.
 
-**Rehearsal.** Before T0, join [REHEARSAL-2026-10-09.md](REHEARSAL-2026-10-09.md) if keel is healthy: 1 miner on locus, and this side's fixed rate in the 3-minute Build-only and both blocks. If keel is not healthy by 20:15 UTC, it is **not run**.
+**Rehearsal.** Before T0, join [REHEARSAL-2026-10-09.md](REHEARSAL-2026-10-09.md) if keel is healthy: 1 miner on locus, and 60 tx/s in the 3-minute Build-only and both blocks, 20:53–20:59 UTC. The rehearsal is fixed at 20:30–21:00 UTC. If keel is not healthy at 20:15 UTC, it is **not run**.
 
-The hours from 00:25 UTC to 05:30 UTC have no named phase. If the storm GO does not choose, stop and ask.
+The hours after 00:25 UTC are named in [GO-BUILD.md](GO-BUILD.md): long hold to 04:45 UTC, final drain to 05:00 UTC.
 
 keel's sync is not this side's gate. If the bot's runner is waiting, keep this side on locus. The bot's one miner uses the keel tunnel and is not this side's process.
 
@@ -36,7 +36,7 @@ keel's sync is not this side's gate. If the bot's runner is waiting, keep this s
 
 - TN10 only. Network `testnet-10`. The Build wallet only.
 - Every step goes to locus. Loopback Borsh. Not n0. Not a public node. Not `bore.pub`. Not `159.223.110.159`.
-- One-side control after B0: 21:10–21:20 UTC this side at 0, 21:20–21:30 UTC this side alone at its fixed control rate, 21:30–21:40 UTC both, same rate. Write that rate in `steps-utc.json` before T0. Then the paced steps.
+- One-side control after B0: 21:10–21:20 UTC this side at 0, 21:20–21:30 UTC this side alone at 60 tx/s, 21:30–21:40 UTC both, 60 tx/s each. Then the paced steps.
 - Four fixed senders on a paced step. Depth 2. In-flight 48. Four connections. No auto-scale.
 - Fee frozen from locus's quote at 200 and 300 sompi/gram, cap 600, unless the questions plan has a later long window over 2,207 seen-accepted. If locus's normal quote is already above 200, do not start. A higher fee reorders. It does not add capacity.
 - Leave the 3 Oct halt on the older fleet in place.

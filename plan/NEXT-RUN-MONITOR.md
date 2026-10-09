@@ -18,7 +18,7 @@ The next run is Friday 9 Oct 2026, 21:00 UTC, for 8 hours, ending Saturday 10 Oc
 
 The old fallback "Monday 13 Oct 2026, 21:30 UTC" is dropped. 13 Oct 2026 is a Tuesday, not a Monday. This run is not Monday 12 Oct and not Tuesday 13 Oct.
 
-The hours after 00:25 UTC stay unnamed until the storm GO chooses. His counter is 21:25 UTC through 05:35 UTC. It does not move T0. Our T0 is 25 minutes before that counter.
+The launch files [GO-BOT.md](GO-BOT.md) and [GO-BUILD.md](GO-BUILD.md) are the storm GO. They name the hours after 00:25 UTC: long hold to 04:45 UTC, final drain to 05:00 UTC. His counter is 21:25 UTC through 05:35 UTC. It does not move T0. Our T0 is 25 minutes before that counter.
 
 A required line with no reading is **not measured**. That fails the pass in [MONITOR.md](MONITOR.md). Do not invent the other side. Do not ping Kaspa Pulse. Do not send him the sheet. No key, no seed, and no txid in git. The mining address is the Grok Bot address named above.
 
@@ -55,7 +55,7 @@ Stop unless this GitHub has been sent to Grok Build or to the bot, and `steps-ut
 | Check | Owner | Pass |
 |---|---|---|
 | keel still syncing | Desk | Watch the block download. Leave the tunnel closed. When keel is synced, open the tunnel and write `nodeB_wrpc` and `nodeB_grpc` in the handoff. Say both addresses. That report is not the storm GO. Until then the bot row says `waiting`. |
-| Rehearsal | Bot and Build | [REHEARSAL-2026-10-09.md](REHEARSAL-2026-10-09.md): 30 minutes before T0, only once keel's lag is at or under 60 seconds. If keel is not healthy by 20:15 UTC, it is written **not run**. |
+| Rehearsal | Bot and Build | [REHEARSAL-2026-10-09.md](REHEARSAL-2026-10-09.md): 20:30–21:00 UTC, only if keel's lag is at or under 60 seconds at 20:15 and 20:30 UTC. Otherwise it is written **not run**. |
 | keel synced, tip lag seconds, mempool, box disk | Bot | The runner runs only during the storm. Send only if keel is synced, keel's lag is at or under 60 seconds (the keel health gate in the plan: over 120 seconds halve, over 300 seconds stop), and the disk gate in the plan passes. Otherwise sender count 0 and the row says `waiting`. |
 | keel tunnel for the bot | stp | stp provides the tunnel when keel is synced. Until that tunnel is in the handoff, the bot's runner and the bot's miners wait. From the box, do not use `127.0.0.1`. Do not invent a host. |
 | Locus synced, UTXO index, mempool, normal fee, free RAM, desk disk | Build | Send only on loopback Borsh. Free RAM under 1 GB, or a dead process, stops Build. |
