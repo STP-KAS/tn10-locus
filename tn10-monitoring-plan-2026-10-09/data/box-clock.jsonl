@@ -1,0 +1,11 @@
+{"label": "start", "server": "www.google.com", "method": "http-date-boundary", "sample": 1, "offset_ms": -13.2, "rtt_ms": 9.6, "t": "2026-10-09T12:25:48Z"}
+{"label": "start", "server": "www.google.com", "method": "http-date-boundary", "sample": 2, "offset_ms": -8.2, "rtt_ms": 10.8, "t": "2026-10-09T12:25:49Z"}
+{"label": "start", "server": "www.google.com", "method": "http-date-boundary", "sample": 3, "offset_ms": -24.7, "rtt_ms": 11.3, "t": "2026-10-09T12:25:50Z"}
+{"label": "start", "server": "www.google.com", "method": "http-date-boundary", "sample": 4, "offset_ms": -22.0, "rtt_ms": 10.0, "t": "2026-10-09T12:25:51Z"}
+{"label": "start", "server": "www.google.com", "method": "http-date-boundary", "sample": 5, "offset_ms": -16.0, "rtt_ms": 10.2, "t": "2026-10-09T12:25:52Z"}
+{"label": "start", "server": "www.cloudflare.com", "method": "http-date-boundary", "sample": 1, "offset_ms": -10.6, "rtt_ms": 33.6, "t": "2026-10-09T12:25:53Z"}
+{"label": "start", "server": "www.cloudflare.com", "method": "http-date-boundary", "sample": 2, "offset_ms": -28.1, "rtt_ms": 30.3, "t": "2026-10-09T12:25:54Z"}
+{"label": "start", "server": "www.cloudflare.com", "method": "http-date-boundary", "sample": 3, "offset_ms": -38.6, "rtt_ms": 38.1, "t": "2026-10-09T12:25:55Z"}
+{"label": "start", "server": "www.cloudflare.com", "method": "http-date-boundary", "sample": 4, "offset_ms": -26.4, "rtt_ms": 33.5, "t": "2026-10-09T12:25:56Z"}
+{"label": "start", "server": "www.cloudflare.com", "method": "http-date-boundary", "sample": 5, "offset_ms": -22.8, "rtt_ms": 29.6, "t": "2026-10-09T12:25:57Z"}
+{"note":"UDP/123 NTP to time.google.com and pool.ntp.org timed out 10/10 at 12:25Z; HTTP-Date fallback used"}
