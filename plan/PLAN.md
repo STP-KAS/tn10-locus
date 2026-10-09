@@ -6,7 +6,7 @@ Wording, Kaspa Pulse (@gokugalax), 7 Oct 2026: sign-and-send processes are sende
 
 # Plan
 
-TN10 only. Clocks below are Europe/Brussels local and UTC. This page does not lock the questions plan.
+TN10 only. Every clock time in this repo is UTC. This page does not lock the questions plan.
 
 **Start.** Sending this GitHub to Grok Build or to the bot means go: start the operation. The bot's runner and the bot's miners use the tunnel to keel, and the runner runs only during the storm. n0 will not run.
 
@@ -47,11 +47,11 @@ Rules:
 
 This evening only. No fallback day.
 
-T0 is Friday 9 Oct 2026, 23:00 Europe/Brussels (CEST, UTC+2), which is 21:00 UTC. End is Saturday 10 Oct 2026, 07:00 local, which is 05:00 UTC. Eight hours.
+T0 is Friday 9 Oct 2026, 21:00 UTC. End is Saturday 10 Oct 2026, 05:00 UTC. Eight hours.
 
 The old line "Monday 13 Oct 2026, 21:30 UTC" is dropped. 13 Oct 2026 is a Tuesday, not a Monday. This run is not Monday 12 Oct and not Tuesday 13 Oct.
 
-B0 is the first 10 minutes. First load step is 23:10 local, 21:10 UTC. Paced table still ends 00:25 UTC. The hours after 00:25 UTC stay unnamed until the storm GO names them, or ends the storm at 00:25. This page does not choose.
+B0 is the first 10 minutes. First load step is 21:10 UTC. Paced table still ends 00:25 UTC. The hours after 00:25 UTC stay unnamed until the storm GO names them, or ends the storm at 00:25. This page does not choose.
 
 His counter stays 21:25 UTC through 05:35 UTC. It does not move T0. Our T0 is 25 minutes before that counter. Both clocks are written so the gap is visible.
 

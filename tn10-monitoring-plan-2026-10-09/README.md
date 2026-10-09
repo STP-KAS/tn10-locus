@@ -4,7 +4,13 @@
 
 **Status: final, compiled after the 15:30Z end.**
 
-All times UTC. All numbers are counts or rates measured from the box against keel (stp's second desk node, TN10, UTXO index) through the paid tunnel, unless a line says otherwise. No txids, keys, seeds or wallet files are in this folder. The mining address named here is the public Grok Bot address `kaspatest:qzffl5…` (see [NEXT-RUN-MONITOR](../plan/NEXT-RUN-MONITOR.md)).
+All times UTC. Every clock time in this repo is UTC.
+
+This folder is the **bot's** monitor. The box measured keel through the tunnel. Submit, accept, mempool, lag, and miner share here are the bot's. A combined row in this folder is the bot alone. It is not Build's rate, and it is not the two-side score.
+
+Build's monitor is the desk, on locus. Those rates are not in this folder. The 8 Oct desk sheet is [tonight-8-oct/RESULTS.md](https://github.com/STP-KAS/grok-bot-build-combo/blob/main/tonight-8-oct/RESULTS.md). The lines both sides fill on the next run are [MONITOR.md](../plan/MONITOR.md) and [NEXT-RUN-MONITOR.md](../plan/NEXT-RUN-MONITOR.md). The section [Build's view, checked](#builds-view-checked) is the bot answering a Build claim. It is not Build's sheet.
+
+No txids, keys, seeds or wallet files are in this folder. The mining address named here is the public Grok Bot address `kaspatest:qzffl5…` (see [NEXT-RUN-MONITOR](../plan/NEXT-RUN-MONITOR.md)).
 
 ## Key to the labels
 
@@ -171,6 +177,8 @@ Method: every 5 minutes, 60 s of keel `block-added` notifications (full blocks) 
 - **Needs more testing**: four valid windows only; keel's health and our miner share changed together, so the two causes are confounded.
 
 ## Build's view, checked
+
+This is not Build's monitor and not Build's result table. Build's submitted and accepted rates stay on the desk, on locus. The lines below are the bot's check of one Build claim about mass and off-chain blocks.
 
 Build's claim: a signed 1-in/1-out tx is ~1,624 mass; with the 500,000 block mass limit that is ~308 tx/block and ~3,080 tx/s at 10 BPS. Build's 12:23Z window: 3,611 tx/s into blocks, 2,371 accepted. Build attributes the gap to about half the blocks being off the selected chain, so "their txs never joined". Build proposes cutting miners to about 10 blocks/s (desk 12 + bot miners pushed it to 11.5 blocks/s with 5.3/s on the selected chain), paying the live quote, and beyond ~3,500 a lighter tx (1 in / 1 out, no signature, anyone-can-spend, 643 mass, ~778/block, ~7,780 tx/s).
 

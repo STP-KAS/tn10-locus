@@ -14,7 +14,7 @@ If this page and the questions plan disagree, the plan wins. If they disagree on
 
 This evening only. No fallback day.
 
-The next run is Friday 9 Oct 2026, 23:00 Europe/Brussels (CEST, UTC+2), which is 21:00 UTC, for 8 hours, ending Saturday 10 Oct 2026, 07:00 local, which is 05:00 UTC.
+The next run is Friday 9 Oct 2026, 21:00 UTC, for 8 hours, ending Saturday 10 Oct 2026, 05:00 UTC.
 
 The old fallback "Monday 13 Oct 2026, 21:30 UTC" is dropped. 13 Oct 2026 is a Tuesday, not a Monday. This run is not Monday 12 Oct and not Tuesday 13 Oct.
 

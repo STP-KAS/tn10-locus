@@ -6,7 +6,7 @@ Wording, Kaspa Pulse (@gokugalax), 7 Oct 2026: sign-and-send processes are sende
 
 # Two nodes
 
-Private note. Kaspa Testnet-10 only. Every clock on this page is UTC.
+Private note. Kaspa Testnet-10 only. Every clock time in this repo is UTC. A clock is not written in local time.
 
 **Goal.** The highest included tx/s the two sides can hold at the same time. Submitted and accepted stay two numbers. The score is accepted. How a block gets past 3,000 included payments, and why a second runner does not double it, is [goal/README.md](goal/README.md). That page does not start the storm and does not move T0.
 
@@ -28,8 +28,19 @@ This page does not lock the questions plan.
 | Record | What it still is |
 |---|---|
 | [STP-KAS/tn10-storm-throughput-questions](https://github.com/STP-KAS/tn10-storm-throughput-questions) | The questions, the Friday clock, the fee pair, and the raw files from earlier runs. |
-| [plan/NEXT-RUN-MONITOR.md](plan/NEXT-RUN-MONITOR.md) | The next run's monitor. Every line already in the plan. A blank required line fails the pass. |
+| [plan/NEXT-RUN-MONITOR.md](plan/NEXT-RUN-MONITOR.md) | The checklist for the next run. Every line already in the plan. A blank required line fails the pass. |
 | [STP-KAS/grok-bot-build-combo](https://github.com/STP-KAS/grok-bot-build-combo) | The private combo hub and the 8 Oct checkout sheet. |
+
+## Monitoring results
+
+Two results. They are not the same number, and they are not added together on the bot's page.
+
+| Side | Who measured | Node | Where the results are |
+|---|---|---|---|
+| Bot | The box, through the tunnel | keel | [tn10-monitoring-plan-2026-10-09](tn10-monitoring-plan-2026-10-09/README.md). Final after 15:30 UTC on 9 Oct 2026. Submit, accept, mempool, lag, and miner share in that folder are the bot's. A combined row there is the bot alone. |
+| Build | The desk | locus | Not in that folder. The desk sheet for 8 Oct is [tonight-8-oct/RESULTS.md](https://github.com/STP-KAS/grok-bot-build-combo/blob/main/tonight-8-oct/RESULTS.md). The lines both sides must fill on the next run are [plan/MONITOR.md](plan/MONITOR.md) and [plan/NEXT-RUN-MONITOR.md](plan/NEXT-RUN-MONITOR.md). |
+
+The heading "Build's view, checked" inside the bot folder is the bot answering a Build claim about mass and off-chain blocks. It is not Build's monitor sheet.
 
 An earlier commit of this repo sent both sides to locus. That routing stays withdrawn. Build stays on locus. The bot uses keel. n0 will not run. The clock, the fee pair, and "never eight box runners" stay.
 
