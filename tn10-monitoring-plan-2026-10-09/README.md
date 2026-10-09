@@ -67,12 +67,39 @@ Run 5 windows (`data/run5-windows.csv`; bot rates from the per-second sender log
 
 C-100 evaluation: 18,915 of 18,915 accepted eventually, p50 6.2 s, p90 23.4 s, so 100 tx/s failed the p90 ≤ 10 s rule and the controller went back to 60.
 
+## Run 5 and the light-tx trial (from the load worker's LIMIT-REPORT, copied at compile time; hosts removed)
+
+#### Run 5 (9 Oct, 12:40-13:30Z), written by the monitor worker from ramp5.out and summary5.json
+Same 15 runners adopted from run 4 (light lane hops, P2SH OP_TRUE, mass 643), 4 miners tagged "stp grok bot". Windows (eventual = share of the window's txs accepted by keel by the end of the run; p50/p90 = submit to keel accept):
+
+| window | UTC | target tx/s | fees | miners | n | eventual % | p50 s | p90 s | mempool peak | lag max s | result |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| C-base-60 | 12:40:26-12:44:30 | 60 | 200/300 | 4 | 11,020 | 100 | 1.2 | 15.9 | 43,437 | 20.4 | baseline clean (eventual 100%) |
+| C-100 | 12:44:30-12:48:38 | 100 | 200/300 | 4 | 18,915 | 100 | 6.2 | 23.4 | 37,483 | 24.4 | not clean (p90 > 10 s), back to 60 |
+| B-fixed-1 | 12:49:23-12:59:26 | 60 | 200/300 | 4 | 32,598 | 100 | 13.7 | 29.8 | 30,787 | 35.3 | all accepted, slower than C-base |
+| B-quote-1 | 12:59:26-13:09:28 | 60 | quote 183/275 | 4 | 32,527 | 97.6 | 45.3 | 85.7 | 32,638 | 93.9 | keel lag rising; confounded with fee change |
+| A-miners1 | 13:09:28-13:19:31 | 60 | 200/300 | 1 | 32,605 | 88.4 | 37.1 | not reached | 25,668 | 95.6 | keel lag rising |
+| A-miners4-back | 13:19:31-13:20:38 | 60 then 30 | 200/300 | 4 | 40 | 0 | - | - | 19,818 | 128.8 | lag > 120 s: halved twice |
+| A-miners4-back-half-half | 13:20:38-13:29:31 | 15 | 200/300 | 4 | 7,109 | 41.7 | not reached | not reached | 35,742 | 274.6 | keel falling behind |
+| B-quote-2 | 13:29:31-13:29:59 | 15 | quote 192/288 | 4 | 0 | - | - | - | 29,802 | 302.2 | terminal |
+
+Terminal 13:29:59Z: keel lag 302.2 s > 300. The controller stopped all runners and miners (13:31:49Z: runners 0, miners 0). The feeder was stopped 14:01Z (keel synced=false).
+Reading: C-base-60 clean, C-100 eventual 100% but p90 23 s, so back to 60. The B (fixed vs quote) and A (miners 4 -> 1 -> 4) windows ran while keel's own lag climbed from ~35 s to 300 s, so they do not isolate the fee or miner effect. After the stop the bot sent nothing, and keel kept falling behind the public node (lag 656 s, 6,502 DAA behind at 14:17Z), so the lag was not caused by our load.
+
+#### Light-tx probe (13:47Z, runs/keel5-*/light5-probe.json)
+Route: P2SH with redeem script OP_TRUE (0x51), sigScript = push(redeem). One fund tx (mass 1,701) and 3 chained unsigned 1-in/1-out hops (mass 637 each, 0 sig ops, 0 signature bytes): all four "accepted into keel mempool", i.e. standard-valid on kaspad 2.1.0. Whether they were mined and accepted on chain was not checked.
+Capacity in theory: 500,000 / 637 = ~785 tx per block, ~7,850 tx/s at 10 BPS, against ~308 / ~3,080 for a signed 1-in/1-out (~1,624 mass). Anyone-can-spend hops are not realistic payments.
+
+Labels for the light-tx lines: the probe (four txs standard-valid in keel's mempool, masses 1,701 / 637) is **Claim (measured on TN10)**; on-chain acceptance of those four was not checked. The ~785 tx/block and ~7,850 tx/s figures are **Not sure / open for debate** (theory from mass only). Anyone-can-spend hops measure capacity, not realistic signed payments.
+
 ## Limit findings
 
 - **Claim (measured on TN10)**: morning (run 1), the first soft break was 240 tx/s (6 runners): 93.2% accepted inside the 60 s window, 100% accepted eventually (30,345/30,345), p50 2.0 s, p90 5.0 s. Keel's mempool was 26–30k, almost all outside traffic.
 - **Claim (measured on TN10)**: from 10:30 the clean level dropped. 120 tx/s broke in run 2 (94.4% in window) and run 4 (p90 16.7 s at 11:38–11:39), 100 tx/s broke in run 5 (p90 23.4 s). 60 tx/s held with 100% eventual accept whenever keel itself kept up. Outside mempool was 20–40k during those steps.
-- **Claim (measured on TN10)**: keel stalled three times while it was the only node we read: 10:45 (virtual stopped, mempool 121k, miners got `route is full`), 13:20–13:30 (lag rose to 302 s, run 5 stopped), and from about 13:40 (no blocks seen in the 5-minute block windows, mempool frozen at 8,211, lag 804.5 s at 14:01:36).
+- **Claim (measured on TN10)**: keel stalled three times while it was the only node we read: 10:45 (virtual stopped, mempool 121k, miners got `route is full`), 13:20–13:30 (lag rose to 302 s, run 5 stopped), and from about 13:40 (no blocks seen in the 5-minute block windows, mempool frozen at 8,211, lag 856.2 s at 15:06:26).
 - **Claim (measured on TN10)**: tunnel drops: both free tunnels expired at 09:59 (Pinggy 60-minute cap); a ~25 s blip on the paid runner tunnel at 11:07. No paid-tunnel drop after that.
+- **Claim (measured on TN10)**: keel's lag after 13:30 is not caused by our load. Run 5 stopped at 13:29:59 (controller killed runners and miners); the bot sent nothing afterwards, yet keel kept falling behind: at 14:17 sink lag 656 s and 6,502 DAA behind the public node, while the public node ran ~10 DAA/s. Gap at the last sample: 6,737 DAA.
+- **Not sure / open for debate**: the likely cause is desk overload, with locus, keel, Build's senders and the desk miners on one PC. We cannot see the desk's CPU, RAM or disk from the box.
 - **Not sure / open for debate**: the falling clean level (240 → 120 → 60) tracks keel's own health and the outside mempool, not our side: runner CPU stayed under 10%, 99.6–100% of target was submitted, rejects were 0 outside tunnel events. keel shares one desk PC with locus, Build's senders and the desk miners.
 - **Needs more testing**: 240 tx/s held only 2 minutes; no step above 120 ran with keel healthy and outside load low at the same time.
 
@@ -116,7 +143,7 @@ Source: `data/confirm-time-by-tier-keel4.csv`. Submit start to keel accept, per 
 
 ## Network TPS and our share
 
-Source: `data/network-tps-1m.csv` (60 s windows, transactions accepted by keel's virtual chain, coinbase approximately removed), 80 samples 12:23–14:01. Chart: `tps-chart.png`.
+Source: `data/network-tps-1m.csv` (60 s windows, transactions accepted by keel's virtual chain, coinbase approximately removed), 145 samples 12:23–15:09. Chart: `tps-chart.png`.
 
 - **Claim (measured on TN10)**: while keel kept up (lag ≤ 30 s in the window, 17 samples, 12:24–13:15): average **1,627.0 tx/s**, median 1,703.8, min 105.9 (12:43–12:44, when keel's mempool emptied for a minute), max 2,435.4.
 - **Claim (measured on TN10)**: our runners averaged 54.0 accepted tx/s in the sampled minutes, about 4.5% of the network total.
@@ -151,22 +178,22 @@ Build's claim: a signed 1-in/1-out tx is ~1,624 mass; with the 500,000 block mas
 
 ## Mempool, lag, fee
 
-- **Claim (measured on TN10)**: keel mempool, every 1 s (5,601 samples, 1 failed): median 19,264, min 126, peak **49,914** at 13:23:17. File `data/keel-mempool-1s.csv`.
-- **Claim (measured on TN10)**: keel sink lag, every 10 s (583 samples): median 47.2 s, p95 667.8 s, max **804.5 s** at 14:01:36; 277 samples over 60 s; 32 samples with `isSynced=false`. File `data/keel-node-10s.csv`.
-- **Claim (measured on TN10)**: fee estimate, normal bucket: 100.0–193.4 sompi/gram, median 185.4; never above 200. Priority bucket max 779.0.
+- **Claim (measured on TN10)**: keel mempool, every 1 s (9,606 samples, 1 failed): median 8,211, min 126, peak **49,914** at 13:23:17. File `data/keel-mempool-1s.csv`.
+- **Claim (measured on TN10)**: keel sink lag, every 10 s (987 samples): median 555.4 s, p95 796.2 s, max **856.2 s** at 15:06:26; 681 samples over 60 s; 252 samples with `isSynced=false`. File `data/keel-node-10s.csv`.
+- **Claim (measured on TN10)**: fee estimate, normal bucket: 100.0–193.4 sompi/gram, median 188.4; never above 200. Priority bucket max 779.0.
 
 ## BPS from two sources (stp asked 13:25Z)
 
-Every 60 s: keel's `virtualDaaScore` and the public `api-tn10.kaspa.org/info/blockdag` `virtualDaaScore`, as DAA/s, plus the DAA gap. File `data/bps-two-sources-60s.csv`, chart `bps-chart.png`. 36 samples.
+Every 60 s: keel's `virtualDaaScore` and the public `api-tn10.kaspa.org/info/blockdag` `virtualDaaScore`, as DAA/s, plus the DAA gap. File `data/bps-two-sources-60s.csv`, chart `bps-chart.png`. 104 samples.
 
-- **Claim (measured on TN10)**: public node 8.77 DAA/s on average (min 6.5, max 12.05); keel 6.13 DAA/s (min 0, max 54.75, the max is catch-up). Keel was 1,270 to 7,175 DAA behind the public node.
+- **Claim (measured on TN10)**: public node 9.58 DAA/s on average (min 6.17, max 13.97); keel 8.74 DAA/s (min 0, max 54.75, the max is catch-up). Keel was 1,270 to 8,598 DAA behind the public node.
 - **Not sure / open for debate**: the network ran near its normal ~10 BPS (public DAA/s 6.5–10.5 in 60 s samples) while keel fell behind, so this afternoon's slowdown reads as **keel behind**, not **network slow**. The public endpoint is behind Cloudflare (`cf-cache-status` logged); a cached reply shortens or lengthens a sample, which is why single samples swing.
 
 ![BPS chart](bps-chart.png)
 
 ## Indexer (api-tn10.kaspa.org)
 
-- **Claim (measured on TN10)**: `/info/health` every 30 s (188 samples): 176 answers were Cloudflare `STALE`, 10 timed out, 1 was 503. The cached body showed the indexer's last accepted-tx block time at 11:47:13Z for most of the afternoon; the DB blue score moved only once (580,580,059 → 580,635,621).
+- **Claim (measured on TN10)**: `/info/health` every 30 s (319 samples): 300 answers were Cloudflare `STALE`, 17 timed out, 1 was 503. The cached body showed the indexer's last accepted-tx block time at 11:47:13Z for most of the afternoon; the DB blue score moved only once (580,580,059 → 580,635,621).
 - **Claim (measured on TN10)**: visibility, one of our accepted ids per minute polled until the indexer showed it: 48/48 became visible, delay min 523.9 s, median 803.7 s, max 1,093.7 s. Ids stay local; `data/indexer-visibility-1m.csv` has times only.
 - **Claim (measured on TN10)**: by the plan's rule (3 samples of 503/timeout, or a visibility delay above 300 s) the indexer was **frozen**: every visibility delay was above 300 s. It was slow, not dead: every id did appear.
 - **Not sure / open for debate**: at what sustained tx/s it froze cannot be read from today: it was already stale at 11:47, under ~1,500–2,000 tx/s network load.
@@ -187,7 +214,13 @@ Files: `data/mining-share-10m.csv` (ours = `Block submitted successfully` lines 
 | 13:30 | 2.15 | 0.0 | 0.0% |
 | 13:40 | 12.97 | 0.0 | 0.0% |
 | 13:50 | 4.08 | 0.0 | 0.0% |
-| 14:00 | 15.3 | 0.0 | 0.0% |
+| 14:00 | 9.81 | 0.0 | 0.0% |
+| 14:10 | 10.9 | 0.0 | 0.0% |
+| 14:20 | 10.57 | 0.0 | 0.0% |
+| 14:30 | 9.73 | 0.0 | 0.0% |
+| 14:40 | 9.77 | 0.0 | 0.0% |
+| 14:50 | 10.12 | 0.0 | 0.0% |
+| 15:00 | 10.15 | 0.0 | 0.0% |
 
 - **Claim (measured on TN10)**: with 4 miners and keel healthy (12:20–12:50) our share was 38–43% by miner logs and 35–36% by user agent in the block windows. It fell to 0–16% after 13:00 as keel fell behind (stale templates) and when run 5 cut to 1 miner (13:09–13:19), then 0 after the 13:30 stop.
 - **Not sure / open for debate**: miner-log counts include submitted blocks that may end up red; the user-agent count is the better number. keel DAA undercounts total blocks when keel lags; after 13:27 the public DAA/s (`bps` file) is the better denominator.
@@ -217,7 +250,7 @@ Files: `data/mining-share-10m.csv` (ours = `Block submitted successfully` lines 
 | Mining share per node (locus side) | per step | Desk miners mine on locus; not readable from the box. |
 | Confirmation probes ~450 per tier per step | per step | Not a separate probe; per-transaction logs used instead (larger n). |
 | Five tx ids per minute | every minute | Saved locally in the runner minute files; not in git by rule. Count only. |
-| Rows 14:00–15:30 bot side | 14:00–15:30 | No bot load after 13:30 (run 5 stopped on keel lag); keel unsynced after ~13:40. |
+| Rows 14:00–15:30 bot side | 14:00–15:30 | Bot load stopped 13:29:59 (run 5, keel lag rule); keel stayed behind afterwards, so no bot rates after that unless the Run 5 section above shows a light-tx trial. |
 
 The three n0 rows in "What 8 Oct left unread" are closed; n0 did not run.
 
