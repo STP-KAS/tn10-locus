@@ -8,7 +8,7 @@ Wording, Kaspa Pulse (@gokugalax), 7 Oct 2026: sign-and-send processes are sende
 
 This page lists the monitor lines already written in [MONITOR.md](MONITOR.md) and in [NEXT-STORM-PLAN.md](https://github.com/STP-KAS/tn10-storm-throughput-questions/blob/main/plan/NEXT-STORM-PLAN.md). It does not add a demand. It does not lock the questions plan.
 
-**Start.** Sending this GitHub to Grok Build or to the bot means go: start the operation. The bot's runner and the bot's miners use the tunnel to keel. The runner runs only during the storm. The miners pay the Grok Bot address `kaspatest:qzffl5xy9np46gkttyuftqnv2w04pr8g3wsp7c3vv8se3txtelx6q7c0v0ldx` and mine only while keel is synced. n0 will not run.
+**Start.** Sending this GitHub to Grok Build or to the bot means go: start the operation. The bot's runner and the bot's one miner use the tunnel to keel. The runner runs only during the storm, apart from the rehearsal. The miner pays the Grok Bot address `kaspatest:qzffl5xy9np46gkttyuftqnv2w04pr8g3wsp7c3vv8se3txtelx6q7c0v0ldx` and mines only while keel is synced. Build runs one miner, on locus. n0 will not run.
 
 If this page and the questions plan disagree, the plan wins. If they disagree on which node a side uses, [PLAN.md](PLAN.md) wins.
 
@@ -22,7 +22,7 @@ The hours after 00:25 UTC stay unnamed until the storm GO chooses. His counter i
 
 A required line with no reading is **not measured**. That fails the pass in [MONITOR.md](MONITOR.md). Do not invent the other side. Do not ping Kaspa Pulse. Do not send him the sheet. No key, no seed, and no txid in git. The mining address is the Grok Bot address named above.
 
-The printable copy is `plan/next-run-monitor.pdf` in this repo. If the PDF and this page disagree, this page wins.
+The printable copy is `plan/next-run-monitor.pdf` in this repo. If the PDF and this page disagree, this page wins. The PDF was printed before the 9 Oct 16:06 UTC miner split, the one-side control and the rehearsal. It does not show them.
 
 ## What 8 Oct left unread
 
@@ -55,11 +55,14 @@ Stop unless this GitHub has been sent to Grok Build or to the bot, and `steps-ut
 | Check | Owner | Pass |
 |---|---|---|
 | keel still syncing | Desk | Watch the block download. Leave the tunnel closed. When keel is synced, open the tunnel and write `nodeB_wrpc` and `nodeB_grpc` in the handoff. Say both addresses. That report is not the storm GO. Until then the bot row says `waiting`. |
-| keel synced, tip lag seconds, mempool, box disk | Bot | The runner runs only during the storm. Send only if keel is synced and lag is at or under 300 seconds, and the disk gate in the plan passes. Otherwise sender count 0 and the row says `waiting`. |
+| Rehearsal | Bot and Build | [REHEARSAL-2026-10-09.md](REHEARSAL-2026-10-09.md): 30 minutes before T0, only once keel's lag is at or under 60 seconds. If keel is not healthy by 20:15 UTC, it is written **not run**. |
+| keel synced, tip lag seconds, mempool, box disk | Bot | The runner runs only during the storm. Send only if keel is synced, keel's lag is at or under 60 seconds (the keel health gate in the plan: over 120 seconds halve, over 300 seconds stop), and the disk gate in the plan passes. Otherwise sender count 0 and the row says `waiting`. |
 | keel tunnel for the bot | stp | stp provides the tunnel when keel is synced. Until that tunnel is in the handoff, the bot's runner and the bot's miners wait. From the box, do not use `127.0.0.1`. Do not invent a host. |
 | Locus synced, UTXO index, mempool, normal fee, free RAM, desk disk | Build | Send only on loopback Borsh. Free RAM under 1 GB, or a dead process, stops Build. |
 | NTP, five samples, both machines | Each side | Desk: `w32tm` against time.windows.com. Box: two public servers. Repeat at the end. A desk move over 50 ms flags Build's confirmation times. |
 | Older fleet halt file | Build | First line still `halt`. |
+| What runs every ~10 minutes on the desk | Build | Sender steps or restarts, locus or keel pruning, Defender, Task Scheduler. Each one found, with its times. Keel froze about every 10 minutes from about 14:05 UTC on 9 Oct. |
+| Miner split | Each side | Bot: exactly 1 miner, on keel. Build: exactly 1 miner, on locus. No desk miner on keel. No bot miner on locus. |
 | Quote | Each side, from its own node | If the normal quote is already above 200, that side does not start. |
 
 ## Every 10 minutes, both sides
@@ -79,7 +82,9 @@ The desk writes the sheet. The box prints its block. Copy the block. A missing b
 | Combined | sum of the two submitted rates, and sum of the two accepted rates | same two sums |
 | Pools | keel mempool | locus mempool, plus the six public names, each named |
 | Indexer | the latest 30-second sample | same check if the box row is missing |
-| Miners | bot miners, through the keel tunnel, or off while keel is syncing | desk miners, still on locus until keel is synced |
+| Miners | 1 bot miner on keel, through the keel tunnel, or off while keel is unsynced | 1 Build miner on locus. No desk miner on keel |
+| Duplicate share | tx slots/s, unique/s, duplicate share, unique accepted/s, from keel | same from locus, or **not measured** |
+| Blocks per second | keel DAA/s and the public node's DAA/s, side by side; freezes since the last row | — |
 
 While the bot's runner is waiting, the combined accepted rate for that minute is Build's rate alone, and the row says so.
 
@@ -126,10 +131,12 @@ The other 95% rule is separate. The Build gate is mean submit at least 95% of th
 These are already in the plan. They were not part of the 8 Oct desk rows.
 
 - B0 is 10 minutes. Lane senders off. The plan keeps the box probes and the ordered stream on in B0. Build sends nothing in B0.
-- Steps stay 2×, 5×, 10×, 20×, 30×, then max. Nothing changes inside a step. Never eight box runners.
+- One-side control right after B0, 21:10–21:40 UTC: bot alone, Build alone, both, 10 minutes each at fixed rates (plan §3b). Duplicate share and unique accepted tx/s per step, keel via `getVirtualChainFromBlock` `acceptedTransactionIds` against tx slots in blocks.
+- Then steps stay 2×, 5×, 10×, 20×, 30×, then max, 30 minutes later than the questions plan's table. Nothing changes inside a step, except the keel health gate. The bot starts at 60 tx/s on keel and steps up only while eventual accept ≥ 99%, p90 ≤ 10 s and keel lag ≤ 60 s. Up to 15 bot runners on keel. Never eight for any other box runner.
 - Miners-off control at the 2× load, matched to the same load with miners on. The control is imperfect. Other miners still change templates. Say that next to the pair. The miners-off share should read about 0% of our own blocks.
 - When accepted flattens, log keel CPU, mempool-cap hits, and reject reasons. Label the plateau by the plan's §6a. The questions plan's about 100,000 cap on n0 does not apply to locus or to keel.
-- Mining share per node, per step: blocks total, blocks ours, percent. The bot's miners use the keel tunnel and pay the Grok Bot address. Desk miners stay on locus while keel is syncing.
+- Mining share per node, per step: blocks total, blocks ours, percent. The bot's one miner uses the keel tunnel and pays the Grok Bot address. Build's one miner is on locus.
+- The bot's optional light lane (P2SH `OP_TRUE`, 637 mass) only if keel is healthy and the rehearsal's light step passed. Its rows say **anyone-can-spend hops, not realistic payments**.
 - At T0, cite the SHA of the last commit that changed `plan/NEXT-STORM-PLAN.md`. A deviation gets a time and a reason.
 - Raw files next to the summary stay the plan's §8 list. They are not written by this page.
 

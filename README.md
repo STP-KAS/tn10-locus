@@ -16,10 +16,12 @@ Private note. Kaspa Testnet-10 only. Every clock time in this repo is UTC. A clo
 
 | Who | Wallet | Node | When |
 |---|---|---|---|
-| The bot's runner | Bot only | keel, the second kaspad on the desk | Only during the storm, and only while keel is synced and its tip lag is at or under 300 seconds |
-| Grok Build, on the desk | Build only | locus, the first desk kaspad | While locus is synced and its UTXO index is on |
+| The bot's runner | Bot only | keel, the second kaspad on the desk | Only during the storm and the rehearsal, and only while keel is synced and its tip lag is at or under 60 seconds. Exactly 1 bot miner, on keel |
+| Grok Build, on the desk | Build only | locus, the first desk kaspad | While locus is synced and its UTXO index is on. Exactly 1 Build miner, on locus |
 
-Outside the storm the bot's runner stays off. While keel is still syncing, that runner stays off and Build keeps sending on locus. That minute's combined rate is Build's rate alone.
+Each side mines where it sends (stp, 9 Oct 2026, 16:06 UTC). No desk miner on keel. No bot miner on locus. Why, and the one-side control, are in [plan/PLAN.md](plan/PLAN.md) §2a and §3b. The 30-minute rehearsal before T0 is [plan/REHEARSAL-2026-10-09.md](plan/REHEARSAL-2026-10-09.md).
+
+Outside the storm and the rehearsal the bot's runner stays off. While keel is still syncing, that runner stays off and Build keeps sending on locus. That minute's combined rate is Build's rate alone.
 
 This page does not lock the questions plan.
 
@@ -50,9 +52,9 @@ If this repo and `plan/NEXT-STORM-PLAN.md` disagree about a clock, a fee, or one
 
 **locus** is the first kaspad on this desk. Network `testnet-10`, UTXO index on. It is not a public DNS name. Build reaches it on loopback Borsh. The node cell is `locus`.
 
-**keel** is the second kaspad on this desk. Same network, UTXO index on. It is not a public DNS name. The handoff still writes `node=desk-nodeB`. New logs use `keel`. On the desk its own sockets are Borsh `ws://127.0.0.1:17310` and gRPC `127.0.0.1:16310`. The bot does not use those loopback addresses. The bot's runner and the bot's miners use the tunnel stp provides. The runner uses the tunnel's Borsh `ws://` address, only during the storm, and only while keel is synced and tip lag is at or under 300 seconds. The miners use the tunnel's gRPC host and port, pay the Grok Bot address `kaspatest:qzffl5xy9np46gkttyuftqnv2w04pr8g3wsp7c3vv8se3txtelx6q7c0v0ldx`, and mine only while keel is synced. Until the handoff lists the tunnel, both wait. Do not invent a host.
+**keel** is the second kaspad on this desk. Same network, UTXO index on. It is not a public DNS name. The handoff still writes `node=desk-nodeB`. New logs use `keel`. On the desk its own sockets are Borsh `ws://127.0.0.1:17310` and gRPC `127.0.0.1:16310`. The bot does not use those loopback addresses. The bot's runner and the bot's one miner use the tunnel stp provides. The runner uses the tunnel's Borsh `ws://` address, only during the storm and the rehearsal, and only while keel is synced and passes the plan's keel health gate. The bot's one miner uses the tunnel's gRPC host and port, pays the Grok Bot address `kaspatest:qzffl5xy9np46gkttyuftqnv2w04pr8g3wsp7c3vv8se3txtelx6q7c0v0ldx`, and mines only while keel is synced. Until the handoff lists the tunnel, both wait. Do not invent a host.
 
-**keel is already in the score.** Read at 2026-10-09T07:59:26Z: block download 69%, last block 2026-10-08T17:03:33Z, not synced, tunnels closed. Those minutes contribute 0 from keel and the row says `waiting`. The combined rate is locus alone. Desk miners stay on locus until keel is synced.
+**keel is already in the score.** Read at 2026-10-09T07:59:26Z: block download 69%, last block 2026-10-08T17:03:33Z, not synced, tunnels closed. Those minutes contribute 0 from keel and the row says `waiting`. The combined rate is locus alone. Build's one miner stays on locus, also after keel syncs.
 
 **n0 will not run.** It is the box kaspad. Do not start it, resync it, or keep disk aside for its pruning. The questions plan's older §6a and §9 sentences about n0 are the record of that machine. They are not this operation.
 

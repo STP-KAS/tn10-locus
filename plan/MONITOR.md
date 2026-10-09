@@ -26,10 +26,10 @@ Owner: the desk.
 Owner: the bot.
 
 - n0 will not run. Do not read it. Read keel through the tunnel: synced, tip lag in seconds, mempool, and free disk on the box.
-- The runner runs only during the storm. Send only if keel is synced, the handoff lists the tunnel, and lag is at or under 300 seconds, and the box disk gate in the plan passes.
+- The runner runs only during the storm. Send only if keel is synced, the handoff lists the tunnel, keel's lag is at or under 60 seconds (the keel health gate in the plan: over 120 seconds halve, over 300 seconds stop), and the box disk gate in the plan passes.
 - If not, sender count is 0. The row says `waiting`. keel's accepted rate for that minute is 0, and it stays in the sum.
 
-Repeat this check every 10 minutes, and at once if submits start failing because the node fell behind. Falling behind mid-step stops the bot's senders. It does not stop Build.
+Repeat this check every 10 minutes, and at once if submits start failing because the node fell behind. Keel lag over 120 seconds mid-step halves the bot's rate. Over 300 seconds stops the bot's senders. Neither stops Build. Log keel's DAA score every 10 seconds and the public node's every 60 seconds. A freeze is keel's DAA score not moving for 60 seconds or more while the public node moves. Write each freeze with its start and length. On 9 Oct keel froze for 3–5 minutes about every 10 minutes from about 14:05 UTC.
 
 ## Task 2. Locus, before Build sends
 
@@ -38,6 +38,7 @@ Owner: Grok Build.
 - Read synced, UTXO index, mempool, normal fee, process RSS, free RAM, and free disk.
 - Send only if synced and the UTXO index is on, on loopback Borsh.
 - If free RAM is under 1 GB, or the process dies, stop Build's senders. Keep them on locus.
+- Before T0, find what runs on the desk about every 10 minutes: sender steps or restarts, locus or keel pruning, Defender, Task Scheduler. Write each with its times. Desk CPU, RAM and disk for both kaspad processes go on every 10-minute row.
 
 ## Task 3. The 10-minute row
 
@@ -55,7 +56,7 @@ Owner: the desk writes the sheet. The box prints its block. A missing block stay
 | Combined | sum of the two submitted rates, and sum of the two accepted rates | same two sums, one line for the minute |
 | Pools | keel mempool | locus mempool, plus the six public names, each named |
 | Indexer | api-tn10 `/info/health` | same check if the box row is missing |
-| Miners | bot miners, through the keel tunnel, or off while keel is syncing | desk miners, still on locus until keel is synced |
+| Miners | 1 bot miner on keel, through the keel tunnel, or off while keel is unsynced | 1 Build miner on locus. No desk miner on keel |
 
 Rows are due on the questions plan's clock once a run is armed. Between runs, a row is still owed if a side is sending.
 
@@ -111,7 +112,13 @@ Owner: whichever side is up. The box if both are up.
 
 Owner: each node, for the blocks it sees.
 
-Per second, then published per step: blocks total, blocks ours, share in percent. The miners-off step should read about 0%. The bot's miners point at keel through the tunnel and pay the Grok Bot address, only while keel is synced. Desk miners stay on locus until then. The questions plan's §7 is the rule. Count the share on the blocks keel sees, and on the blocks locus sees.
+Per second, then published per step: blocks total, blocks ours, share in percent. The miners-off step should read about 0%. The bot runs exactly 1 miner, on keel through the tunnel, paying the Grok Bot address, user agent suffix `stp grok bot`, only while keel is synced. Build runs exactly 1 miner, on locus. No desk miner on keel. No bot miner on locus. The questions plan's §7 is the rule. Count the share on the blocks keel sees, and on the blocks locus sees.
+
+## Task 8a. Duplicate share
+
+Owner: the bot on keel. Build on locus, if it can read it.
+
+Every 5 minutes, and per step: 60 seconds of full blocks from `block-added`, against the transactions the virtual chain accepted (`getVirtualChainFromBlock`, `acceptedTransactionIds`). Write tx slots per second (non-coinbase transactions summed over all blocks), unique ids per second, duplicate share = 1 − unique/slots, unique accepted per second, and our block share. A window where keel accepted under 95% of the window's unique ids is keel lag, not network data. Ids stay local. **Needs more testing:** whether the per-node split lowers the share.
 
 ## Task 9. Clocks
 
