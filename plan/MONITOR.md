@@ -12,6 +12,15 @@ If this page and [PLAN.md](PLAN.md) disagree, the plan wins. The 8 Oct checkout 
 
 The next run covers every line below. The 8 Oct n0 lines are closed, because n0 will not run. The checklist is [NEXT-RUN-MONITOR.md](NEXT-RUN-MONITOR.md). A required line with no reading is **not measured** and fails Task 10. That page does not add a demand.
 
+## While keel syncs
+
+Owner: the desk.
+
+- Watch keel's block download. Leave both kaspad processes running.
+- Leave the tunnel closed until keel is synced.
+- When it is synced, open the tunnel and write `nodeB_wrpc` and `nodeB_grpc` in the handoff. Say both addresses. That sentence is not the storm GO.
+- Until those fields are real, the bot's row says `waiting`, keel adds 0, and the combined rate is locus alone. That minute is not a failed match.
+
 ## Task 1. keel, before the bot's runner sends
 
 Owner: the bot.

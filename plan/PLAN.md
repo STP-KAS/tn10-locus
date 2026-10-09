@@ -90,6 +90,14 @@ Kaspa Pulse counts the chain. His count and our combined accepted count stay two
 
 The bot's match is on keel: matched over submitted. Build's match is on locus. A side that was waiting does not owe a match for that minute.
 
+## 6. Monitoring
+
+The sheet is [MONITOR.md](MONITOR.md). The checklist for this run is [NEXT-RUN-MONITOR.md](NEXT-RUN-MONITOR.md). One owner each. A missing required line is **not measured** and fails the pass.
+
+**While keel syncs.** The desk watches the block download. Both kaspad processes stay up. The tunnel stays closed until keel is synced. When it is synced, the desk opens the tunnel, writes `nodeB_wrpc` and `nodeB_grpc` in the handoff, and says both addresses. That sentence is not the storm GO. Until those fields are real, the row says `waiting`, keel adds 0, and the combined rate is locus alone.
+
+**From T0.** The sheet runs through B0, with miners on and both runners off, and then through every load step. The desk writes the combined row. The box prints its own block. A waiting keel minute is not a failed match and does not stop Build.
+
 ---
 
 Intentions are good; thought process is questionable. STP remains delusional. Si vis pacem, para bellum.

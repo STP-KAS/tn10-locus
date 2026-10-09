@@ -48,6 +48,7 @@ Stop unless this GitHub has been sent to Grok Build or to the bot, and `steps-ut
 
 | Check | Owner | Pass |
 |---|---|---|
+| keel still syncing | Desk | Watch the block download. Leave the tunnel closed. When keel is synced, open the tunnel and write `nodeB_wrpc` and `nodeB_grpc` in the handoff. Say both addresses. That report is not the storm GO. Until then the bot row says `waiting`. |
 | keel synced, tip lag seconds, mempool, box disk | Bot | The runner runs only during the storm. Send only if keel is synced and lag is at or under 300 seconds, and the disk gate in the plan passes. Otherwise sender count 0 and the row says `waiting`. |
 | keel tunnel for the bot | stp | stp provides the tunnel when keel is synced. Until that tunnel is in the handoff, the bot's runner and the bot's miners wait. From the box, do not use `127.0.0.1`. Do not invent a host. |
 | Locus synced, UTXO index, mempool, normal fee, free RAM, desk disk | Build | Send only on loopback Borsh. Free RAM under 1 GB, or a dead process, stops Build. |
