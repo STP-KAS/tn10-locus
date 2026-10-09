@@ -139,6 +139,7 @@ No light lane on Build tonight. The light tx (P2SH `OP_TRUE`, 637 mass) is the b
 **Every minute, the chain count on locus (§12):** locus `block-added` full blocks against locus's `getVirtualChainFromBlock` `acceptedTransactionIds`: blocks/s, selected-chain blocks/s, tx slots/s, unique ids/s, duplicate share = 1 − unique/slots, unique accepted/s, valid or not (§12), Build's own ids accepted/s, and the same share for Build's own ids. If the reader cannot keep up, fall back to 60 s every 5 minutes and write that as a deviation. If you cannot read it at all, write **not measured** once with the reason.
 **Every 10 minutes, the Build row:** UTC, session, sender count, desk disk, `w32tm` (latest), locus synced, UTXO index, mempool, normal fee, RSS, free RAM, desk CPU, Build submitted tx/s and Build accepted tx/s (own ids, attribution only, labelled signed payment), locus unique accepted tx/s (chain count, valid or not), rejects by reason, miner count, mining share on locus (blocks total, ours, %), the six public pools by name, indexer health (`https://api-tn10.kaspa.org/info/health`), keel lag read on the desk, usage (or **not measured**).
 **Per step:** saturation on locus (accepted under 95% of submit-OK for 60 consecutive seconds, from 60 s after start): yes or no, onset. Mean submit against target, zero seconds. Plateau label: sender-limited, node-bound, network-bound, unclear.
+**Every minute, the miner log and the network line (§13):** Build miner running 0/1, threads, hashrate, blocks we mined, reason for any on/off change; locus blocks/min, tx per block, unique accepted. Required, also while the miner is off.
 
 A required line with no reading is **not measured**, with the UTC it was due.
 
@@ -187,6 +188,28 @@ From [goal/README.md](../../goal/README.md) and [goal/OPINION.md](../../goal/OPI
 - Measure on locus every minute: the chain count above (locus's unique accepted, blocks, slots, unique ids in blocks, selected-chain blocks, duplicate share, valid or not with the reason), plus Build's own ids accepted and their duplicate share. locus is the first choice for the headline, so this reading matters most. If you cannot read it, write **not measured** with the reason and keel's count is used.
 - Log every Build rate with the label **signed payment**, with the mass of the sender's transaction. If any Build sender uses another shape, label it and keep it apart.
 - Put the per-minute chain counts in `tn10-storm-2026-10-09/build/` as CSV, so `COMBINED.md` can pick per minute.
+
+## 13. Miner log and blocks per second (same text in GO-BOT.md and GO-BUILD.md)
+
+Added after Kaspa Pulse's notes of 9 Oct. This section adds logging and reporting only. It does not change any time, step, rate or order in the timeline above, and it does not change when a miner is on or off.
+
+**Why.** Kaspa Pulse, who counts TN10 independently, saw on 9 Oct that blocks per second moved together with throughput: minutes with fewer blocks had fewer accepted tx/s, while transactions per block stayed about the same. That looks like fewer blocks being mined at times, not load pushing blocks down. A per-minute miner log on each side, next to a per-minute network line, lets us say which it is for sure.
+
+**Every minute, the miner log (each side, required).** One row per UTC minute from 20:15 to 05:00, also while the miner is off. Files `miner-1m.jsonl` and `miner-1m.csv` in the side's results folder. Columns:
+- `minute_utc` (start of the minute, with `Z`) and `minute_cest`.
+- `miners_running`: 0 or 1; 1 only if the side's one miner was up the whole minute. `miner_up_s`: seconds up out of the seconds sampled.
+- `threads`: miner threads (0 when off).
+- `hashrate`: from the miner's own log, with its unit, or **not measured**.
+- Blocks we mined that minute: `blocks_found` and `blocks_submitted_ok` from the miner's own log, and `our_blocks_in_dag` (blocks with our coinbase tag seen by the side's node that minute, from the chain count).
+- `change` (on, off, or empty) and `reason` for any on/off change in that minute: plan time, lag gate, tunnel, process exit, operator.
+
+**Every minute, the network line (each side, next to the miner log),** from the side's own chain count (§9, §12): `blocks` added that minute = blocks/min (blocks/s = blocks/min ÷ 60), `tx_per_block` = non-coinbase tx slots ÷ blocks, `unique_accepted` and unique accepted/s, and `valid`. Fewer blocks mined shows as blocks/min down with tx per block steady and a miner off or down. Load pushing blocks down shows as blocks/min down while load rises and both miners are up.
+
+**The direct test is rows 6–8.** Both miners are off 22:00–22:25 UTC (00:00–00:25 CEST), and row 7 carries the same load as row 5. Compare blocks/min, tx per block and unique accepted in row 7 against row 5, with both miner logs showing 0. Write the result with its label (§10).
+
+**The headline is the chain count (§12), never our own submit/accept counter.** On 8 Oct our own mempool-accept counter read a few % below the independent count of transactions in blocks, in every round. Our submitted and accepted numbers stay attribution only.
+
+**Independent count.** Kaspa Pulse's counter starts at 21:25 UTC (23:25 CEST), 25 minutes after T0, so it misses B0 and most of the one-side control (rows 1–3). stp asks him whether he can start at 20:55 UTC (22:55 CEST). This does not move T0 or anything else. Do not ping him (§10); stp sends him the plain-text summary.
 
 ---
 
