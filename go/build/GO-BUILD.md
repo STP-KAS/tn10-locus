@@ -1,30 +1,47 @@
 Pasting this file is the GO and the lock-in. It may be pasted hours before the start. Do nothing that sends or mines until the times below; then run each line at its time without asking. No further GO will come. If a gate fails, follow the stop rule and log it; do not ask.
 
+## Restart
+
+The 21:00Z start on Friday 9 Oct 2026 is void. Do not resume it. Do not mix its minutes into this run.
+
+Keel stalled from 19:30Z to 20:06Z. Lag peaked at 1917 s at 19:50:47Z. Virtual DAA stayed 592398778 from 19:41Z through 19:49Z. By 20:06Z the desk sink lag was 1 s. At 20:45:09Z keel was synced, sink lag 1 s, virtual DAA 592448980. The bot's monitor still showed about 23 minutes and was going to skip the rehearsal and hold its runners. That is not a clean start. The measured minutes are [desk-keel-log.md](../../tn10-storm-2026-10-09/build/desk-keel-log.md).
+
+This is the same plan from the first gate. Rates, step order, fees, and which node each side uses are unchanged. The clock moved 90 minutes.
+
+- Prepare until 2026-10-09T21:45:00Z. Build senders stay at 0. The one locus miner already running may stay. Do not start a second. Do not put a miner on keel.
+- Gate 2026-10-09T21:45:00Z. Second gate 2026-10-09T22:00:00Z. Each gate is a fresh keel sink lag ≤ 60 s. The 20:15Z and 20:30Z reads were the voided run. They do not open this rehearsal.
+- Rehearsal 22:00Z–22:30Z only if both gates pass. Build sends 60 tx/s only in 22:23Z–22:29Z, and only if the gates passed. If not, write **not run** and wait for T0 with senders at 0.
+- T0 is 2026-10-09T22:30:00Z. End is 2026-10-10T06:30:00Z.
+- B is the new B0, 22:30Z–22:40Z, counted on locus. The voided run's baseline is not this B.
+- The pre-check file is already written. It does not block this restart.
+- The desk step clock is `steps-utc.json`, written from §5. Loggers run until 06:30Z.
+- A fresh sink lag decides every gate. The closed stall does not. Keel's mempool is not Build's send rate. Build sends on locus only.
+
 ## Timeline (identical in GO-BOT.md and GO-BUILD.md)
 
 | UTC | Brussels (CEST, UTC+2) | Bot | Build |
 |---|---|---|---|
-| before 20:15 | before 22:15 | Prepare only: tunnel from the latest `FOR-TN10-OPS.txt`, coins, scripts, read-only loggers. No sends, no miner. | Prepare only: freeze pre-check, coins, scripts, read-only loggers. No sends of this plan, no miner change. |
-| 20:15 | 22:15 | keel health check. Rehearsal go/no-go: keel lag ≤ 60 s. | Stop every sender not in this plan. locus health check. Read keel lag for the same go/no-go. |
-| 20:30 | 22:30 | Start 1 miner on keel. Second go/no-go read. | Start 1 miner on locus. Second go/no-go read. |
-| 20:30–21:00 | 22:30–23:00 | Rehearsal, only if keel is healthy: 60 tx/s 20:30–20:40, light lane 20 tx/s 20:40–20:45 and 50 tx/s 20:45–20:50 (runners 0), 60 tx/s 20:50–20:53, 0 20:53–20:56, 60 tx/s 20:56–20:59. | Rehearsal, only if keel is healthy: 0 until 20:53, 60 tx/s 20:53–20:59. |
-| 21:00–21:10 | 23:00–23:10 | T0. B0 baseline, no load. Miner on. | B0 baseline, no load. Miner on. |
-| 21:10–21:20 | 23:10–23:20 | 60 tx/s (bot only) | 0 |
-| 21:20–21:30 | 23:20–23:30 | 0 | 60 tx/s (Build only) |
-| 21:30–21:40 | 23:30–23:40 | 60 tx/s | 60 tx/s |
-| 21:40–21:55, drain to 22:00 | 23:40–23:55, drain to 00:00 | Step 2×, 250 combined: bot level (60) | Step 2×, 250 combined: 250 − 60 = 190 |
-| 22:00–22:05 | 00:00–00:05 | Settle, 0. Miner **off**. | Settle, 0. Miner **off**. |
-| 22:05–22:20, drain to 22:25 | 00:05–00:20, drain to 00:25 | Miners-off check, same rate as 2×. Miner off. | Miners-off check, same rate as 2×. Miner off. |
-| 22:25–22:30 | 00:25–00:30 | Settle, 0. Miner back on. | Settle, 0. Miner back on. |
-| 22:30–22:45, drain to 22:50 | 00:30–00:45, drain to 00:50 | Step 1,000 combined: bot level | 1,000 − bot (plan: 880) |
-| 22:50–23:05, drain to 23:10 | 00:50–01:05, drain to 01:10 | Step 1,500 combined: bot level | 1,500 − bot (plan: 1,260) |
-| 23:10–23:25, drain to 23:30 | 01:10–01:25, drain to 01:30 | Step 2,000 combined: bot level | 2,000 − bot (plan: 1,520) |
-| 23:30–23:45, drain to 23:50 | 01:30–01:45, drain to 01:50 | Step 2,500 combined: bot level | 2,500 − bot (plan: 1,540) |
-| 23:50–00:05, drain to 00:15 | 01:50–02:05, drain to 02:15 | Max step: bot level | Max step: uncapped, up to 9 senders |
-| 00:15–00:25 | 02:15–02:25 | B1 baseline, no load. End of paced steps at 00:25. | B1 baseline, no load. End of paced steps at 00:25. |
-| 00:25–04:45 | 02:25–06:45 | Long hold at the last clean bot level (30 if none) | Long hold at Build's last clean rate (250 if none) |
-| 04:45–05:00 | 06:45–07:00 | Final drain, senders 0 | Final drain, senders 0 |
-| 05:00 | 07:00 | End. Miner off, loggers stop. | End. Miner off, loggers stop. |
+| before 21:45 | before 23:45 | Prepare only: tunnel from the latest `FOR-TN10-OPS.txt`, coins, scripts, read-only loggers. No sends, no miner change. The voided run's senders stay off. | Prepare only: coins, scripts, read-only loggers. No sends of this plan, no miner change. The one locus miner already up may stay. |
+| 21:45 | 23:45 | keel health check. Rehearsal go/no-go: fresh keel lag ≤ 60 s. | Stop every sender not in this plan. locus health check. Read keel lag for the same go/no-go. |
+| 22:00 | 00:00 | Start 1 miner on keel. Second go/no-go read. | Exactly 1 miner on locus. Second go/no-go read. |
+| 22:00–22:30 | 00:00–00:30 | Rehearsal, only if keel is healthy: 60 tx/s 22:00–22:10, light lane 20 tx/s 22:10–22:15 and 50 tx/s 22:15–22:20 (runners 0), 60 tx/s 22:20–22:23, 0 22:23–22:26, 60 tx/s 22:26–22:29. | Rehearsal, only if keel is healthy: 0 until 22:23, 60 tx/s 22:23–22:29. |
+| 22:30–22:40 | 00:30–00:40 | T0. B0 baseline, no load. Miner on. | B0 baseline, no load. Miner on. |
+| 22:40–22:50 | 00:40–00:50 | 60 tx/s (bot only) | 0 |
+| 22:50–23:00 | 00:50–01:00 | 0 | 60 tx/s (Build only) |
+| 23:00–23:10 | 01:00–01:10 | 60 tx/s | 60 tx/s |
+| 23:10–23:25, drain to 23:30 | 01:10–01:25, drain to 01:30 | Step 2×, 250 combined: bot level (60) | Step 2×, 250 combined: 250 − 60 = 190 |
+| 23:30–23:35 | 01:30–01:35 | Settle, 0. Miner **off**. | Settle, 0. Miner **off**. |
+| 23:35–23:50, drain to 23:55 | 01:35–01:50, drain to 01:55 | Miners-off check, same rate as 2×. Miner off. | Miners-off check, same rate as 2×. Miner off. |
+| 23:55–00:00 | 01:55–02:00 | Settle, 0. Miner back on. | Settle, 0. Miner back on. |
+| 00:00–00:15, drain to 00:20 | 02:00–02:15, drain to 02:20 | Step 1,000 combined: bot level | 1,000 − bot (plan: 880) |
+| 00:20–00:35, drain to 00:40 | 02:20–02:35, drain to 02:40 | Step 1,500 combined: bot level | 1,500 − bot (plan: 1,260) |
+| 00:40–00:55, drain to 01:00 | 02:40–02:55, drain to 03:00 | Step 2,000 combined: bot level | 2,000 − bot (plan: 1,520) |
+| 01:00–01:15, drain to 01:20 | 03:00–03:15, drain to 03:20 | Step 2,500 combined: bot level | 2,500 − bot (plan: 1,540) |
+| 01:20–01:35, drain to 01:45 | 03:20–03:35, drain to 03:45 | Max step: bot level | Max step: uncapped, up to 9 senders |
+| 01:45–01:55 | 03:45–03:55 | B1 baseline, no load. End of paced steps at 01:55. | B1 baseline, no load. End of paced steps at 01:55. |
+| 01:55–06:15 | 03:55–08:15 | Long hold at the last clean bot level (30 if none) | Long hold at Build's last clean rate (250 if none) |
+| 06:15–06:30 | 08:15–08:30 | Final drain, senders 0 | Final drain, senders 0 |
+| 06:30 | 08:30 | End. Miner off, loggers stop. | End. Miner off, loggers stop. |
 
 Rates are tx/s. **Bot level** starts at 60 and at most doubles at each clean step (60, 120, 240, 480, 960), never above the combined step; if a step is not clean it goes back to the last clean level. "Plan" in the Build column is that doubling path; Build uses it and never raises its target mid-step to cover a bot shortfall. The combined numbers are the fallback, used when B0's baseline B is below 50 or above 200 tx/s (on 9 Oct it was about 1,600). If 50 ≤ B ≤ 200, combined = (m − 1) × B for steps 2×, 5×, 10×, 20×, 30×, with 2× and the miners-off check capped at 250 tx/s total.
 
@@ -52,57 +69,57 @@ You are Grok Build, on stp's desk. You run Build's senders and exactly 1 miner. 
 ## 3. Miner
 
 - Exactly 1 miner, on locus only. Its own user agent, logged.
-- On from 20:30 to 05:00. Off for the miners-off settle and control, 22:00–22:25. The bot turns its miner off at the same times.
+- The one locus miner from the voided run may stay through prepare. From 22:00 to 06:30 keep exactly that one. Off for the miners-off settle and control, 23:30–23:55. The bot turns its miner off at the same times.
 - Stop every other desk miner. No desk miner on keel, before or after keel syncs.
 
-## 4. Before 20:15 UTC, prepare only
+## 4. Before 21:45 UTC, prepare only
 
-**Pre-check: the ~10-minute freeze. Write findings, don't block launch.** On 9 Oct keel froze for 3–5 minutes about every 10 minutes from about 14:05, with no bot load and nobody at the desk, while the public node ran about 9.6 DAA per second. Check and write, with times: your own sender steps or restarts, locus or keel pruning or other housekeeping in their logs, Defender scans of the kaspad data folders, Task Scheduler jobs, and anything else on a 10-minute rhythm. Nothing found is written as nothing found. Write it to `tn10-storm-2026-10-09/build/precheck.md`. You may change nothing on the desk for it unless the cause is your own process.
+**Pre-check.** Already written at `tn10-storm-2026-10-09/build/precheck.md`. It does not block this restart. Do not hold the 21:45Z gate for another pass. The old note of a 3–5 minute freeze about every 10 minutes from 14:05Z was the question. The later measured stall is the 19:30Z–20:06Z stall in the restart section, and it is closed.
 
 Then:
-- **Every Build sender not in this file stops by 20:15** (pre-run fleets, fillers, old lanes), so the rehearsal and B0 see TN10 without them. The 3 Oct halt file on the older fleet stays `halt`. **Not sure / open for debate:** on 9 Oct most of the ~1,600 tx/s outside load on keel was likely the desk's own senders.
+- **Every Build sender not in this file is off before 21:45Z**, including the voided run. The rehearsal and the new B0 see TN10 without them. The 3 Oct halt file on the older fleet stays `halt`. **Not sure / open for debate:** on 9 Oct most of the ~1,600 tx/s outside load on keel was likely the desk's own senders.
 - Read locus: synced, UTXO index, mempool, normal fee, RSS, free RAM, desk disk. Send only if synced and the UTXO index is on.
-- Desk NTP: `w32tm` against time.windows.com, 5 samples. Repeat at 05:00. A move over 50 ms flags Build's confirmation times.
-- Write `steps-utc.json` from the table in §5, same UTC times as the bot. That file is the step clock.
-- Start the loggers in §9 now. They run to 05:00.
+- Desk NTP: `w32tm` against time.windows.com, 5 samples. Repeat at 06:30. A move over 50 ms flags Build's confirmation times.
+- Write `steps-utc.json` from the table in §5, same UTC times as the bot. That file is the step clock. Ignore any copy whose T0 is 21:00Z.
+- Start the loggers in §9 now. They run to 06:30.
 
 ## 5. Schedule and rates
 
-T0 is **21:00**. End is **Saturday 10 Oct 2026, 05:00**. His counter (Kaspa Pulse) is 21:25–05:35; it does not move T0.
+T0 is **22:30**. End is **Saturday 10 Oct 2026, 06:30**. Kaspa Pulse's previously announced counter is 21:25–05:35 for the voided 21:00Z T0. It does not set this T0.
 
-**Rehearsal, 20:30–21:00**, only if keel lag ≤ 60 s at 20:15 and at 20:30 (lag = UTC now − timestamp of keel's sink block). Otherwise write **not run** with the lag and its UTC. Details: [REHEARSAL-2026-10-09.md](../../plan/REHEARSAL-2026-10-09.md). Your part:
+**Rehearsal, 22:00–22:30**, only if keel lag ≤ 60 s at 21:45 and at 22:00 (lag = UTC now − timestamp of keel's sink block, from a read made at that gate). Otherwise write **not run** with the lag and its UTC, and keep senders at 0 until T0. Details: [REHEARSAL-2026-10-09.md](../../plan/REHEARSAL-2026-10-09.md). The 20:15Z and 20:30Z reads were the voided run. Your part:
 
 | UTC | Rehearsal step | Build | Bot |
 |---|---|---|---|
-| 20:30–21:00 | miner split | 1 miner on locus; it must find ≥ 1 block. Log mining share on locus. | 1 miner on keel |
-| 20:30–20:50 | bot runners, light lane | 0 | sending on keel |
-| 20:50–20:53 | bot only | 0 | 60 tx/s |
-| 20:53–20:56 | Build only | 60 tx/s | 0 |
-| 20:56–20:59 | both | 60 tx/s | 60 tx/s |
-| 20:59–21:00 | wrap | 0 | 0 |
+| 22:00–22:30 | miner split | 1 miner on locus; it must find ≥ 1 block. Log mining share on locus. | 1 miner on keel |
+| 22:00–22:20 | bot runners, light lane | 0 | sending on keel |
+| 22:20–22:23 | bot only | 0 | 60 tx/s |
+| 22:23–22:26 | Build only | 60 tx/s | 0 |
+| 22:26–22:29 | both | 60 tx/s | 60 tx/s |
+| 22:29–22:30 | wrap | 0 | 0 |
 
 **Storm.** "Ours" is the two sides' combined added load. Probes and the ordered stream (§8) are counted by id.
 
 | # | UTC | Phase | Miners | Build on locus | Bot on keel |
 |---|---|---|---|---|---|
-| 1 | 21:00–21:10 | B0 baseline | on | 0 | 0 |
-| 2 | 21:10–21:20 | C1, bot alone | on | 0 | 60 |
-| 3 | 21:20–21:30 | C2, Build alone | on | 60 | 0 |
-| 4 | 21:30–21:40 | C3, both | on | 60 | 60 |
-| 5 | 21:40–21:55, drain to 22:00 | 2× | on | ours − bot | bot level |
-| 6 | 22:00–22:05 | settle | **off** | 0 | 0 |
-| 7 | 22:05–22:20, drain to 22:25 | 2× miners-off control | **off** | same as row 5 | same as row 5 |
-| 8 | 22:25–22:30 | settle | on | 0 | 0 |
-| 9 | 22:30–22:45, drain to 22:50 | 5× | on | ours − bot | bot level |
-| 10 | 22:50–23:05, drain to 23:10 | 10× | on | ours − bot | bot level |
-| 11 | 23:10–23:25, drain to 23:30 | 20× | on | ours − bot | bot level |
-| 12 | 23:30–23:45, drain to 23:50 | 30× | on | ours − bot | bot level |
-| 13 | 23:50–00:05, drain to 00:15 | max | on | uncapped (§7) | bot level |
-| 14 | 00:15–00:25 | B1 baseline | on | 0 | 0 |
-| 15 | 00:25–04:45 | long hold | on | Build's last clean rate | last clean bot level |
-| 16 | 04:45–05:00 | final drain | on | 0 | 0 |
+| 1 | 22:30–22:40 | B0 baseline | on | 0 | 0 |
+| 2 | 22:40–22:50 | C1, bot alone | on | 0 | 60 |
+| 3 | 22:50–23:00 | C2, Build alone | on | 60 | 0 |
+| 4 | 23:00–23:10 | C3, both | on | 60 | 60 |
+| 5 | 23:10–23:25, drain to 23:30 | 2× | on | ours − bot | bot level |
+| 6 | 23:30–23:35 | settle | **off** | 0 | 0 |
+| 7 | 23:35–23:50, drain to 23:55 | 2× miners-off control | **off** | same as row 5 | same as row 5 |
+| 8 | 23:55–00:00 | settle | on | 0 | 0 |
+| 9 | 00:00–00:15, drain to 00:20 | 5× | on | ours − bot | bot level |
+| 10 | 00:20–00:35, drain to 00:40 | 10× | on | ours − bot | bot level |
+| 11 | 00:40–00:55, drain to 01:00 | 20× | on | ours − bot | bot level |
+| 12 | 01:00–01:15, drain to 01:20 | 30× | on | ours − bot | bot level |
+| 13 | 01:20–01:35, drain to 01:45 | max | on | uncapped (§7) | bot level |
+| 14 | 01:45–01:55 | B1 baseline | on | 0 | 0 |
+| 15 | 01:55–06:15 | long hold | on | Build's last clean rate | last clean bot level |
+| 16 | 06:15–06:30 | final drain | on | 0 | 0 |
 
-**"Ours" per step.** From B0, B = median network-wide unique accepted tx/s over 21:00–21:10, minus probe and stream ids.
+**"Ours" per step.** From this run's B0, B = median network-wide unique accepted tx/s over 22:30–22:40, minus probe and stream ids. Do not reuse a baseline counted on the voided 21:00Z run.
 - If 50 ≤ B ≤ 200: ours = (m − 1) × B at step m×. Rows 5 and 7 are capped at 250 tx/s total network load, and that is written.
 - Otherwise (on 9 Oct, B would have been about 1,600): ours = 250 (rows 5 and 7), 1,000 (5×), 1,500 (10×), 2,000 (20×), 2,500 (30×).
 
@@ -114,7 +131,7 @@ T0 is **21:00**. End is **Saturday 10 Oct 2026, 05:00**. His counter (Kaspa Puls
 
 **Mempool recovery.** `getInfo.mempoolSize` is that node's own list. It is not the network's stuck set, and the two nodes' sizes are never added. A transaction in a synced node's mempool has been relayed, so a synced peer that accepted it usually holds the same transaction until a block, a conflict, or expiry removes it. A node that is not synced can still report a large size after the synced node is already near empty. Those leftover transactions are that node's list. They are not evidence that synced peers still have them.
 
-On every drain, including the final drain from 04:45 UTC, keep the per-second mempool log and write one recovery row:
+On every drain, including the final drain from 06:15 UTC, keep the per-second mempool log and write one recovery row:
 
 - Start: UTC the senders hit 0, synced, lag seconds, `mempoolSize`, normal fee.
 - Empty: the first UTC where `mempoolSize` is 0 and the next 10 seconds stay 0. If the drain window ends first, write the size still left and `not empty`.
@@ -158,7 +175,7 @@ A required line with no reading is **not measured**, with the UTC it was due.
 
 ## 10. End and results
 
-- 04:45 senders 0. 05:00 miner off, loggers stop, desk NTP read again.
+- 06:15 senders 0. 06:30 miner off, loggers stop, desk NTP read again. The 21:00Z minutes stay out of this run's results.
 - Results go to this repo, folder `tn10-storm-2026-10-09/build/`: README with the step table (Build submitted and accepted as attribution, locus unique accepted with valid minutes, duplicate share network and own), every rate labelled by shape (§12), the per-minute chain-count CSV, the mempool recovery rows (locus, and keel beside it, not summed), precheck findings, gate events, fee tiers, mining share, and the CSV/JSONL data. Counts only. No txid, key, seed, host, IP or port. If you cannot push, leave the folder on the desk and write that in your last message; stp commits it.
 - Commit as `STP-KAS <227352643+STP-KAS@users.noreply.github.com>`, push to main. No tags, no releases. The bot writes `COMBINED.md` from both folders by §12: one headline counted once, never locus accepted plus keel accepted. Do not ping Kaspa Pulse.
 - Labels on every finding: **Claim (measured on TN10)**, **Not sure / open for debate**, **Needs more testing**.
@@ -209,7 +226,7 @@ Added after Kaspa Pulse's notes of 9 Oct. This section adds logging and reportin
 
 **Why.** Kaspa Pulse, who counts TN10 independently, asked whether minutes with fewer blocks per second come from fewer blocks being mined at that time or from load pushing blocks down. A per-minute miner log on each side, next to a per-minute network line, lets us say which it is for sure.
 
-**Every minute, the miner log (each side, required).** One row per UTC minute from 20:15 to 05:00, also while the miner is off. Files `miner-1m.jsonl` and `miner-1m.csv` in the side's results folder. Columns:
+**Every minute, the miner log (each side, required).** One row per UTC minute from 21:45 to 06:30, also while the miner is off. Files `miner-1m.jsonl` and `miner-1m.csv` in the side's results folder. Columns:
 - `minute_utc` (start of the minute, with `Z`) and `minute_cest`.
 - `miners_running`: 0 or 1; 1 only if the side's one miner was up the whole minute. `miner_up_s`: seconds up out of the seconds sampled.
 - `threads`: miner threads (0 when off).
@@ -219,11 +236,11 @@ Added after Kaspa Pulse's notes of 9 Oct. This section adds logging and reportin
 
 **Every minute, the network line (each side, next to the miner log),** from the side's own chain count (§9, §12): `blocks` added that minute = blocks/min (blocks/s = blocks/min ÷ 60), `tx_per_block` = non-coinbase tx slots ÷ blocks, `unique_accepted` and unique accepted/s, and `valid`. Fewer blocks mined shows as blocks/min down with tx per block steady and a miner off or down. Load pushing blocks down shows as blocks/min down while load rises and both miners are up.
 
-**The direct test is rows 6–8.** Both miners are off 22:00–22:25 UTC (00:00–00:25 CEST), and row 7 carries the same load as row 5. Compare blocks/min, tx per block and unique accepted in row 7 against row 5, with both miner logs showing 0. Write the result with its label (§10).
+**The direct test is rows 6–8.** Both miners are off 23:30–23:55 UTC (01:30–01:55 CEST), and row 7 carries the same load as row 5. Compare blocks/min, tx per block and unique accepted in row 7 against row 5, with both miner logs showing 0. Write the result with its label (§10).
 
 **The headline is the chain count (§12), never our own submit/accept counter.** Our own counter measures admission to our node's mempool, which is a different measure from transactions in blocks, and on 8 Oct it read a few % lower than a block count. Our submitted and accepted numbers stay attribution only.
 
-**Independent count.** Kaspa Pulse's counter starts at 21:25 UTC (23:25 CEST), 25 minutes after T0, so it misses B0 and most of the one-side control (rows 1–3). stp asks him whether he can start at 20:55 UTC (22:55 CEST). This does not move T0 or anything else. Do not ping him (§10); stp sends him the plain-text summary.
+**Independent count.** Kaspa Pulse's previously announced counter is 21:25–05:35 UTC for the voided 21:00Z T0. It does not set this T0. A counter that starts at 22:55 UTC (00:55 CEST) is 25 minutes after this T0, so it misses B0 and most of the one-side control (rows 1–3). stp asks him whether he can start at 22:25 UTC (00:25 CEST). This does not move T0 or anything else. Do not ping him (§10); stp sends him the plain-text summary.
 
 ---
 
