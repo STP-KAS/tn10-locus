@@ -6,7 +6,7 @@
 
 This page is a recommendation. It does not start the storm, it does not move T0, and it does not change the fee pair in the questions plan. Clocks on this page are UTC.
 
-The score is transactions the virtual chain accepts per second. Transactions offered, and transactions written into a block that the virtual chain does not accept, are different numbers. Locus and keel are two views of one chain. Add each side's own accepted transactions. Do not add the same accepted id twice.
+The score is transactions the virtual chain accepts per second. Transactions offered, and transactions written into a block that the virtual chain does not accept, are different numbers. Locus and keel are two views of one chain. Add each side's own accepted transactions. Do not add the same accepted id twice. The opinion on why those counts differ, and why this run did not reach 3,000 unique accepted tx/s, is [OPINION.md](OPINION.md).
 
 ## The block
 
