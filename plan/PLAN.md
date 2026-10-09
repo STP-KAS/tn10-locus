@@ -12,7 +12,7 @@ TN10 only. Every clock time in this repo is UTC. This page does not lock the que
 
 **Launch files.** Tonight is launched by pasting [GO-BOT.md](GO-BOT.md) into the bot and [GO-BUILD.md](GO-BUILD.md) into Grok Build. Pasting is the GO for that side. Each is self-contained, with the exact UTC schedule and rates.
 
-The question list, the step table, and the fee pair stay in [NEXT-STORM-PLAN.md](https://github.com/STP-KAS/tn10-storm-throughput-questions/blob/main/plan/NEXT-STORM-PLAN.md). This page sets the node split, the mining split, and the combined goal. Under the repo's own rule, a node or miner question is decided here.
+The question list, the step table, and the fee pair stay in [NEXT-STORM-PLAN.md](https://github.com/STP-KAS/tn10-storm-throughput-questions/blob/main/plan/NEXT-STORM-PLAN.md). This page sets the node split, the mining split, and the combined goal. Under the repo's own rule, a node or miner question is decided here. What was measured is [monitoring-result/](../monitoring-result/README.md). This page stays the plan.
 
 ## 1. Goal
 
@@ -50,7 +50,7 @@ Rules:
 
 stp's decision, 9 Oct 2026, 16:06 UTC: each side mines where it sends. The bot sends to keel and mines on keel. Build sends to locus and mines on locus.
 
-- **Claim (measured on TN10):** the 9 Oct keel report, [tn10-monitoring-plan-2026-10-09](../tn10-monitoring-plan-2026-10-09/README.md), commit `94929a9`, found 48–49% of tx slots in blocks were duplicates of a transaction already in a parallel block (12:29 and 12:55 UTC). In 3 of the 4 valid windows, 97–100% of distinct transactions were accepted, including the ones seen only in red blocks.
+- **Claim (measured on TN10):** the 9 Oct keel report, [monitoring-result/bot-result](../monitoring-result/bot-result/README.md), commit `94929a9`, found 48–49% of tx slots in blocks were duplicates of a transaction already in a parallel block (12:29 and 12:55 UTC). In 3 of the 4 valid windows, 97–100% of distinct transactions were accepted, including the ones seen only in red blocks.
 - **Not sure / open for debate:** splitting miners and senders per node makes blocks carry more distinct transactions.
 - **Needs more testing:** the one-side control in §3b measures it.
 

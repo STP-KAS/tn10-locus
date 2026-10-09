@@ -1,4 +1,6 @@
-> **Experimental. We are just trying this.** See [DISCLAIMER](../DISCLAIMER.md).
+> **Experimental. We are just trying this.** See [DISCLAIMER](../../DISCLAIMER.md).
+
+Wording, Kaspa Pulse (@gokugalax), 7 Oct 2026: sign-and-send processes are senders; runner is the setup; bot is reserved for the operator.
 
 # TN10 monitoring, 9 Oct 2026 (keel pre-test day)
 
@@ -8,9 +10,9 @@ All times UTC. Every clock time in this repo is UTC.
 
 This folder is the **bot's** monitor. The box measured keel through the tunnel. Submit, accept, mempool, lag, and miner share here are the bot's. A combined row in this folder is the bot alone. It is not Build's rate, and it is not the two-side score.
 
-Build's monitor is the desk, on locus. Those rates are not in this folder. The 8 Oct desk sheet is [tonight-8-oct/RESULTS.md](https://github.com/STP-KAS/grok-bot-build-combo/blob/main/tonight-8-oct/RESULTS.md). The lines both sides fill on the next run are [MONITOR.md](../plan/MONITOR.md) and [NEXT-RUN-MONITOR.md](../plan/NEXT-RUN-MONITOR.md). The section [Build's view, checked](#builds-view-checked) is the bot answering a Build claim. It is not Build's sheet.
+Build's monitor is the desk, on locus. Those rates are not in this folder. The 8 Oct desk sheet is [tonight-8-oct/RESULTS.md](https://github.com/STP-KAS/grok-bot-build-combo/blob/main/tonight-8-oct/RESULTS.md). The lines both sides fill on the next run are [MONITOR.md](../../plan/MONITOR.md) and [NEXT-RUN-MONITOR.md](../../plan/NEXT-RUN-MONITOR.md). The section [Build's view, checked](#builds-view-checked) is the bot answering a Build claim. It is not Build's sheet.
 
-No txids, keys, seeds or wallet files are in this folder. The mining address named here is the public Grok Bot address `kaspatest:qzffl5…` (see [NEXT-RUN-MONITOR](../plan/NEXT-RUN-MONITOR.md)).
+No txids, keys, seeds or wallet files are in this folder. The mining address named here is the public Grok Bot address `kaspatest:qzffl5…` (see [NEXT-RUN-MONITOR](../../plan/NEXT-RUN-MONITOR.md)).
 
 ## Key to the labels
 
@@ -272,7 +274,7 @@ The three n0 rows in "What 8 Oct left unread" are closed; n0 did not run.
 
 ## Deviations from the plan
 
-- This was the **pre-test**, not the storm. The storm is the evening run in [NEXT-RUN-MONITOR](../plan/NEXT-RUN-MONITOR.md). There was no B0 and no 2×…30× step schedule; steps were the ramp controller's.
+- This was the **pre-test**, not the storm. The storm is the evening run in [NEXT-RUN-MONITOR](../../plan/NEXT-RUN-MONITOR.md). There was no B0 and no 2×…30× step schedule; steps were the ramp controller's.
 - stp raised the runner cap from 6 to 15 in chat (11:15–11:23). The plan says never eight box runners for the storm; that line still stands for tonight unless stp changes it.
 - The break rule changed at 11:08 to eventual ≥ 99% and p90 ≤ 10 s; the old 60 s / 95% rule is logged next to it on every step.
 - stp extended the end from 14:00 to 15:30 at 12:37. Loggers restarted at 14:00:56 (about 56 s gap in the 1 s mempool series).

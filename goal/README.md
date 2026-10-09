@@ -24,7 +24,7 @@ Both runners write into the same 500,000 mass. Once blocks are full, the second 
 
 A synced node can show more transaction slots inside blocks than the virtual chain accepts. On 9 Oct the extras were duplicates, not lost transactions.
 
-- **Claim (measured on TN10):** on keel, 9 Oct 2026, 48–49% of tx slots in blocks were copies of a transaction already in another block of the same minute (12:29 and 12:55 UTC). In 3 of the 4 valid windows, 97–100% of distinct transactions were accepted, and every transaction seen only in a red block was accepted too. Transactions in blocks off the selected chain still count when a chain block merges them. Source: [tn10-monitoring-plan-2026-10-09](../tn10-monitoring-plan-2026-10-09/README.md), commit `94929a9`.
+- **Claim (measured on TN10):** on keel, 9 Oct 2026, 48–49% of tx slots in blocks were copies of a transaction already in another block of the same minute (12:29 and 12:55 UTC). In 3 of the 4 valid windows, 97–100% of distinct transactions were accepted, and every transaction seen only in a red block was accepted too. Transactions in blocks off the selected chain still count when a chain block merges them. Source: [monitoring-result/bot-result](../monitoring-result/bot-result/README.md), commit `94929a9`.
 - **Not sure / open for debate:** parallel blocks built from overlapping mempools pick the same transactions. The duplicate share was about 48% when our miners made 35% of the blocks, and 13–15% when they made 2–4%.
 - **Needs more testing:** whether one miner per side, mining where that side sends, lowers the duplicate share. Tonight's one-side control measures it.
 

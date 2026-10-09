@@ -10,7 +10,7 @@ The goal is the combined included rate. Each task names who does it. A number th
 
 If this page and [PLAN.md](PLAN.md) disagree, the plan wins. The 8 Oct checkout rows stay in the combo repo. They are not copied here.
 
-The next run covers every line below. The 8 Oct n0 lines are closed, because n0 will not run. The checklist is [NEXT-RUN-MONITOR.md](NEXT-RUN-MONITOR.md). A required line with no reading is **not measured** and fails Task 10. That page does not add a demand.
+The next run covers every line below. The 8 Oct n0 lines are closed, because n0 will not run. The checklist is [NEXT-RUN-MONITOR.md](NEXT-RUN-MONITOR.md). A required line with no reading is **not measured** and fails Task 10. That page does not add a demand. Filled results live in [monitoring-result/](../monitoring-result/README.md). This page stays the plan.
 
 ## While keel syncs
 

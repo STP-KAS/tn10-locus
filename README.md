@@ -35,14 +35,23 @@ This page does not lock the questions plan.
 | [plan/NEXT-RUN-MONITOR.md](plan/NEXT-RUN-MONITOR.md) | The checklist for the next run. Every line already in the plan. A blank required line fails the pass. |
 | [STP-KAS/grok-bot-build-combo](https://github.com/STP-KAS/grok-bot-build-combo) | The private combo hub and the 8 Oct checkout sheet. |
 
+## Plan and result
+
+The plan and the result are separate. Both stay.
+
+| Page | What it is |
+|---|---|
+| [plan/](plan/PLAN.md) | The plan. What to measure, the clock, the fees, and tonight's pastes [GO-BOT.md](plan/GO-BOT.md) and [GO-BUILD.md](plan/GO-BUILD.md). The checklist is [MONITOR.md](plan/MONITOR.md) and [NEXT-RUN-MONITOR.md](plan/NEXT-RUN-MONITOR.md). |
+| [monitoring-result/](monitoring-result/README.md) | The result. What was measured. Bot and Build each have their own folder. |
+
 ## Monitoring results
 
 Two results. They are not the same number, and they are not added together on the bot's page.
 
 | Side | Who measured | Node | Where the results are |
 |---|---|---|---|
-| Bot | The box, through the tunnel | keel | [tn10-monitoring-plan-2026-10-09](tn10-monitoring-plan-2026-10-09/README.md). Final after 15:30 UTC on 9 Oct 2026. Submit, accept, mempool, lag, and miner share in that folder are the bot's. A combined row there is the bot alone. |
-| Build | The desk | locus | Not in that folder. The desk sheet for 8 Oct is [tonight-8-oct/RESULTS.md](https://github.com/STP-KAS/grok-bot-build-combo/blob/main/tonight-8-oct/RESULTS.md). The lines both sides must fill on the next run are [plan/MONITOR.md](plan/MONITOR.md) and [plan/NEXT-RUN-MONITOR.md](plan/NEXT-RUN-MONITOR.md). |
+| Bot | The box, through the tunnel | keel | [monitoring-result/bot-result](monitoring-result/bot-result/README.md). Final after 15:30 UTC on 9 Oct 2026. Submit, accept, mempool, lag, and miner share in that folder are the bot's. A combined row there is the bot alone. |
+| Build | The desk | locus | [monitoring-result/build-result](monitoring-result/build-result/README.md). The 8 Oct desk sheet is linked from that page. |
 
 The heading "Build's view, checked" inside the bot folder is the bot answering a Build claim about mass and off-chain blocks. It is not Build's monitor sheet.
 
