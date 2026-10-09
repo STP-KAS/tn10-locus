@@ -2,7 +2,7 @@
 >
 > [Disclaimer](DISCLAIMER.md)
 
-Wording, Kaspa Pulse (@gokugalax), 7 Oct 2026: sign-and-send processes are senders; runner is the setup; bot is reserved for the operator.
+Thank you, Kaspa Pulse (@gokugalax), for the guidance and the input over this stretch, from 4 Oct 2026 on. The 7 Oct 2026 wording stays: sign-and-send processes are senders; runner is the setup; bot is reserved for the operator.
 
 # tn10-locus: the front door for our TN10 stress tests
 
@@ -89,7 +89,7 @@ Full pages: [monitoring-result/](monitoring-result/README.md) ([bot, keel](monit
 
 ## Credit: Kaspa Pulse
 
-Kaspa Pulse ([@gokugalax](https://x.com/gokugalax)) shaped this test through X DMs from 4 Oct 2026. He stays out of the setup, counts the chain from outside, and sends his comparison first. In short, he gave us:
+Thank you, Kaspa Pulse ([@gokugalax](https://x.com/gokugalax)), for the guidance and the input over this stretch, from 4 Oct 2026 on. He shaped this test through those notes. He stays out of the setup, counts the chain from outside, and sends his comparison first. In short, he gave us:
 
 - **The five questions** above.
 - **Six method points:** write the plan first and publish it with a commit SHA and a deviations list; a 10-minute baseline first; fixed load steps, not one blast; submitted and accepted logged per second in UTC, with send order vs accept order; mining share stated up front; raw data next to the summary.

@@ -35,7 +35,7 @@ Rates are tx/s. **Bot level** starts at 60 and at most doubles at each clean ste
 
 # GO, the bot side, TN10 storm, Friday 9 Oct 2026
 
-Wording, Kaspa Pulse (@gokugalax), 7 Oct 2026: sign-and-send processes are senders; runner is the setup; bot is reserved for the operator.
+Thank you, Kaspa Pulse (@gokugalax), for the guidance and the input over this stretch, from 4 Oct 2026 on. The 7 Oct 2026 wording stays: sign-and-send processes are senders; runner is the setup; bot is reserved for the operator.
 
 Every clock time here is UTC. This file is self-contained. It was written from [PLAN.md](../../plan/PLAN.md), [REHEARSAL-2026-10-09.md](../../plan/REHEARSAL-2026-10-09.md), [MONITOR.md](../../plan/MONITOR.md) and [NEXT-RUN-MONITOR.md](../../plan/NEXT-RUN-MONITOR.md) at the commit that added it. If they disagree on tonight, this file is what you run. Build's file is [GO-BUILD.md](../build/GO-BUILD.md). It uses the same clock.
 

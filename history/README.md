@@ -2,7 +2,7 @@
 >
 > [Disclaimer](../DISCLAIMER.md)
 
-Wording, Kaspa Pulse (@gokugalax), 7 Oct 2026: sign-and-send processes are senders; runner is the setup; bot is reserved for the operator.
+Thank you, Kaspa Pulse (@gokugalax), for the guidance and the input over this stretch, from 4 Oct 2026 on. The 7 Oct 2026 wording stays: sign-and-send processes are senders; runner is the setup; bot is reserved for the operator.
 
 # History: the TN10 stress tests, the longer map
 
@@ -59,7 +59,7 @@ Counters differ between eras, so numbers are not directly comparable:
 
 ## Credit: Kaspa Pulse, in full
 
-Kaspa Pulse ([@gokugalax](https://x.com/gokugalax)), X DMs from 4 Oct 2026. He stays out of the setup, counts what the chain accepted from outside it, and sends his comparison first. Each line below is what the repos record, with the file.
+Thank you, Kaspa Pulse ([@gokugalax](https://x.com/gokugalax)), for the guidance and the input in the X DMs from 4 Oct 2026 on. He stays out of the setup, counts what the chain accepted from outside it, and sends his comparison first. Each line below is what the repos record, with the file.
 
 | Contribution | Date | Where it is recorded |
 |---|---|---|
@@ -69,7 +69,7 @@ Kaspa Pulse ([@gokugalax](https://x.com/gokugalax)), X DMs from 4 Oct 2026. He s
 | **Counting the chain from outside**, side by side after the run, comparison sent to us first | 7–9 Oct | PULSE-README.md §Dry-run compare; [tonight-8-oct/PULSE.md](https://github.com/STP-KAS/grok-bot-build-combo/blob/main/tonight-8-oct/PULSE.md); [monitoring-result/README.md](../monitoring-result/README.md) |
 | **The 7 Oct window check**: one window and transaction ids on both clocks; the 2,750 figure and the ~9.7k pool named chain or node before anyone calls them a ceiling | 7 Oct | [PULSE-WINDOW-7-OCT.md](https://github.com/STP-KAS/tn10-storm-throughput-questions/blob/main/plan/PULSE-WINDOW-7-OCT.md) |
 | **Cadence**: "one clean run first", read the numbers, then weekly | 7 Oct | NEXT-STORM-PLAN.md (quoted at the top) |
-| **Wording**: senders sign and send, runner is the setup, bot is the operator | 7 Oct | The wording line on every page of this repo and of the questions repo |
+| **Wording**, kept inside the thank-you on every page: senders sign and send, runner is the setup, bot is the operator | 7 Oct | The header line on every page of this repo, the questions repo, the combo hub, and tn10-build-desk-tps-3500 |
 | **Checkout read**: per-minute sent count, node by name, five ids per minute (ids kept local); flagged that the hours after 00:25 UTC had no named phase | 8 Oct | tonight-8-oct/PULSE.md; [AFTER-8-OCT.md](https://github.com/STP-KAS/tn10-storm-throughput-questions/blob/main/plan/AFTER-8-OCT.md) §1, §3 |
 | **9 Oct first look**: our rounds line up with his minutes; keep the desk node's accept and his block count apart | 9 Oct | tonight-8-oct/PULSE.md "9 Oct 2026" |
 | **Scope**: deliberate load stays on TN10; mainnet comparisons and costing out of scope, as he asked | 4–7 Oct | NEXT-STORM-PLAN.md header |
