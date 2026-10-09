@@ -1,4 +1,35 @@
-Pasting this file is the GO. Launch at the times below without asking. If a gate fails, follow the stop rule and log it; do not ask.
+Pasting this file is the GO and the lock-in. It may be pasted hours before the start. Do nothing that sends or mines until the times below; then run each line at its time without asking. No further GO will come. If a gate fails, follow the stop rule and log it; do not ask.
+
+Before 20:15 UTC: prepare only (check the tunnel from the latest FOR-TN10-OPS.txt, the coins, the scripts); no sends, no miners.
+
+## Timeline (identical in GO-BOT.md and GO-BUILD.md)
+
+| UTC | Brussels (CEST, UTC+2) | Bot | Build |
+|---|---|---|---|
+| before 20:15 | before 22:15 | Prepare only: tunnel from the latest `FOR-TN10-OPS.txt`, coins, scripts, read-only loggers. No sends, no miner. | Prepare only: freeze pre-check, coins, scripts, read-only loggers. No sends of this plan, no miner change. |
+| 20:15 | 22:15 | keel health check. Rehearsal go/no-go: keel lag ≤ 60 s. | Stop every sender not in this plan. locus health check. Read keel lag for the same go/no-go. |
+| 20:30 | 22:30 | Start 1 miner on keel. Second go/no-go read. | Start 1 miner on locus. Second go/no-go read. |
+| 20:30–21:00 | 22:30–23:00 | Rehearsal, only if keel is healthy: 60 tx/s 20:30–20:40, light lane 20 tx/s 20:40–20:45 and 50 tx/s 20:45–20:50 (runners 0), 60 tx/s 20:50–20:53, 0 20:53–20:56, 60 tx/s 20:56–20:59. | Rehearsal, only if keel is healthy: 0 until 20:53, 60 tx/s 20:53–20:59. |
+| 21:00–21:10 | 23:00–23:10 | T0. B0 baseline, no load. Miner on. | B0 baseline, no load. Miner on. |
+| 21:10–21:20 | 23:10–23:20 | 60 tx/s (bot only) | 0 |
+| 21:20–21:30 | 23:20–23:30 | 0 | 60 tx/s (Build only) |
+| 21:30–21:40 | 23:30–23:40 | 60 tx/s | 60 tx/s |
+| 21:40–21:55, drain to 22:00 | 23:40–23:55, drain to 00:00 | Step 2×, 250 combined: bot level (60) | Step 2×, 250 combined: 250 − 60 = 190 |
+| 22:00–22:05 | 00:00–00:05 | Settle, 0. Miner **off**. | Settle, 0. Miner **off**. |
+| 22:05–22:20, drain to 22:25 | 00:05–00:20, drain to 00:25 | Miners-off check, same rate as 2×. Miner off. | Miners-off check, same rate as 2×. Miner off. |
+| 22:25–22:30 | 00:25–00:30 | Settle, 0. Miner back on. | Settle, 0. Miner back on. |
+| 22:30–22:45, drain to 22:50 | 00:30–00:45, drain to 00:50 | Step 1,000 combined: bot level | 1,000 − bot (plan: 880) |
+| 22:50–23:05, drain to 23:10 | 00:50–01:05, drain to 01:10 | Step 1,500 combined: bot level | 1,500 − bot (plan: 1,260) |
+| 23:10–23:25, drain to 23:30 | 01:10–01:25, drain to 01:30 | Step 2,000 combined: bot level | 2,000 − bot (plan: 1,520) |
+| 23:30–23:45, drain to 23:50 | 01:30–01:45, drain to 01:50 | Step 2,500 combined: bot level | 2,500 − bot (plan: 1,540) |
+| 23:50–00:05, drain to 00:15 | 01:50–02:05, drain to 02:15 | Max step: bot level | Max step: uncapped, up to 9 senders |
+| 00:15–00:25 | 02:15–02:25 | B1 baseline, no load. End of paced steps at 00:25. | B1 baseline, no load. End of paced steps at 00:25. |
+| 00:25–04:45 | 02:25–06:45 | Long hold at the last clean bot level (30 if none) | Long hold at Build's last clean rate (250 if none) |
+| 04:45–05:00 | 06:45–07:00 | Final drain, senders 0 | Final drain, senders 0 |
+| 05:00 | 07:00 | End. Miner off, loggers stop. | End. Miner off, loggers stop. |
+
+Rates are tx/s. **Bot level** starts at 60 and at most doubles at each clean step (60, 120, 240, 480, 960), never above the combined step; if a step is not clean it goes back to the last clean level. "Plan" in the Build column is that doubling path; Build uses it and never raises its target mid-step to cover a bot shortfall. The combined numbers are the fallback, used when B0's baseline B is below 50 or above 200 tx/s (on 9 Oct it was about 1,600). If 50 ≤ B ≤ 200, combined = (m − 1) × B for steps 2×, 5×, 10×, 20×, 30×, with 2× and the miners-off check capped at 250 tx/s total.
+
 
 > **Experimental. We are just trying this.** [Disclaimer](../DISCLAIMER.md)
 
@@ -27,7 +58,7 @@ You are TN10 ops, on the box. You run the bot's runner (the senders) and exactly
 - Off for the miners-off settle and control, 22:00–22:25. Build turns its miner off at the same times.
 - Never on locus. No second miner.
 
-## 4. Before launch, at once
+## 4. Before 20:15 UTC, prepare only
 
 - Read keel: `getServerInfo` (testnet-10, synced, UTXO index on), sink timestamp, DAA score, mempool size, fee estimate. **Keel lag** = UTC now − timestamp of keel's sink block.
 - Box disk: ≥ 35 GB free, go. 28–35 GB, go with 10-minute steps, written as a deviation. Under 28 GB, the bot does not send; miner and loggers still run.
