@@ -4,89 +4,48 @@
 
 Wording, Kaspa Pulse (@gokugalax), 7 Oct 2026: sign-and-send processes are senders; runner is the setup; bot is reserved for the operator.
 
-# Two nodes
+# tn10-locus: the front door for our TN10 stress tests
 
-Private note. Kaspa Testnet-10 only. Every clock time in this repo is UTC. A clock is not written in local time.
+Kaspa Testnet-10 (TN10) only. tKAS has no value. Nothing here touches mainnet. Every clock is UTC unless a column says Brussels. No txids, keys, seeds, hosts or IPs are kept in this repo.
 
-**Goal.** The highest included tx/s the two sides can hold at the same time. Submitted and accepted stay two numbers. The score is accepted. How a block gets past 3,000 included payments, and why a second runner does not double it, is [goal/README.md](goal/README.md). That page does not start the storm and does not move T0.
+## What
 
-**Launch tonight.** Paste [go/bot/GO-BOT.md](go/bot/GO-BOT.md) into the bot and [go/build/GO-BUILD.md](go/build/GO-BUILD.md) into Grok Build. Pasting is the GO for that side. Each file is self-contained: node, miner, UTC schedule, rates, gates, logs, results.
+This repo is the working hub for the TN10 stress tests run from one desk: two kaspad nodes (**locus** and **keel**), two operators (the Grok **bot** on its box and Grok **Build** on the desk PC), one shared plan, and the measured results. It holds tonight's launch files, the plan, the monitoring results, a map of every related repo, and the [longer history](history/README.md).
 
-**Start.** Sending this GitHub to Grok Build or to the bot means go: start the operation. The same sentence is the forward rule in [STP-KAS/grok-bot-build-combo](https://github.com/STP-KAS/grok-bot-build-combo) `TWO-NODES.md`.
+## Why
 
-**Who sends where.**
+To find out, on a public testnet and with the method written down first, what Kaspa really does when blocks are full. Not a headline TPS number, but the five questions Kaspa Pulse ([@gokugalax](https://x.com/gokugalax)) asked:
 
-| Who | Wallet | Node | When |
-|---|---|---|---|
-| The bot's runner | Bot only | keel, the second kaspad on the desk | Only during the storm and the rehearsal, and only while keel is synced and its tip lag is at or under 60 seconds. Exactly 1 bot miner, on keel |
-| Grok Build, on the desk | Build only | locus, the first desk kaspad | While locus is synced and its UTXO index is on. Exactly 1 Build miner, on locus |
+1. Accepted tx/s vs submitted, over the whole storm, and where acceptance flattens.
+2. Confirmation time per load step (median and worst), normal fee vs 1.5×. Does paying more buy inclusion?
+3. Does the public indexer freeze, at what sustained tx/s, and for how long?
+4. Mempool depth over time: backlog, not just throughput.
+5. Does order hold under load? Send order vs accept order.
 
-Each side mines where it sends (stp, 9 Oct 2026, 16:06 UTC). No desk miner on keel. No bot miner on locus. Why, and the one-side control, are in [plan/PLAN.md](plan/PLAN.md) §2a and §3b. The 30-minute rehearsal before T0 is [plan/REHEARSAL-2026-10-09.md](plan/REHEARSAL-2026-10-09.md).
+Plus our own: the highest **unique accepted** tx/s both sides can hold at the same time, and why it sits where it does.
 
-Outside the storm and the rehearsal the bot's runner stays off. While keel is still syncing, that runner stays off and Build keeps sending on locus. That minute's combined rate is Build's rate alone.
+## How
 
-This page does not lock the questions plan.
-
-## Where this comes from
-
-| Record | What it still is |
+| Piece | What it is |
 |---|---|
-| [STP-KAS/tn10-storm-throughput-questions](https://github.com/STP-KAS/tn10-storm-throughput-questions) | The questions, the Friday clock, the fee pair, and the raw files from earlier runs. |
-| [plan/NEXT-RUN-MONITOR.md](plan/NEXT-RUN-MONITOR.md) | The checklist for the next run. Every line already in the plan. A blank required line fails the pass. |
-| [STP-KAS/grok-bot-build-combo](https://github.com/STP-KAS/grok-bot-build-combo) | The private combo hub and the 8 Oct checkout sheet. |
+| **locus** | First kaspad on the desk, testnet-10, UTXO index on. Build sends and mines here only. |
+| **keel** | Second kaspad on the desk. The bot sends and mines here only, through a tunnel stp provides. Gate: keel lag ≤ 60 s. |
+| **n0** | The old box node. Retired on 8–9 Oct; it does not run. |
+| **Bot / Build split** | Each side uses its own wallet and its own node, with exactly 1 miner on its own node ("mine where you send"). |
+| **Plan** | [plan/PLAN.md](plan/PLAN.md) is the method; [plan/REHEARSAL-2026-10-09.md](plan/REHEARSAL-2026-10-09.md) is the pre-T0 rehearsal. The questions and method come from [tn10-storm-throughput-questions](https://github.com/STP-KAS/tn10-storm-throughput-questions). |
+| **GO files** | One self-contained launch file per side. Pasting it is the GO and the lock-in. No further GO. |
+| **Monitoring** | Checklists in [plan/MONITOR.md](plan/MONITOR.md) and [plan/NEXT-RUN-MONITOR.md](plan/NEXT-RUN-MONITOR.md): submitted and accepted per second, mempool, lag, fee tiers, indexer, mining share, duplicate share, NTP. |
+| **Rules** | Outside the storm and the rehearsal the bot's runner stays off. If a page and a GO file disagree about tonight, the GO file wins. The questions plan stays the source for the questions and the method. |
+| **Labels** | **Claim (measured on TN10)**: measured, source file named. **Not sure / open for debate**: our reading, reason it could be wrong given. **Needs more testing**: the settling test is named. |
 
-## Plan and result
+## Tonight: Friday 9 Oct 2026
 
-The plan and the result are separate. Both stay.
-
-| Page | What it is |
-|---|---|
-| [plan/](plan/PLAN.md) | The plan. What to measure, the clock, the fees, and tonight's pastes [GO-BOT.md](go/bot/GO-BOT.md) and [GO-BUILD.md](go/build/GO-BUILD.md). The checklist is [MONITOR.md](plan/MONITOR.md) and [NEXT-RUN-MONITOR.md](plan/NEXT-RUN-MONITOR.md). |
-| [monitoring-result/](monitoring-result/README.md) | The result. What was measured. Bot and Build each have their own folder. |
-
-## Monitoring results
-
-Two results. They are not the same number, and they are not added together on the bot's page.
-
-| Side | Who measured | Node | Where the results are |
-|---|---|---|---|
-| Bot | The box, through the tunnel | keel | [monitoring-result/bot-result](monitoring-result/bot-result/README.md). Final after 15:30 UTC on 9 Oct 2026. Submit, accept, mempool, lag, and miner share in that folder are the bot's. A combined row there is the bot alone. |
-| Build | The desk | locus | [monitoring-result/build-result](monitoring-result/build-result/README.md). The 8 Oct desk sheet is linked from that page. |
-
-The heading "Build's view, checked" inside the bot folder is the bot answering a Build claim about mass and off-chain blocks. It is not Build's monitor sheet.
-
-An earlier commit of this repo sent both sides to locus. That routing stays withdrawn. Build stays on locus. The bot uses keel. n0 will not run. The clock, the fee pair, and "never eight box runners" stay.
-
-If this repo and `plan/NEXT-STORM-PLAN.md` disagree about a clock, a fee, or one of Kaspa Pulse's questions, the questions plan wins. If they disagree about which node a side uses, this repo wins.
-
-## The two nodes
-
-**locus** is the first kaspad on this desk. Network `testnet-10`, UTXO index on. It is not a public DNS name. Build reaches it on loopback Borsh. The node cell is `locus`.
-
-**keel** is the second kaspad on this desk. Same network, UTXO index on. It is not a public DNS name. The handoff still writes `node=desk-nodeB`. New logs use `keel`. On the desk its own sockets are Borsh `ws://127.0.0.1:17310` and gRPC `127.0.0.1:16310`. The bot does not use those loopback addresses. The bot's runner and the bot's one miner use the tunnel stp provides. The runner uses the tunnel's Borsh `ws://` address, only during the storm and the rehearsal, and only while keel is synced and passes the plan's keel health gate. The bot's one miner uses the tunnel's gRPC host and port, pays the Grok Bot address `kaspatest:qzffl5xy9np46gkttyuftqnv2w04pr8g3wsp7c3vv8se3txtelx6q7c0v0ldx`, and mines only while keel is synced. Until the handoff lists the tunnel, both wait. Do not invent a host.
-
-**keel is already in the score.** Read at 2026-10-09T07:59:26Z: block download 69%, last block 2026-10-08T17:03:33Z, not synced, tunnels closed. Those minutes contribute 0 from keel and the row says `waiting`. The combined rate is locus alone. Build's one miner stays on locus, also after keel syncs.
-
-**n0 will not run.** It is the box kaspad. Do not start it, resync it, or keep disk aside for its pruning. The questions plan's older §6a and §9 sentences about n0 are the record of that machine. They are not this operation.
-
-`bore.pub` and `159.223.110.159` stay closed.
-
-## Pastes and the sheet
-
-| Who | Paste | Where it sends |
+| Side | Paste this | Node |
 |---|---|---|
-| Grok Build, tonight | [go/build/GO-BUILD.md](go/build/GO-BUILD.md) | locus |
-| The bot, tonight | [go/bot/GO-BOT.md](go/bot/GO-BOT.md) | keel |
-| Grok Build, standing | [plan/PROMPT-BUILD.md](plan/PROMPT-BUILD.md) | locus |
-| The bot's runner, standing | [plan/PROMPT-BOT.md](plan/PROMPT-BOT.md) | keel, only during the storm |
+| The bot | [go/bot/GO-BOT.md](go/bot/GO-BOT.md) | keel |
+| Grok Build | [go/build/GO-BUILD.md](go/build/GO-BUILD.md) | locus |
 
-The plan is [plan/PLAN.md](plan/PLAN.md). The monitoring tasks are [plan/MONITOR.md](plan/MONITOR.md). If a paste and the plan disagree, the plan wins.
-
-## Clock
-
-This evening only. No fallback day.
-
-T0 is Friday 9 Oct 2026, 21:00 UTC, for 8 hours, ending Saturday 10 Oct 2026, 05:00 UTC. The old Monday 13 Oct line is dropped.
+T0 is 21:00 UTC (23:00 Brussels), 8 hours, ending Saturday 10 Oct 05:00 UTC (07:00 Brussels). No fallback day. For tonight the GO files are what each side runs; the same table is in both.
 
 | UTC | Brussels (CEST, UTC+2) | Bot | Build |
 |---|---|---|---|
@@ -114,12 +73,53 @@ T0 is Friday 9 Oct 2026, 21:00 UTC, for 8 hours, ending Saturday 10 Oct 2026, 05
 
 Rates are tx/s. **Bot level** starts at 60 and at most doubles at each clean step (60, 120, 240, 480, 960), never above the combined step; if a step is not clean it goes back to the last clean level. "Plan" in the Build column is that doubling path; Build uses it and never raises its target mid-step to cover a bot shortfall. The combined numbers are the fallback, used when B0's baseline B is below 50 or above 200 tx/s (on 9 Oct it was about 1,600). If 50 ≤ B ≤ 200, combined = (m − 1) × B for steps 2×, 5×, 10×, 20×, 30×, with 2× and the miners-off check capped at 250 tx/s total.
 
-The rest of each side's rules are in the two GO files.
+Kaspa Pulse counts the chain from outside, on his own clock (Friday 21:25 UTC through Saturday 05:35 UTC, set when T0 was still 21:30). His clock does not move T0. Tonight's results go to `tn10-storm-2026-10-09/` (bot, build, combined) in this repo.
 
+## Results so far
 
-Kaspa Pulse ([@gokugalax](https://x.com/gokugalax)) counts Friday 21:25 UTC through Saturday 05:35 UTC. That is his clock. It does not move T0.
+Full pages: [monitoring-result/](monitoring-result/README.md) ([bot, keel](monitoring-result/bot-result/README.md) · [Build, locus](monitoring-result/build-result/README.md)), the reasoning in [goal/README.md](goal/README.md) and [goal/OPINION.md](goal/OPINION.md), and older storms in the [history](history/README.md).
 
-Pasting a GO file is the storm GO for that side. Each side writes `steps-utc.json` from its GO file's table. The runner runs only during the storm and the rehearsal.
+- **Claim (measured on TN10):** a block holds 500,000 compute mass; a signed 1-in/1-out payment is about 1,624 mass, so about 308 per block and about 3,080 tx/s at 10 blocks/s. On 9 Oct blocks held about 300–350 transactions (max 691).
+- **Claim (measured on TN10):** on keel, 9 Oct, 48–49% of tx slots in blocks were duplicates of a transaction already in another block (12:29 and 12:55 UTC). Transactions seen only in red (off-chain) blocks were accepted too. The gap is copies, not lost transactions.
+- **Claim (measured on TN10):** network unique accepted while keel kept up (12:24–13:15 UTC): average 1,627 tx/s, median 1,704, max 2,435. No valid window held 3,000 unique accepted tx/s.
+- **Claim (measured on TN10):** fee tiers 300 vs 200 sompi/gram: 1.5× was about 0.5 s faster at p50 in every step; both tiers landed.
+- **Not sure / open for debate:** fees reorder transactions in full blocks; they do not add room. Duplicate share, not block space, is why unique accepted sits near 2,000 instead of 3,080. Mining on your own sender's node may lower it; tonight's one-side control measures that.
+- **Needs more testing:** the light (anyone-can-spend, ~637–643 mass) lane at scale; the ~10-minute keel freezes seen from about 14:05 UTC on 9 Oct (cause not found).
+- Earlier peaks, for context: box-only best minute 4,253 tx/s on 2 Oct and a 6-hour desk hold of 2,207 seen-accepted tx/s on 6–7 Oct. Those used older setups and a different counter; see the history.
+
+## Credit: Kaspa Pulse
+
+Kaspa Pulse ([@gokugalax](https://x.com/gokugalax)) shaped this test through X DMs from 4 Oct 2026. He stays out of the setup, counts the chain from outside, and sends his comparison first. In short, he gave us:
+
+- **The five questions** above.
+- **Six method points:** write the plan first and publish it with a commit SHA and a deviations list; a 10-minute baseline first; fixed load steps, not one blast; submitted and accepted logged per second in UTC, with send order vs accept order; mining share stated up front; raw data next to the summary.
+- **Four tightenings:** a miners-off control in the main run; label each plateau box-bound or network-bound; NTP-synced clocks with offsets logged; saturation defined before T0 (accepted under 95% of submitted for 60 s), with reorder rates as counts and probe n raised.
+- **Discipline on numbers:** a stuck pool is named chain or node before anyone calls it a ceiling; "one clean run first", then weekly; the words senders, runner and bot.
+
+Where each point is recorded, with dates, is in [history/README.md#credit-kaspa-pulse-in-full](history/README.md#credit-kaspa-pulse-in-full).
+
+## Map of related repos
+
+All under [STP-KAS](https://github.com/STP-KAS). Private repos are linked for the record; they open only for the owner.
+
+| Repo | What | Period | Status | Link |
+|---|---|---|---|---|
+| tn10-locus (this repo) | Two-node hub: GO files, plan, 9 Oct monitoring, history | 8 Oct → | Active. **Private** | [link](https://github.com/STP-KAS/tn10-locus) |
+| tn10-storm-throughput-questions | Kaspa Pulse's questions, the measurement plan, his notes, raw files from earlier runs | 4 Oct → | Active as the method source; its clock (21:30 UTC) is superseded by tonight's GO files. Public | [link](https://github.com/STP-KAS/tn10-storm-throughput-questions) |
+| grok-bot-build-combo | Bot + Build combo hub, 8 Oct checkout (10 desk rounds), Pulse's 8–9 Oct reads | 7–9 Oct | Superseded by this repo for routing; kept as the 8 Oct record. Public (its text says private) | [link](https://github.com/STP-KAS/grok-bot-build-combo) |
+| tn10-storm-build-bot-challenge | Where Build and the bot test each other's storm numbers | 6 Oct → | Waiting: empty until the storm | [link](https://github.com/STP-KAS/tn10-storm-build-bot-challenge) |
+| tn10-build-desk-tps | Build's desk throughput runs via public nodes, incl. the 6-hour 2,207 hold | 6–7 Oct | Done. Public | [link](https://github.com/STP-KAS/tn10-build-desk-tps) |
+| tn10-build-desk-tps-3500 | Desk tries for over 3,500 included tx/s (not reached) and the light-hop idea | 7 Oct | Done. Public | [link](https://github.com/STP-KAS/tn10-build-desk-tps-3500) |
+| what-limits-tx-rate | The mass ceiling: why a signed payment stops near 3,080 tx/s | 7 Oct | Reference. Public | [link](https://github.com/STP-KAS/what-limits-tx-rate) |
+| tn10-storm-2026-10-public-report | Public report of the 1–3 Oct box storm, plus mainnet-implications note | 1–4 Oct | Done. Public | [link](https://github.com/STP-KAS/tn10-storm-2026-10-public-report) |
+| tn10-storm-2026-10-analysis | Raw data and Build analysis of the 1–2 Oct storm | 1–7 Oct | Done. **Private** | [link](https://github.com/STP-KAS/tn10-storm-2026-10-analysis) |
+| tn10-stress-tests | Private reports (copy of the 1–2 Oct box report) | 28 Sep–2 Oct | Done. **Private** | [link](https://github.com/STP-KAS/tn10-stress-tests) |
+| tn10-gusto-20261002, tn10-gusto-ledger, tn10-full-gusto | "Full gusto" desk spend ramps on public nodes | 1–2 Oct | Done. **Private** | [ramp](https://github.com/STP-KAS/tn10-gusto-20261002) · [ledger](https://github.com/STP-KAS/tn10-gusto-ledger) · [notes](https://github.com/STP-KAS/tn10-full-gusto) |
+| tn10-indexer-stall-2026-09 | The api-tn10 indexer stall during the 25 Sep storm (cause unproven) | 25–29 Sep | Done. **Private** | [link](https://github.com/STP-KAS/tn10-indexer-stall-2026-09) |
+| tn10-vprogs-stress-findings | 25–26 Sep storm with vprogs and tic-tac-toe; upstream findings | 25–26 Sep | Done. Public | [link](https://github.com/STP-KAS/tn10-vprogs-stress-findings) |
+| grok-bot-vprogs-round2 … round6, tn10-vprogs-final-verdict | The Sep storm rounds and the verdict | 25–26 Sep | Done. Public | [round 2](https://github.com/STP-KAS/grok-bot-vprogs-round2) · [verdict](https://github.com/STP-KAS/tn10-vprogs-final-verdict) |
+| grok-desk-tn10 | Desk CPU miner setup for TN10 | 27 Sep | Done. **Private** | [link](https://github.com/STP-KAS/grok-desk-tn10) |
+| tn10-grok, tn10-hard-test | Early TN10 journal (farm mining stress) and the 14 Sep repo catalog | 14–21 Sep | Done. tn10-grok **private**, tn10-hard-test public | [journal](https://github.com/STP-KAS/tn10-grok) · [catalog](https://github.com/STP-KAS/tn10-hard-test) |
 
 ---
 
