@@ -46,14 +46,14 @@ You are TN10 ops, on the box. You run the bot's runner (the senders) and exactly
 ## 2. Node
 
 - **keel only**, the second kaspad on stp's desk, through the tunnel in the latest desk handoff `FOR-TN10-OPS.txt`: Borsh wRPC from `nodeB_wrpc`, gRPC from `nodeB_grpc`. If no newer handoff has come, use the paid tunnel already in use on 9 Oct for both runners and miner.
-- Never invent a host. Never use `ws://127.0.0.1:17310` or `127.0.0.1:16310` from the box (those are keel's desk loopback). Never send to locus, n0, a public node, `bore.pub`, or `159.223.110.159`.
+- Never invent a host. Never use keel's desk loopback sockets from the box (they only work on the desk). Never send to locus, n0, a public node, or any old public tunnel relay.
 - If the tunnel stops answering: retry for up to 60 seconds, then senders 0 and the row says `waiting: tunnel`. Retry every minute. Resume at half the last clean rate once keel answers and passes the gate in §6.
 - No host, IP, port, key, seed or txid goes into git or into any result file.
 
 ## 3. Miner
 
 - Exactly 1: box CPU `kaspa-miner`, 1 thread, on keel's gRPC through the tunnel.
-- Pays `kaspatest:qzffl5xy9np46gkttyuftqnv2w04pr8g3wsp7c3vv8se3txtelx6q7c0v0ldx`. User agent suffix `stp grok bot`.
+- Pays the bot's own payout address (kept on the box, not in git). User agent suffix `stp grok bot`.
 - On from 20:30 (rehearsal start, or 20:30 even if the rehearsal is not run) to 05:00, while keel is synced. Off over 300 s keel lag; back on once lag ≤ 60 s.
 - Off for the miners-off settle and control, 22:00–22:25. Build turns its miner off at the same times.
 - Never on locus. No second miner.
@@ -201,7 +201,7 @@ From [goal/README.md](../../goal/README.md) and [goal/OPINION.md](../../goal/OPI
 
 Added after Kaspa Pulse's notes of 9 Oct. This section adds logging and reporting only. It does not change any time, step, rate or order in the timeline above, and it does not change when a miner is on or off.
 
-**Why.** Kaspa Pulse, who counts TN10 independently, saw on 9 Oct that blocks per second moved together with throughput: minutes with fewer blocks had fewer accepted tx/s, while transactions per block stayed about the same. That looks like fewer blocks being mined at times, not load pushing blocks down. A per-minute miner log on each side, next to a per-minute network line, lets us say which it is for sure.
+**Why.** Kaspa Pulse, who counts TN10 independently, asked whether minutes with fewer blocks per second come from fewer blocks being mined at that time or from load pushing blocks down. A per-minute miner log on each side, next to a per-minute network line, lets us say which it is for sure.
 
 **Every minute, the miner log (each side, required).** One row per UTC minute from 20:15 to 05:00, also while the miner is off. Files `miner-1m.jsonl` and `miner-1m.csv` in the side's results folder. Columns:
 - `minute_utc` (start of the minute, with `Z`) and `minute_cest`.
@@ -215,7 +215,7 @@ Added after Kaspa Pulse's notes of 9 Oct. This section adds logging and reportin
 
 **The direct test is rows 6–8.** Both miners are off 22:00–22:25 UTC (00:00–00:25 CEST), and row 7 carries the same load as row 5. Compare blocks/min, tx per block and unique accepted in row 7 against row 5, with both miner logs showing 0. Write the result with its label (§10).
 
-**The headline is the chain count (§12), never our own submit/accept counter.** On 8 Oct our own mempool-accept counter read a few % below the independent count of transactions in blocks, in every round. Our submitted and accepted numbers stay attribution only.
+**The headline is the chain count (§12), never our own submit/accept counter.** Our own counter measures admission to our node's mempool, which is a different measure from transactions in blocks, and on 8 Oct it read a few % lower than a block count. Our submitted and accepted numbers stay attribution only.
 
 **Independent count.** Kaspa Pulse's counter starts at 21:25 UTC (23:25 CEST), 25 minutes after T0, so it misses B0 and most of the one-side control (rows 1–3). stp asks him whether he can start at 20:55 UTC (22:55 CEST). This does not move T0 or anything else. Do not ping him (§10); stp sends him the plain-text summary.
 

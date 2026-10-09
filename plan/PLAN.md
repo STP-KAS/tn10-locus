@@ -35,16 +35,16 @@ A process that signs and sends is a sender. The whole setup is a runner. TN10 op
 
 Rules:
 
-- The bot's runner uses keel, the second kaspad on the desk, through the tunnel stp provides. It does not use `ws://127.0.0.1:17310` from the box. That socket is keel's own Borsh port on the desk. Until the handoff lists the tunnel, the runner waits. It runs only during the storm and the rehearsal (§3a). It sends only while keel is synced and passes the keel health gate in §3. Otherwise those senders stay off. n0 will not run.
+- The bot's runner uses keel, the second kaspad on the desk, through the tunnel stp provides. It does not use keel's desk loopback socket from the box; that socket only works on the desk. Until the handoff lists the tunnel, the runner waits. It runs only during the storm and the rehearsal (§3a). It sends only while keel is synced and passes the keel health gate in §3. Otherwise those senders stay off. n0 will not run.
 - Build sends on locus for every paced step, the long hold, and the max step. Loopback Borsh on the first desk kaspad.
 - The bot's runner cap on keel is 15. stp raised it from 6 to 15 in chat on 9 Oct 2026 (11:15–11:23 UTC), and 15 ran on keel that day at under 10% CPU each. This is a deviation from the questions plan's count, written with that time and reason. "Never eight" stays for any box runner that is not on keel. Eight collapsed in the 1–3 Oct storm.
 - No auto-scale. No mempool pause inside a step. Each sender spends its own coins.
 - Depth 2, in-flight 48, four connections, on a paced step.
-- The bot runs exactly 1 miner: box CPU `kaspa-miner`, 1 thread, on keel only, through the same tunnel, gRPC host and port from the handoff. Coinbase pays the Grok Bot address `kaspatest:qzffl5xy9np46gkttyuftqnv2w04pr8g3wsp7c3vv8se3txtelx6q7c0v0ldx`. User agent suffix `stp grok bot`. Mine only while keel is synced. keel's own desk gRPC is `127.0.0.1:16310`. That is not the box's address. No bot miner on locus.
+- The bot runs exactly 1 miner: box CPU `kaspa-miner`, 1 thread, on keel only, through the same tunnel, gRPC host and port from the handoff. Coinbase pays the Grok Bot payout address (kept on the box, not in git). User agent suffix `stp grok bot`. Mine only while keel is synced. keel's own desk gRPC is a desk loopback socket. It does not work from the box. No bot miner on locus.
 - Build runs exactly 1 miner, on locus only. No desk miner on keel, before or after keel syncs.
 - On 8 Oct 2026, ten sender processes on the desk faulted locus, and twelve drove free RAM to about half a gigabyte. Those were Build's own senders on one machine. The bot's runner is not added on top of them. If locus dies, or desk free RAM falls under 1 GB, Build stops.
 
-`bore.pub` and `159.223.110.159` stay closed.
+The old public tunnel relays stay closed.
 
 ### 2a. Why one miner per node
 

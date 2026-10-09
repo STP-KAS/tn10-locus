@@ -44,7 +44,7 @@ You are Grok Build, on stp's desk. You run Build's senders and exactly 1 miner. 
 ## 2. Node
 
 - **locus only**, the first desk kaspad, on the loopback Borsh socket Build already uses for it. UTXO index on.
-- Never send to keel, n0, a public node, `bore.pub`, or `159.223.110.159`.
+- Never send to keel, n0, a public node, or any old public tunnel relay.
 - You may read keel on its desk loopback (read only, no sends) for the rehearsal gate in §5.
 - Leave both kaspad processes and stp's tunnel to keel running. They are not yours to stop.
 - No host, IP, port, key, seed or txid goes into git or into any result file.
@@ -193,7 +193,7 @@ From [goal/README.md](../../goal/README.md) and [goal/OPINION.md](../../goal/OPI
 
 Added after Kaspa Pulse's notes of 9 Oct. This section adds logging and reporting only. It does not change any time, step, rate or order in the timeline above, and it does not change when a miner is on or off.
 
-**Why.** Kaspa Pulse, who counts TN10 independently, saw on 9 Oct that blocks per second moved together with throughput: minutes with fewer blocks had fewer accepted tx/s, while transactions per block stayed about the same. That looks like fewer blocks being mined at times, not load pushing blocks down. A per-minute miner log on each side, next to a per-minute network line, lets us say which it is for sure.
+**Why.** Kaspa Pulse, who counts TN10 independently, asked whether minutes with fewer blocks per second come from fewer blocks being mined at that time or from load pushing blocks down. A per-minute miner log on each side, next to a per-minute network line, lets us say which it is for sure.
 
 **Every minute, the miner log (each side, required).** One row per UTC minute from 20:15 to 05:00, also while the miner is off. Files `miner-1m.jsonl` and `miner-1m.csv` in the side's results folder. Columns:
 - `minute_utc` (start of the minute, with `Z`) and `minute_cest`.
@@ -207,7 +207,7 @@ Added after Kaspa Pulse's notes of 9 Oct. This section adds logging and reportin
 
 **The direct test is rows 6–8.** Both miners are off 22:00–22:25 UTC (00:00–00:25 CEST), and row 7 carries the same load as row 5. Compare blocks/min, tx per block and unique accepted in row 7 against row 5, with both miner logs showing 0. Write the result with its label (§10).
 
-**The headline is the chain count (§12), never our own submit/accept counter.** On 8 Oct our own mempool-accept counter read a few % below the independent count of transactions in blocks, in every round. Our submitted and accepted numbers stay attribution only.
+**The headline is the chain count (§12), never our own submit/accept counter.** Our own counter measures admission to our node's mempool, which is a different measure from transactions in blocks, and on 8 Oct it read a few % lower than a block count. Our submitted and accepted numbers stay attribution only.
 
 **Independent count.** Kaspa Pulse's counter starts at 21:25 UTC (23:25 CEST), 25 minutes after T0, so it misses B0 and most of the one-side control (rows 1–3). stp asks him whether he can start at 20:55 UTC (22:55 CEST). This does not move T0 or anything else. Do not ping him (§10); stp sends him the plain-text summary.
 

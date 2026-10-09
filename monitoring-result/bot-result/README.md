@@ -12,7 +12,7 @@ This folder is the **bot's** monitor. The box measured keel through the tunnel. 
 
 Build's monitor is the desk, on locus. Those rates are not in this folder. The 8 Oct desk sheet is [tonight-8-oct/RESULTS.md](https://github.com/STP-KAS/grok-bot-build-combo/blob/main/tonight-8-oct/RESULTS.md). The lines both sides fill on the next run are [MONITOR.md](../../plan/MONITOR.md) and [NEXT-RUN-MONITOR.md](../../plan/NEXT-RUN-MONITOR.md). The section [Build's view, checked](#builds-view-checked) is the bot answering a Build claim. It is not Build's sheet.
 
-No txids, keys, seeds or wallet files are in this folder. The mining address named here is the public Grok Bot address `kaspatest:qzffl5…` (see [NEXT-RUN-MONITOR](../../plan/NEXT-RUN-MONITOR.md)).
+No txids, keys, seeds or wallet files are in this folder. The mining address is the Grok Bot payout address; it is kept on the box, not in this repo.
 
 ## Key to the labels
 
@@ -24,7 +24,7 @@ No txids, keys, seeds or wallet files are in this folder. The mining address nam
 
 | UTC | What |
 |---|---|
-| 09:37–09:59 | Run 1 (`keel`): ramp 1→6 runners, 20→240 tx/s. Ended when both free Pinggy tunnels expired (09:59). |
+| 09:37–09:59 | Run 1 (`keel`): ramp 1→6 runners, 20→240 tx/s. Ended when both free tunnels expired (09:59). |
 | 10:33–10:53 | Run 2 (`keel2`): 6 runners at 120 then 60 tx/s. Ended on the keel lag rule (keel stalled from 10:45, mempool 121k). |
 | 11:03–11:07 | Run 3 (`keel3`): 1 runner at 20/10 tx/s on the new paid runner tunnel. Ended on a ~25 s tunnel blip. |
 | 11:08–12:40 | Run 4 (`keel4`): 6 then 15 runners, new break rule; held 60 tx/s from 11:40. |
@@ -108,7 +108,7 @@ Labels for the light-tx lines: the probe (four txs standard-valid in keel's memp
 - **Claim (measured on TN10)**: morning (run 1), the first soft break was 240 tx/s (6 runners): 93.2% accepted inside the 60 s window, 100% accepted eventually (30,345/30,345), p50 2.0 s, p90 5.0 s. Keel's mempool was 26–30k, almost all outside traffic.
 - **Claim (measured on TN10)**: from 10:30 the clean level dropped. 120 tx/s broke in run 2 (94.4% in window) and run 4 (p90 16.7 s at 11:38–11:39), 100 tx/s broke in run 5 (p90 23.4 s). 60 tx/s held with 100% eventual accept whenever keel itself kept up. Outside mempool was 20–40k during those steps.
 - **Claim (measured on TN10)**: keel stalled three times while it was the only node we read: 10:45 (virtual stopped, mempool 121k, miners got `route is full`), 13:20–13:30 (lag rose to 302 s, run 5 stopped), and from about 13:40 (no blocks seen in the 5-minute block windows, mempool frozen at 8,211, lag 868.3 s at 15:28:26).
-- **Claim (measured on TN10)**: tunnel drops: both free tunnels expired at 09:59 (Pinggy 60-minute cap); a ~25 s blip on the paid runner tunnel at 11:07. No paid-tunnel drop after that.
+- **Claim (measured on TN10)**: tunnel drops: both free tunnels expired at 09:59 (60-minute cap on the free tier); a ~25 s blip on the paid runner tunnel at 11:07. No paid-tunnel drop after that.
 - **Claim (measured on TN10)**: keel's lag after 13:30 is not caused by our load. Run 5 stopped at 13:29:59 (controller killed runners and miners); the bot sent nothing afterwards, yet keel kept falling behind: at 14:17 sink lag 656 s and 6,502 DAA behind the public node, while the public node ran ~10 DAA/s. Gap at the last sample: 7,940 DAA.
 - **Not sure / open for debate**: the likely cause is desk overload, with locus, keel, Build's senders and the desk miners on one PC. We cannot see the desk's CPU, RAM or disk from the box.
 - **Not sure / open for debate**: the falling clean level (240 → 120 → 60) tracks keel's own health and the outside mempool, not our side: runner CPU stayed under 10%, 99.6–100% of target was submitted, rejects were 0 outside tunnel events. keel shares one desk PC with locus, Build's senders and the desk miners.

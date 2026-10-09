@@ -71,7 +71,7 @@ Kaspa Pulse ([@gokugalax](https://x.com/gokugalax)), X DMs from 4 Oct 2026. He s
 | **Cadence**: "one clean run first", read the numbers, then weekly | 7 Oct | NEXT-STORM-PLAN.md (quoted at the top) |
 | **Wording**: senders sign and send, runner is the setup, bot is the operator | 7 Oct | The wording line on every page of this repo and of the questions repo |
 | **Checkout read**: per-minute sent count, node by name, five ids per minute (ids kept local); flagged that the hours after 00:25 UTC had no named phase | 8 Oct | tonight-8-oct/PULSE.md; [AFTER-8-OCT.md](https://github.com/STP-KAS/tn10-storm-throughput-questions/blob/main/plan/AFTER-8-OCT.md) §1, §3 |
-| **9 Oct first look**: our rounds line up with his minutes (his peak minute 19:43 UTC, right after round w11); keep the desk node's accept and his block count apart | 9 Oct | tonight-8-oct/PULSE.md "9 Oct 2026" |
+| **9 Oct first look**: our rounds line up with his minutes; keep the desk node's accept and his block count apart | 9 Oct | tonight-8-oct/PULSE.md "9 Oct 2026" |
 | **Scope**: deliberate load stays on TN10; mainnet comparisons and costing out of scope, as he asked | 4–7 Oct | NEXT-STORM-PLAN.md header |
 | **Offer**: to be the independent side of a possible later open builder leg (not planned) | 7 Oct | NEXT-STORM-PLAN.md §10 |
 

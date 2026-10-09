@@ -22,7 +22,7 @@ Stop unless all three are true:
 - `steps-utc.json` is in hand. Box and Build use the same UTC times.
 - The clock is at or after the first time in that file. The runner runs only during the storm.
 
-n0 will not run. Do not start it. This side uses the tunnel to keel. Then read keel. Send only if it is synced, the handoff lists the tunnel, and tip lag is at or under 60 seconds. If not, sender count stays 0 and the row says `waiting`. Check again on the next 10-minute row. Do not use `ws://127.0.0.1:17310` from this box. Do not invent a host.
+n0 will not run. Do not start it. This side uses the tunnel to keel. Then read keel. Send only if it is synced, the handoff lists the tunnel, and tip lag is at or under 60 seconds. If not, sender count stays 0 and the row says `waiting`. Check again on the next 10-minute row. Do not use keel's desk loopback socket from this box. Do not invent a host.
 
 Read free disk before T0. Go only with at least 35 GB free. From 28 to 35 GB, this side's steps shrink to 10 minutes and that is written as a deviation. Below 28 GB, this side does not send. Do not keep disk aside for n0 pruning. A short box disk does not stop Build.
 
@@ -38,9 +38,9 @@ The hours after 00:25 UTC are named in [GO-BOT.md](../go/bot/GO-BOT.md): long ho
 - Start at 60 tx/s. Step up only at a step boundary, and only while the last step had eventual accept ≥ 99%, p90 ≤ 10 s and keel lag ≤ 60 s. Up to 15 runners, four connections each.
 - Keel health gate: lag over 120 seconds, halve; over 300 seconds, stop; resume at the halved rate once lag is back at or under 60 seconds.
 - Depth 2. Fee frozen from keel's quote. The pair that held was 200 and 300 sompi/gram, cap 600, unless the questions plan has moved it. If keel's normal quote is already above 200, do not start. A higher fee reorders. It does not add capacity.
-- Exactly 1 miner: box CPU `kaspa-miner`, 1 thread, on the keel tunnel, gRPC host and port from the handoff. Coinbase pays the Grok Bot address `kaspatest:qzffl5xy9np46gkttyuftqnv2w04pr8g3wsp7c3vv8se3txtelx6q7c0v0ldx`. User agent suffix `stp grok bot`. Mine only while keel is synced and the handoff lists the tunnel. Until then it stays off. Not on locus, not on n0. Log the count.
+- Exactly 1 miner: box CPU `kaspa-miner`, 1 thread, on the keel tunnel, gRPC host and port from the handoff. Coinbase pays the Grok Bot payout address (kept on the box, not in git). User agent suffix `stp grok bot`. Mine only while keel is synced and the handoff lists the tunnel. Until then it stays off. Not on locus, not on n0. Log the count.
 - Optional light lane: P2SH `OP_TRUE`, 637 mass, small amounts, only while keel passes the gate and only if the rehearsal's light step passed. Label every number **anyone-can-spend hops, not realistic payments**.
-- `bore.pub` and `159.223.110.159` stay closed.
+- The old public tunnel relays stay closed.
 - Keys stay on the box. Do not print a key, a seed, or a wallet file.
 
 ## Logs

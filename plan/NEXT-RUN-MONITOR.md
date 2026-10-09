@@ -8,7 +8,7 @@ Wording, Kaspa Pulse (@gokugalax), 7 Oct 2026: sign-and-send processes are sende
 
 This page lists the monitor lines already written in [MONITOR.md](MONITOR.md) and in [NEXT-STORM-PLAN.md](https://github.com/STP-KAS/tn10-storm-throughput-questions/blob/main/plan/NEXT-STORM-PLAN.md). It does not add a demand. It does not lock the questions plan.
 
-**Start.** Sending this GitHub to Grok Build or to the bot means go: start the operation. The bot's runner and the bot's one miner use the tunnel to keel. The runner runs only during the storm, apart from the rehearsal. The miner pays the Grok Bot address `kaspatest:qzffl5xy9np46gkttyuftqnv2w04pr8g3wsp7c3vv8se3txtelx6q7c0v0ldx` and mines only while keel is synced. Build runs one miner, on locus. n0 will not run.
+**Start.** Sending this GitHub to Grok Build or to the bot means go: start the operation. The bot's runner and the bot's one miner use the tunnel to keel. The runner runs only during the storm, apart from the rehearsal. The miner pays the Grok Bot payout address (kept on the box, not in git) and mines only while keel is synced. Build runs one miner, on locus. n0 will not run.
 
 If this page and the questions plan disagree, the plan wins. If they disagree on which node a side uses, [PLAN.md](PLAN.md) wins.
 
@@ -22,7 +22,7 @@ The launch files [GO-BOT.md](../go/bot/GO-BOT.md) and [GO-BUILD.md](../go/build/
 
 A required line with no reading is **not measured**. That fails the pass in [MONITOR.md](MONITOR.md). Do not invent the other side. Do not ping Kaspa Pulse. Do not send him the sheet. No key, no seed, and no txid in git. The mining address is the Grok Bot address named above.
 
-The printable copy is `plan/next-run-monitor.pdf` in this repo. If the PDF and this page disagree, this page wins. The PDF was printed before the 9 Oct 16:06 UTC miner split, the one-side control and the rehearsal. It does not show them.
+The older printable PDF copy was removed before this repo went public (it carried node details); this page is the only copy.
 
 ## What 8 Oct left unread
 
@@ -57,7 +57,7 @@ Stop unless this GitHub has been sent to Grok Build or to the bot, and `steps-ut
 | keel still syncing | Desk | Watch the block download. Leave the tunnel closed. When keel is synced, open the tunnel and write `nodeB_wrpc` and `nodeB_grpc` in the handoff. Say both addresses. That report is not the storm GO. Until then the bot row says `waiting`. |
 | Rehearsal | Bot and Build | [REHEARSAL-2026-10-09.md](REHEARSAL-2026-10-09.md): 20:30–21:00 UTC, only if keel's lag is at or under 60 seconds at 20:15 and 20:30 UTC. Otherwise it is written **not run**. |
 | keel synced, tip lag seconds, mempool, box disk | Bot | The runner runs only during the storm. Send only if keel is synced, keel's lag is at or under 60 seconds (the keel health gate in the plan: over 120 seconds halve, over 300 seconds stop), and the disk gate in the plan passes. Otherwise sender count 0 and the row says `waiting`. |
-| keel tunnel for the bot | stp | stp provides the tunnel when keel is synced. Until that tunnel is in the handoff, the bot's runner and the bot's miners wait. From the box, do not use `127.0.0.1`. Do not invent a host. |
+| keel tunnel for the bot | stp | stp provides the tunnel when keel is synced. Until that tunnel is in the handoff, the bot's runner and the bot's miners wait. From the box, do not use a loopback address. Do not invent a host. |
 | Locus synced, UTXO index, mempool, normal fee, free RAM, desk disk | Build | Send only on loopback Borsh. Free RAM under 1 GB, or a dead process, stops Build. |
 | NTP, five samples, both machines | Each side | Desk: `w32tm` against time.windows.com. Box: two public servers. Repeat at the end. A desk move over 50 ms flags Build's confirmation times. |
 | Older fleet halt file | Build | First line still `halt`. |

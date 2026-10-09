@@ -35,7 +35,7 @@ keel's sync is not this side's gate. If the bot's runner is waiting, keep this s
 ## This side
 
 - TN10 only. Network `testnet-10`. The Build wallet only.
-- Every step goes to locus. Loopback Borsh. Not n0. Not a public node. Not `bore.pub`. Not `159.223.110.159`.
+- Every step goes to locus. Loopback Borsh. Not n0. Not a public node. Not an old public tunnel relay.
 - One-side control after B0: 21:10–21:20 UTC this side at 0, 21:20–21:30 UTC this side alone at 60 tx/s, 21:30–21:40 UTC both, 60 tx/s each. Then the paced steps.
 - Four fixed senders on a paced step. Depth 2. In-flight 48. Four connections. No auto-scale.
 - Fee frozen from locus's quote at 200 and 300 sompi/gram, cap 600, unless the questions plan has a later long window over 2,207 seen-accepted. If locus's normal quote is already above 200, do not start. A higher fee reorders. It does not add capacity.
