@@ -45,7 +45,7 @@ keel's sync is not this side's gate. If the bot's runner is waiting, keep this s
 
 ## Logs
 
-Do the Build columns of [MONITOR.md](MONITOR.md), and every Build line in [NEXT-RUN-MONITOR.md](NEXT-RUN-MONITOR.md). Per-transaction logging stays on. Per minute the node cell is `locus`. Five tx ids stay local. The 10-minute row includes locus mempool, the six public pools by name, indexer health, desk disk, free RAM, desk CPU, miner count, submit tx/s, accepted tx/s, and the duplicate share from locus if it can be read. B0 is the first 10 minutes. Send nothing in B0. A blank required line fails the pass.
+Do the Build columns of [MONITOR.md](MONITOR.md), and every Build line in [NEXT-RUN-MONITOR.md](NEXT-RUN-MONITOR.md). On each drain, write the mempool recovery row in [GO-BUILD.md](../go/build/GO-BUILD.md): seconds until locus `mempoolSize` stays 0, with keel's size beside it, not added. A size on locus does not mean other nodes still hold those transactions. Per-transaction logging stays on. Per minute the node cell is `locus`. Five tx ids stay local. The 10-minute row includes locus mempool, the six public pools by name, indexer health, desk disk, free RAM, desk CPU, miner count, submit tx/s, accepted tx/s, and the duplicate share from locus if it can be read. B0 is the first 10 minutes. Send nothing in B0. A blank required line fails the pass.
 
 ---
 

@@ -112,7 +112,20 @@ T0 is **21:00**. End is **Saturday 10 Oct 2026, 05:00**. His counter (Kaspa Puls
 **Bot level.** Start at 60 tx/s (row 5). At each step boundary: if the last step was clean (eventual accept ≥ 99%, p90 submit-to-accept ≤ 10 s, keel lag ≤ 60 s the whole step), the next level is min(2 × last level, ours). If not clean, go back to the last clean level. Nothing changes inside a step except the gate in §6. The bot's part never exceeds ours. Build carries ours − bot.
 **Long hold.** The bot holds its last clean level. If none was clean, 30 tx/s, still behind the gate.
 
-**Drains.** Senders 0, miner as the row says, every logger on.
+**Drains.** Senders 0, miner as the row says, every logger on. A drain is also the recovery watch below. Do not pause a load step to empty a pool. Do not restart a node to clear one.
+
+**Mempool recovery.** `getInfo.mempoolSize` is that node's own list. It is not the network's stuck set, and the two nodes' sizes are never added. A transaction in a synced node's mempool has been relayed, so a synced peer that accepted it usually holds the same transaction until a block, a conflict, or expiry removes it. A node that is not synced can still report a large size after the synced node is already near empty. Those leftover transactions are that node's list. They are not evidence that synced peers still have them.
+
+On every drain, including the final drain from 04:45 UTC, keep the per-second mempool log and write one recovery row:
+
+- Start: UTC the senders hit 0, synced, lag seconds, `mempoolSize`, normal fee.
+- Empty: the first UTC where `mempoolSize` is 0 and the next 10 seconds stay 0. If the drain window ends first, write the size still left and `not empty`.
+- Seconds from start to empty, and removed per second = start size / seconds. If synced is false or lag is over 60 seconds on any sample in that drain, label the row `not a network recovery` and still write the numbers.
+- A blank row is **not measured**. Counts only. No txid.
+
+This does not change a step time, a rate, or a fee. Drain minutes stay out of the headline median.
+
+The bot's row is keel, through the tunnel. Do not read locus. Build writes the side-by-side comparison from the desk. If keel is unsynced, the row is still written and labelled `not a network recovery`.
 
 ## 6. Gates and stop rules
 
@@ -153,7 +166,7 @@ A required line with no reading is **not measured**, with the UTC it was due.
 ## 10. End and results
 
 - 04:45 senders 0. 05:00 miner off, loggers stop, box NTP read again.
-- Results go to this repo, folder `tn10-storm-2026-10-09/bot/`: README with the step table (bot submitted and accepted as attribution, keel unique accepted with valid minutes, clean, saturation, duplicate share network and own, mining share), every rate labelled by shape (§12), rehearsal result, gate events, freezes, fee tiers, light lane if run, and the CSV/JSONL data. Counts only. No txid, key, seed, host, IP or port.
+- Results go to this repo, folder `tn10-storm-2026-10-09/bot/`: README with the step table (bot submitted and accepted as attribution, keel unique accepted with valid minutes, clean, saturation, duplicate share network and own, mining share), every rate labelled by shape (§12), the mempool recovery rows (keel only), rehearsal result, gate events, freezes, fee tiers, light lane if run, and the CSV/JSONL data. Counts only. No txid, key, seed, host, IP or port.
 - After Build's folder `tn10-storm-2026-10-09/build/` is in, write `tn10-storm-2026-10-09/COMBINED.md` by §12: per minute and per step, the headline network unique accepted tx/s (counted once, from locus if valid, else keel, never the sum of the two), the cross-check, duplicate share, and attribution (bot ids, Build ids, probes and stream, outside), split by shape. The success criteria in §12 are answered at the top. Build cells not in its folder are **not measured**.
 - Commit as `STP-KAS <227352643+STP-KAS@users.noreply.github.com>`, push to main. No tags, no releases. Do not ping Kaspa Pulse. The ids for him stay private.
 - Labels on every finding: **Claim (measured on TN10)**, **Not sure / open for debate**, **Needs more testing**.
@@ -167,6 +180,7 @@ A required line with no reading is **not measured**, with the UTC it was due.
 - The light tx is labelled anyone-can-spend.
 - The headline is network unique accepted tx/s counted once from chain data, not locus accepted plus keel accepted (goal/OPINION.md). Per-side counts are attribution. Rates are split signed payment against no-signature hop (§12).
 - Cutting miners is not tonight's change. Tonight's change is one miner per side, on its own node. **Not sure / open for debate** whether it lowers the duplicate share; **Needs more testing**.
+- **Needs more testing:** how fast each node's mempool returns to 0 after senders stop, and whether the two nodes agree. At 2026-10-09T16:49:36Z both nodes were synced with lag 0. Locus `mempoolSize` was 0 (fee 100). Keel `mempoolSize` was 83,165 (fee 193). At 2026-10-09T19:27:04Z locus was synced with `mempoolSize` 26. Keel was not synced and `mempoolSize` was 83,545. The large pool stayed on the node that later was not synced. A size on one node does not mean the other nodes still hold those transactions. Tonight's drains time each node's own return to 0.
 
 ## 12. Goal and scoring (same text in GO-BOT.md and GO-BUILD.md)
 
