@@ -73,6 +73,8 @@ T0 is **21:00**. End is **Saturday 10 Oct 2026, 05:00**. His counter (Kaspa Puls
 
 **Rehearsal, 20:30–21:00**, only if keel lag ≤ 60 s at 20:15 and at 20:30. Otherwise write **not run** with the last lag read and its UTC, and wait for 21:00. Details and pass rules: [REHEARSAL-2026-10-09.md](../../plan/REHEARSAL-2026-10-09.md).
 
+**Desk lag gates, measured.** At 20:15Z keel lag was 0 s. At 20:30Z keel lag was 1 s. The rehearsal lag gate was go. A **not run** that cites the 19:30–20:06 stall is the stale lag in §6, not this gate. Steps you did not send stay **not run**. Do not replay them. When a fresh read passes §6, join the row the clock is in.
+
 | UTC | Rehearsal step | Bot | Build |
 |---|---|---|---|
 | 20:30–21:00 | 1 keel health + freeze watch; 2 miner split | 1 miner on keel | 1 miner on locus |
@@ -130,7 +132,8 @@ The bot's row is keel, through the tunnel. Do not read locus. Build writes the s
 ## 6. Gates and stop rules
 
 - **Keel health gate.** Send only while keel is synced and lag ≤ 60 s. Lag > 120 s: halve the rate. Lag > 300 s: senders 0 and miner off. Resume at half the last rate once lag ≤ 60 s, then follow the bot level rule at the next step boundary. The row says `waiting` with the lag. A waiting minute adds 0 and is not a failed match.
-- **Freeze.** keel's DAA score not moving for ≥ 60 s while the public node's moves. Log start, length and keel lag. Treat it through the gate. On 9 Oct keel froze 3–5 minutes about every 10 minutes from about 14:05.
+- **Fresh lag.** The lag in this gate and in the miner rule is the sink timestamp from the read you just made, with virtual DAA beside it. A remembered lag, a line from before 20:06Z, or about 23–32 minutes while virtual DAA is at or above 592448980, is not the gate. Re-read once. If that read is synced and lag ≤ 60 s, do not halve, do not stop, and turn the miner on while the row says on. If you were waiting on the closed stall, join the row the clock is in. Do not replay a missed row. Keel's mempool is not Build's send rate. Build sends on locus only. The desk log is [desk-keel-log.md](../../tn10-storm-2026-10-09/build/desk-keel-log.md).
+- **Freeze.** keel's DAA score not moving for ≥ 60 s while the public node's moves. Log start, length, sink lag, and virtual DAA. Treat a live freeze through the gate. **Claim (measured on TN10):** the header-IBD series ended after 15:38Z. A later stall ran 19:30Z–20:06Z, peak lag 1917 s at 19:50:47Z, virtual DAA held at 592398778 from 19:41Z through 19:49Z, synced false at the peak. The desk read at 20:45:09Z was synced, sink lag 1 s, virtual DAA 592448980. That stall is closed.
 - **Fee gate.** At every step start, read keel's normal quote. If it is above 200, the bot sits out that step (`waiting: quote`, write the quote) and reads again at the next step start.
 - **Disk.** Box under 28 GB: senders 0 for the rest of the run.
 - **Never** restart the storm early, add a node, add a miner, or exceed 15 runners.
