@@ -130,14 +130,14 @@ T0 is **21:00**. End is **Saturday 10 Oct 2026, 05:00**. His counter (Kaspa Puls
 
 ## 8. Not on this side
 
-No light lane on Build tonight. The light tx (P2SH `OP_TRUE`, 637 mass) is the bot's optional lane, labelled **anyone-can-spend hops, not realistic payments**.
+No light lane on Build tonight. The light tx (P2SH `OP_TRUE`, 637 mass) is the bot's optional lane, labelled **anyone-can-spend hops, not realistic payments**. The bot's runner hop has the same no-signature shape (643 mass). Build's senders are the signed-payment side: their rates are labelled **signed payment** and are the only signed-payment rates besides the probes and stream (§12).
 
 ## 9. What to log
 
 **Every second, per sender:** sender id, target, submitted, accepted, endpoint `locus`, locus mempool, submit latency. On a sample and every reject: submit and accept time, UTC with ms and `Z`. Per-transaction logging stays on.
 **Every minute, per sender:** minute, sender id, node `locus`, tx_sent, five ids spread across the minute (local only). One combined Build line.
-**Every 5 minutes, duplicate share, if you can read it on locus:** 60 s of locus `block-added` full blocks against locus's `getVirtualChainFromBlock` `acceptedTransactionIds`: blocks/s, tx slots/s, unique ids/s, duplicate share = 1 − unique/slots, unique accepted/s, and the same share for Build's own ids. If you cannot, write **not measured** once with the reason.
-**Every 10 minutes, the Build row:** UTC, session, sender count, desk disk, `w32tm` (latest), locus synced, UTXO index, mempool, normal fee, RSS, free RAM, desk CPU, submitted tx/s, accepted tx/s, rejects by reason, miner count, mining share on locus (blocks total, ours, %), the six public pools by name, indexer health (`https://api-tn10.kaspa.org/info/health`), keel lag read on the desk, usage (or **not measured**).
+**Every minute, the chain count on locus (§12):** locus `block-added` full blocks against locus's `getVirtualChainFromBlock` `acceptedTransactionIds`: blocks/s, selected-chain blocks/s, tx slots/s, unique ids/s, duplicate share = 1 − unique/slots, unique accepted/s, valid or not (§12), Build's own ids accepted/s, and the same share for Build's own ids. If the reader cannot keep up, fall back to 60 s every 5 minutes and write that as a deviation. If you cannot read it at all, write **not measured** once with the reason.
+**Every 10 minutes, the Build row:** UTC, session, sender count, desk disk, `w32tm` (latest), locus synced, UTXO index, mempool, normal fee, RSS, free RAM, desk CPU, Build submitted tx/s and Build accepted tx/s (own ids, attribution only, labelled signed payment), locus unique accepted tx/s (chain count, valid or not), rejects by reason, miner count, mining share on locus (blocks total, ours, %), the six public pools by name, indexer health (`https://api-tn10.kaspa.org/info/health`), keel lag read on the desk, usage (or **not measured**).
 **Per step:** saturation on locus (accepted under 95% of submit-OK for 60 consecutive seconds, from 60 s after start): yes or no, onset. Mean submit against target, zero seconds. Plateau label: sender-limited, node-bound, network-bound, unclear.
 
 A required line with no reading is **not measured**, with the UTC it was due.
@@ -145,8 +145,8 @@ A required line with no reading is **not measured**, with the UTC it was due.
 ## 10. End and results
 
 - 04:45 senders 0. 05:00 miner off, loggers stop, desk NTP read again.
-- Results go to this repo, folder `tn10-storm-2026-10-09/build/`: README with the step table, precheck findings, gate events, fee tiers, mining share, and the CSV/JSONL data. Counts only. No txid, key, seed, host, IP or port. If you cannot push, leave the folder on the desk and write that in your last message; stp commits it.
-- Commit as `STP-KAS <227352643+STP-KAS@users.noreply.github.com>`, push to main. No tags, no releases. The bot writes `COMBINED.md` from both folders. Do not ping Kaspa Pulse.
+- Results go to this repo, folder `tn10-storm-2026-10-09/build/`: README with the step table (Build submitted and accepted as attribution, locus unique accepted with valid minutes, duplicate share network and own), every rate labelled by shape (§12), the per-minute chain-count CSV, precheck findings, gate events, fee tiers, mining share, and the CSV/JSONL data. Counts only. No txid, key, seed, host, IP or port. If you cannot push, leave the folder on the desk and write that in your last message; stp commits it.
+- Commit as `STP-KAS <227352643+STP-KAS@users.noreply.github.com>`, push to main. No tags, no releases. The bot writes `COMBINED.md` from both folders by §12: one headline counted once, never locus accepted plus keel accepted. Do not ping Kaspa Pulse.
 - Labels on every finding: **Claim (measured on TN10)**, **Not sure / open for debate**, **Needs more testing**.
 
 ## 11. Settled before launch (your audit, 9 Oct)
@@ -156,7 +156,37 @@ A required line with no reading is **not measured**, with the UTC it was due.
 - No filler aimed at 3,100 tx/s. The steps find where acceptance flattens.
 - The one-side control (rows 2–4) runs before the ramp.
 - The light tx is labelled anyone-can-spend.
+- The headline is network unique accepted tx/s counted once from chain data, not locus accepted plus keel accepted (goal/OPINION.md). Per-side counts are attribution. Rates are split signed payment against no-signature hop (§12).
 - Cutting miners is not tonight's change. Tonight's change is one miner per side, on its own node. **Not sure / open for debate** whether it lowers the duplicate share; **Needs more testing**.
+
+## 12. Goal and scoring (same text in GO-BOT.md and GO-BUILD.md)
+
+From [goal/README.md](../../goal/README.md) and [goal/OPINION.md](../../goal/OPINION.md). This section changes how the run is counted and reported. It does not change any time, step, rate or order in the timeline above.
+
+**The headline is one number: network unique accepted tx/s, counted once, from chain data on one synced node.** Each accepted transaction id counts once per minute, when the virtual chain accepts it (`getVirtualChainFromBlock` `acceptedTransactionIds`, or the virtual-chain notification). locus and keel are two views of one chain. **Never add locus's accepted count to keel's.** That counts the same ids twice.
+
+- **Which node counts a minute.** A minute is valid on a node if the node is synced, its lag (UTC now − sink timestamp) is ≤ 60 s the whole minute, and it accepted ≥ 95% of the unique ids it saw in blocks that minute. Headline for the minute = locus's count if locus is valid, else keel's count if keel is valid, else **not measured**. When both are valid, keel's count is written next to it as a cross-check, with the difference. Never the sum, never the mean.
+- **Per step.** Headline = median of the valid minutes in the step's load window (drains excluded), with the number of valid minutes. Under 5 valid minutes: **not enough data**.
+- **Beside the headline, every minute:** blocks added, tx slots in blocks (non-coinbase, summed over blocks), unique ids in blocks, selected-chain blocks, duplicate share = 1 − unique ids in blocks / tx slots. Slots are never reported as tx/s; a full block of copies is not a higher TPS.
+- **Attribution only.** Each side's submitted and accepted are its own ids (Bot wallet, Build wallet; the two never share an id). They say who carried what. They are not added up to make the headline. "Ours accepted" = bot ids accepted + Build ids accepted, each id once; "outside" = headline − ours − probe and stream ids.
+- **Transaction shape, labelled separately.** Every rate is split by shape:
+  - **Signed payment:** Build's senders, the probes and the ordered stream (1 in, 1 out, signed, about 1,624 mass). Only these are signed-payment rates.
+  - **No-signature hop, anyone-can-spend, not realistic payments:** the bot's runner hop (P2SH `OP_TRUE`, 643 mass) and the bot's optional light lane (637 mass). On 9 Oct all bot load already had this shape, so none of the 9 Oct bot rates are signed-payment rates.
+  - **Outside load:** shape not known; written as unknown.
+  A signed-payment number is never quoted from a mixed total.
+- **Success criteria.**
+  1. **Goal line:** network unique accepted ≥ 3,000 tx/s as a step median (≥ 10 valid minutes), written with its shape split. A single minute over 3,000 is reported as a peak, not as the goal.
+  2. **Signed-payment line:** about 3,080 tx/s (500,000 / 1,624 ≈ 308 per block × about 10 blocks/s). Tonight's signed share (Build plus probes and stream) is planned well under that, so tonight cannot show whether signed payments reach 3,080; write that, do not infer it from the total. 3,500 signed payments do not fit in a block's mass and are not a target.
+  3. **Flattening:** the first step where the headline rises by less than half of the rise in ours offered against the previous step. Write the step and both deltas.
+  4. **Duplicate share:** network and own-ids, per step. Compare the one-side control (rows 2–4) with the ramp (rows 9–12). Whether one miner per side lowers it stays **Needs more testing** unless the gap is clear in valid minutes.
+  5. **Clean:** each side's own eventual accept ≥ 99% per step, as its own rules say.
+- **What each side optimizes,** inside the rates above: distinct accepted ids, not submits. Each id goes to one node, once. A higher fee reorders inside full blocks; it does not add room. Submitting faster than the accepted rate fills the mempool and does not move the chain rate.
+- Write the minute in UTC. A blank minute is **not measured**. No host, IP, port, address, key, seed or txid in any result file.
+
+**Build's part.**
+- Measure on locus every minute: the chain count above (locus's unique accepted, blocks, slots, unique ids in blocks, selected-chain blocks, duplicate share, valid or not with the reason), plus Build's own ids accepted and their duplicate share. locus is the first choice for the headline, so this reading matters most. If you cannot read it, write **not measured** with the reason and keel's count is used.
+- Log every Build rate with the label **signed payment**, with the mass of the sender's transaction. If any Build sender uses another shape, label it and keep it apart.
+- Put the per-minute chain counts in `tn10-storm-2026-10-09/build/` as CSV, so `COMBINED.md` can pick per minute.
 
 ---
 

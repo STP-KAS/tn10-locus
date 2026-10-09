@@ -126,13 +126,13 @@ T0 is **21:00**. End is **Saturday 10 Oct 2026, 05:00**. His counter (Kaspa Puls
 ## 7. Runners and fees
 
 - **15 runners**, 4 wRPC connections each, depth 2, rate split evenly. stp raised the cap from 6 to 15 in chat on 9 Oct (11:15–11:23); 15 ran on keel at under 10% CPU each. This is a deviation from the questions plan's "6, a 7th on max, never 8", written with that time and reason. Never 8 still holds for any box runner not on keel.
-- Hop: the 9 Oct lane hop (1 in, 1 out, P2SH `OP_TRUE`, 643 mass). Each runner spends its own coins.
+- Hop: the 9 Oct lane hop (1 in, 1 out, P2SH `OP_TRUE`, 643 mass, no signature). Each runner spends its own coins. Every runner rate carries the label **no-signature hop, anyone-can-spend, not realistic payments**; it is never reported as a signed-payment rate (§12).
 - **Fees.** Pair 200 and 300 sompi/gram, cap 600, floor 200. Frozen per step from keel's quote: even lanes 1× (200), odd lanes 1.5× (300). The pair stays 200/300 until a multi-hour seen-accepted rate over 2,207 is written in the questions plan. **Claim (measured on TN10):** on 9 Oct, 1.5× beat 1× by about 0.5 s at p50. A higher fee reorders inside full blocks. It does not add capacity.
 - Log 1× against 1.5× confirmation per step: n, p50, p95, p99, worst, share over 30 s and over 60 s.
 
 ## 8. Light lane (optional)
 
-Only if the rehearsal's step 4 passed and keel passes the gate. P2SH redeem script `OP_TRUE`, 1 in, 1 out, unsigned, 637 mass, small amounts from a pre-split fund. Run it inside the bot level (not on top), at most the rate that passed in the rehearsal (20 or 50 tx/s), in rows 9–12 and 15. Every number from it carries the label **anyone-can-spend hops, not realistic payments**. If the rehearsal did not run or step 4 failed, the lane stays off and that is written.
+Only if the rehearsal's step 4 passed and keel passes the gate. P2SH redeem script `OP_TRUE`, 1 in, 1 out, unsigned, 637 mass, small amounts from a pre-split fund. Run it inside the bot level (not on top), at most the rate that passed in the rehearsal (20 or 50 tx/s), in rows 9–12 and 15. Every number from it carries the label **anyone-can-spend hops, not realistic payments**, in its own column apart from the runner hop. If the rehearsal did not run or step 4 failed, the lane stays off and that is written.
 
 **Probes and stream (all rows, 21:00–00:25 and the hold):** one small signed self-transfer per tier (1×, 1.2×, 1.5×, 2× of the frozen quote) every 2 s, and the ordered stream at 2 per second per tier at 1× and 1.5×, from pre-split pools. They go to keel and follow the gate.
 
@@ -143,8 +143,8 @@ Only if the rehearsal's step 4 passed and keel passes the gate. P2SH redeem scri
 **Every 30 s:** `GET https://api-tn10.kaspa.org/info/health` (cache bypassed): HTTP, `isSynced`, `acceptedTxBlockTimeDiff`, `blueScoreDiff`. Once a minute, one accepted id polled until visible (give up after 30 min).
 **Every minute, per sender:** minute, sender id, node `keel`, tx_sent, five ids spread across the minute (local only). One combined bot line.
 **Every minute:** keel DAA per second next to the public node's DAA per second.
-**Every 5 minutes, duplicate share:** 60 s of keel `block-added` full blocks against keel's `getVirtualChainFromBlock` `acceptedTransactionIds`. Write blocks/s, tx slots/s (non-coinbase, summed over blocks), unique ids/s, duplicate share = 1 − unique/slots, unique accepted/s, red-only ids accepted, our block share, and the same duplicate share for our own ids only. A window where keel accepted under 95% of its unique ids is keel lag, not network data. Also one reading per step.
-**Every 10 minutes, the bot block:** UTC, session (up, down, waiting), runner count, box disk, NTP, keel synced, lag, mempool, CPU (or **not measured**), submitted tx/s, accepted tx/s, rejects by reason, miner count, mining share on keel (blocks total, ours, %), keel and public DAA/s, freezes since the last block, duplicate share, light lane on or off, usage (or **not measured**).
+**Every minute, the chain count (§12):** keel `block-added` full blocks against keel's `getVirtualChainFromBlock` `acceptedTransactionIds`. If the reader cannot keep up or slows the runners, fall back to 60 s every 5 minutes and write that as a deviation with its UTC. Write blocks/s, selected-chain blocks/s, tx slots/s (non-coinbase, summed over blocks), unique ids/s, duplicate share = 1 − unique/slots, unique accepted/s, valid or not (§12), red-only ids accepted, our block share, the bot's own ids accepted/s, and the same duplicate share for our own ids only. A window where keel accepted under 95% of its unique ids is keel lag, not network data. Also one reading per step.
+**Every 10 minutes, the bot block:** UTC, session (up, down, waiting), runner count, box disk, NTP, keel synced, lag, mempool, CPU (or **not measured**), bot submitted tx/s and bot accepted tx/s (own ids, attribution only, labelled no-signature), keel unique accepted tx/s (chain count, valid or not), rejects by reason, miner count, mining share on keel (blocks total, ours, %), keel and public DAA/s, freezes since the last block, duplicate share, light lane on or off, usage (or **not measured**).
 **Per step:** saturation (accepted under 95% of submit-OK for 60 consecutive seconds, from 60 s after start): yes or no, onset. Clean or not by the bot level rule. Plateau label: sender-limited, node-bound, network-bound, unclear.
 
 A required line with no reading is **not measured**, with the UTC it was due.
@@ -152,8 +152,8 @@ A required line with no reading is **not measured**, with the UTC it was due.
 ## 10. End and results
 
 - 04:45 senders 0. 05:00 miner off, loggers stop, box NTP read again.
-- Results go to this repo, folder `tn10-storm-2026-10-09/bot/`: README with the step table (submitted, accepted, clean, saturation, duplicate share, mining share), rehearsal result, gate events, freezes, fee tiers, light lane if run, and the CSV/JSONL data. Counts only. No txid, key, seed, host, IP or port.
-- After Build's folder `tn10-storm-2026-10-09/build/` is in, write `tn10-storm-2026-10-09/COMBINED.md`: per minute and per step, both accepted rates and their sum. Build cells not in its folder are **not measured**.
+- Results go to this repo, folder `tn10-storm-2026-10-09/bot/`: README with the step table (bot submitted and accepted as attribution, keel unique accepted with valid minutes, clean, saturation, duplicate share network and own, mining share), every rate labelled by shape (§12), rehearsal result, gate events, freezes, fee tiers, light lane if run, and the CSV/JSONL data. Counts only. No txid, key, seed, host, IP or port.
+- After Build's folder `tn10-storm-2026-10-09/build/` is in, write `tn10-storm-2026-10-09/COMBINED.md` by §12: per minute and per step, the headline network unique accepted tx/s (counted once, from locus if valid, else keel, never the sum of the two), the cross-check, duplicate share, and attribution (bot ids, Build ids, probes and stream, outside), split by shape. The success criteria in §12 are answered at the top. Build cells not in its folder are **not measured**.
 - Commit as `STP-KAS <227352643+STP-KAS@users.noreply.github.com>`, push to main. No tags, no releases. Do not ping Kaspa Pulse. The ids for him stay private.
 - Labels on every finding: **Claim (measured on TN10)**, **Not sure / open for debate**, **Needs more testing**.
 
@@ -164,7 +164,37 @@ A required line with no reading is **not measured**, with the UTC it was due.
 - No filler aimed at 3,100 tx/s. The steps find where acceptance flattens.
 - The one-side control (rows 2–4) runs before the ramp.
 - The light tx is labelled anyone-can-spend.
+- The headline is network unique accepted tx/s counted once from chain data, not locus accepted plus keel accepted (goal/OPINION.md). Per-side counts are attribution. Rates are split signed payment against no-signature hop (§12).
 - Cutting miners is not tonight's change. Tonight's change is one miner per side, on its own node. **Not sure / open for debate** whether it lowers the duplicate share; **Needs more testing**.
+
+## 12. Goal and scoring (same text in GO-BOT.md and GO-BUILD.md)
+
+From [goal/README.md](../../goal/README.md) and [goal/OPINION.md](../../goal/OPINION.md). This section changes how the run is counted and reported. It does not change any time, step, rate or order in the timeline above.
+
+**The headline is one number: network unique accepted tx/s, counted once, from chain data on one synced node.** Each accepted transaction id counts once per minute, when the virtual chain accepts it (`getVirtualChainFromBlock` `acceptedTransactionIds`, or the virtual-chain notification). locus and keel are two views of one chain. **Never add locus's accepted count to keel's.** That counts the same ids twice.
+
+- **Which node counts a minute.** A minute is valid on a node if the node is synced, its lag (UTC now − sink timestamp) is ≤ 60 s the whole minute, and it accepted ≥ 95% of the unique ids it saw in blocks that minute. Headline for the minute = locus's count if locus is valid, else keel's count if keel is valid, else **not measured**. When both are valid, keel's count is written next to it as a cross-check, with the difference. Never the sum, never the mean.
+- **Per step.** Headline = median of the valid minutes in the step's load window (drains excluded), with the number of valid minutes. Under 5 valid minutes: **not enough data**.
+- **Beside the headline, every minute:** blocks added, tx slots in blocks (non-coinbase, summed over blocks), unique ids in blocks, selected-chain blocks, duplicate share = 1 − unique ids in blocks / tx slots. Slots are never reported as tx/s; a full block of copies is not a higher TPS.
+- **Attribution only.** Each side's submitted and accepted are its own ids (Bot wallet, Build wallet; the two never share an id). They say who carried what. They are not added up to make the headline. "Ours accepted" = bot ids accepted + Build ids accepted, each id once; "outside" = headline − ours − probe and stream ids.
+- **Transaction shape, labelled separately.** Every rate is split by shape:
+  - **Signed payment:** Build's senders, the probes and the ordered stream (1 in, 1 out, signed, about 1,624 mass). Only these are signed-payment rates.
+  - **No-signature hop, anyone-can-spend, not realistic payments:** the bot's runner hop (P2SH `OP_TRUE`, 643 mass) and the bot's optional light lane (637 mass). On 9 Oct all bot load already had this shape, so none of the 9 Oct bot rates are signed-payment rates.
+  - **Outside load:** shape not known; written as unknown.
+  A signed-payment number is never quoted from a mixed total.
+- **Success criteria.**
+  1. **Goal line:** network unique accepted ≥ 3,000 tx/s as a step median (≥ 10 valid minutes), written with its shape split. A single minute over 3,000 is reported as a peak, not as the goal.
+  2. **Signed-payment line:** about 3,080 tx/s (500,000 / 1,624 ≈ 308 per block × about 10 blocks/s). Tonight's signed share (Build plus probes and stream) is planned well under that, so tonight cannot show whether signed payments reach 3,080; write that, do not infer it from the total. 3,500 signed payments do not fit in a block's mass and are not a target.
+  3. **Flattening:** the first step where the headline rises by less than half of the rise in ours offered against the previous step. Write the step and both deltas.
+  4. **Duplicate share:** network and own-ids, per step. Compare the one-side control (rows 2–4) with the ramp (rows 9–12). Whether one miner per side lowers it stays **Needs more testing** unless the gap is clear in valid minutes.
+  5. **Clean:** each side's own eventual accept ≥ 99% per step, as its own rules say.
+- **What each side optimizes,** inside the rates above: distinct accepted ids, not submits. Each id goes to one node, once. A higher fee reorders inside full blocks; it does not add room. Submitting faster than the accepted rate fills the mempool and does not move the chain rate.
+- Write the minute in UTC. A blank minute is **not measured**. No host, IP, port, address, key, seed or txid in any result file.
+
+**The bot's part.**
+- Measure on keel every minute: the chain count above (keel's unique accepted, blocks, slots, unique ids in blocks, selected-chain blocks, duplicate share, valid or not with the reason), plus the bot's own ids accepted and their duplicate share.
+- Log every bot rate with the label **no-signature hop, anyone-can-spend, not realistic payments**; the light lane gets its own column under the same label. Probe and stream ids are signed and counted apart.
+- Write `COMBINED.md` by the rules above (§10).
 
 ---
 
