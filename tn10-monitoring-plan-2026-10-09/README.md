@@ -2,7 +2,7 @@
 
 # TN10 monitoring, 9 Oct 2026 (keel pre-test day)
 
-**Status: INTERIM, pushed about 14:05Z. Loggers keep running to 15:30Z; this page will be updated.**
+**Status: final, compiled after the 15:30Z end.**
 
 All times UTC. All numbers are counts or rates measured from the box against keel (stp's second desk node, TN10, UTXO index) through the paid tunnel, unless a line says otherwise. No txids, keys, seeds or wallet files are in this folder. The mining address named here is the public Grok Bot address `kaspatest:qzffl5…` (see [NEXT-RUN-MONITOR](../plan/NEXT-RUN-MONITOR.md)).
 
@@ -90,15 +90,18 @@ Reading: C-base-60 clean, C-100 eventual 100% but p90 23 s, so back to 60. The B
 Route: P2SH with redeem script OP_TRUE (0x51), sigScript = push(redeem). One fund tx (mass 1,701) and 3 chained unsigned 1-in/1-out hops (mass 637 each, 0 sig ops, 0 signature bytes): all four "accepted into keel mempool", i.e. standard-valid on kaspad 2.1.0. Whether they were mined and accepted on chain was not checked.
 Capacity in theory: 500,000 / 637 = ~785 tx per block, ~7,850 tx/s at 10 BPS, against ~308 / ~3,080 for a signed 1-in/1-out (~1,624 mass). Anyone-can-spend hops are not realistic payments.
 
+#### Light-lane scaled trial
+Never started. light5-wait.sh polled keel lag every 20 s from ~13:50Z; keel never got below 60 s lag before the 15:10Z cutoff (light5-wait.log, 15:10:13Z: "keel never recovered below 60 s lag before 15:10Z; light lane not started"). No light-lane rates exist for today.
+
 Labels for the light-tx lines: the probe (four txs standard-valid in keel's mempool, masses 1,701 / 637) is **Claim (measured on TN10)**; on-chain acceptance of those four was not checked. The ~785 tx/block and ~7,850 tx/s figures are **Not sure / open for debate** (theory from mass only). Anyone-can-spend hops measure capacity, not realistic signed payments.
 
 ## Limit findings
 
 - **Claim (measured on TN10)**: morning (run 1), the first soft break was 240 tx/s (6 runners): 93.2% accepted inside the 60 s window, 100% accepted eventually (30,345/30,345), p50 2.0 s, p90 5.0 s. Keel's mempool was 26–30k, almost all outside traffic.
 - **Claim (measured on TN10)**: from 10:30 the clean level dropped. 120 tx/s broke in run 2 (94.4% in window) and run 4 (p90 16.7 s at 11:38–11:39), 100 tx/s broke in run 5 (p90 23.4 s). 60 tx/s held with 100% eventual accept whenever keel itself kept up. Outside mempool was 20–40k during those steps.
-- **Claim (measured on TN10)**: keel stalled three times while it was the only node we read: 10:45 (virtual stopped, mempool 121k, miners got `route is full`), 13:20–13:30 (lag rose to 302 s, run 5 stopped), and from about 13:40 (no blocks seen in the 5-minute block windows, mempool frozen at 8,211, lag 856.2 s at 15:06:26).
+- **Claim (measured on TN10)**: keel stalled three times while it was the only node we read: 10:45 (virtual stopped, mempool 121k, miners got `route is full`), 13:20–13:30 (lag rose to 302 s, run 5 stopped), and from about 13:40 (no blocks seen in the 5-minute block windows, mempool frozen at 8,211, lag 868.3 s at 15:28:26).
 - **Claim (measured on TN10)**: tunnel drops: both free tunnels expired at 09:59 (Pinggy 60-minute cap); a ~25 s blip on the paid runner tunnel at 11:07. No paid-tunnel drop after that.
-- **Claim (measured on TN10)**: keel's lag after 13:30 is not caused by our load. Run 5 stopped at 13:29:59 (controller killed runners and miners); the bot sent nothing afterwards, yet keel kept falling behind: at 14:17 sink lag 656 s and 6,502 DAA behind the public node, while the public node ran ~10 DAA/s. Gap at the last sample: 6,737 DAA.
+- **Claim (measured on TN10)**: keel's lag after 13:30 is not caused by our load. Run 5 stopped at 13:29:59 (controller killed runners and miners); the bot sent nothing afterwards, yet keel kept falling behind: at 14:17 sink lag 656 s and 6,502 DAA behind the public node, while the public node ran ~10 DAA/s. Gap at the last sample: 7,940 DAA.
 - **Not sure / open for debate**: the likely cause is desk overload, with locus, keel, Build's senders and the desk miners on one PC. We cannot see the desk's CPU, RAM or disk from the box.
 - **Not sure / open for debate**: the falling clean level (240 → 120 → 60) tracks keel's own health and the outside mempool, not our side: runner CPU stayed under 10%, 99.6–100% of target was submitted, rejects were 0 outside tunnel events. keel shares one desk PC with locus, Build's senders and the desk miners.
 - **Needs more testing**: 240 tx/s held only 2 minutes; no step above 120 ran with keel healthy and outside load low at the same time.
@@ -143,7 +146,7 @@ Source: `data/confirm-time-by-tier-keel4.csv`. Submit start to keel accept, per 
 
 ## Network TPS and our share
 
-Source: `data/network-tps-1m.csv` (60 s windows, transactions accepted by keel's virtual chain, coinbase approximately removed), 145 samples 12:23–15:09. Chart: `tps-chart.png`.
+Source: `data/network-tps-1m.csv` (60 s windows, transactions accepted by keel's virtual chain, coinbase approximately removed), 165 samples 12:23–15:30. Chart: `tps-chart.png`.
 
 - **Claim (measured on TN10)**: while keel kept up (lag ≤ 30 s in the window, 17 samples, 12:24–13:15): average **1,627.0 tx/s**, median 1,703.8, min 105.9 (12:43–12:44, when keel's mempool emptied for a minute), max 2,435.4.
 - **Claim (measured on TN10)**: our runners averaged 54.0 accepted tx/s in the sampled minutes, about 4.5% of the network total.
@@ -178,22 +181,25 @@ Build's claim: a signed 1-in/1-out tx is ~1,624 mass; with the 500,000 block mas
 
 ## Mempool, lag, fee
 
-- **Claim (measured on TN10)**: keel mempool, every 1 s (9,606 samples, 1 failed): median 8,211, min 126, peak **49,914** at 13:23:17. File `data/keel-mempool-1s.csv`.
-- **Claim (measured on TN10)**: keel sink lag, every 10 s (987 samples): median 555.4 s, p95 796.2 s, max **856.2 s** at 15:06:26; 681 samples over 60 s; 252 samples with `isSynced=false`. File `data/keel-node-10s.csv`.
-- **Claim (measured on TN10)**: fee estimate, normal bucket: 100.0–193.4 sompi/gram, median 188.4; never above 200. Priority bucket max 779.0.
+- **Claim (measured on TN10)**: keel mempool, every 1 s (10,788 samples, 2 failed): median 8,211 (skewed: keel's mempool sat frozen at 8,211 from ~13:50 while keel was behind), min 126, peak **49,914** at 13:23:17. File `data/keel-mempool-1s.csv`.
+- **Claim (measured on TN10)**: keel sink lag, every 10 s (1106 samples): median 647.7 s, p95 811.0 s, max **868.3 s** at 15:28:26; 800 samples over 60 s; 337 samples with `isSynced=false`. File `data/keel-node-10s.csv`.
+- **Claim (measured on TN10)**: fee estimate, normal bucket: 100.0–193.4 sompi/gram, median 188.5; never above 200. Priority bucket max 779.0.
 
 ## BPS from two sources (stp asked 13:25Z)
 
-Every 60 s: keel's `virtualDaaScore` and the public `api-tn10.kaspa.org/info/blockdag` `virtualDaaScore`, as DAA/s, plus the DAA gap. File `data/bps-two-sources-60s.csv`, chart `bps-chart.png`. 104 samples.
+Every 60 s: keel's `virtualDaaScore` and the public `api-tn10.kaspa.org/info/blockdag` `virtualDaaScore`, as DAA/s, plus the DAA gap. File `data/bps-two-sources-60s.csv`, chart `bps-chart.png`. 123 samples.
 
-- **Claim (measured on TN10)**: public node 9.58 DAA/s on average (min 6.17, max 13.97); keel 8.74 DAA/s (min 0, max 54.75, the max is catch-up). Keel was 1,270 to 8,598 DAA behind the public node.
-- **Not sure / open for debate**: the network ran near its normal ~10 BPS (public DAA/s 6.5–10.5 in 60 s samples) while keel fell behind, so this afternoon's slowdown reads as **keel behind**, not **network slow**. The public endpoint is behind Cloudflare (`cf-cache-status` logged); a cached reply shortens or lengthens a sample, which is why single samples swing.
+- **Claim (measured on TN10)**: public node 9.64 DAA/s on average (min 6.17, max 13.97); keel 8.77 DAA/s (min 0, max 54.75, the max is catch-up). Keel was 1,270 to 8,713 DAA behind the public node.
+- **Not sure / open for debate**: the network ran near its normal ~10 BPS (public 6.17–13.97 DAA/s in 60 s samples, average 9.64) while keel fell behind, so this afternoon's slowdown reads as **keel behind**, not **network slow**. The public endpoint is behind Cloudflare (`cf-cache-status` logged); a cached reply shortens or lengthens a sample, which is why single samples swing.
+
+- **Claim (measured on TN10)**: from ~14:05 keel's gap follows a sawtooth with a period of about 10 minutes: keel processes 0 DAA/s for 3–5 minutes (gap rises ~6,500 → ~8,500), then catches up at 20+ DAA/s, but never closes to the public node (gap floor ~6,400, lag floor ~650 s).
+- **Not sure / open for debate**: a 10-minute rhythm points at something scheduled on the desk (a 10-minute job, sender rounds, or a kaspad periodic task) rather than random overload. We cannot see the desk from the box.
 
 ![BPS chart](bps-chart.png)
 
 ## Indexer (api-tn10.kaspa.org)
 
-- **Claim (measured on TN10)**: `/info/health` every 30 s (319 samples): 300 answers were Cloudflare `STALE`, 17 timed out, 1 was 503. The cached body showed the indexer's last accepted-tx block time at 11:47:13Z for most of the afternoon; the DB blue score moved only once (580,580,059 → 580,635,621).
+- **Claim (measured on TN10)**: `/info/health` every 30 s (358 samples): 338 answers were Cloudflare `STALE`, 18 timed out, 1 was 503. The cached body showed the indexer's last accepted-tx block time at 11:47:13Z for most of the afternoon; the DB blue score moved only once (580,580,059 → 580,635,621).
 - **Claim (measured on TN10)**: visibility, one of our accepted ids per minute polled until the indexer showed it: 48/48 became visible, delay min 523.9 s, median 803.7 s, max 1,093.7 s. Ids stay local; `data/indexer-visibility-1m.csv` has times only.
 - **Claim (measured on TN10)**: by the plan's rule (3 samples of 503/timeout, or a visibility delay above 300 s) the indexer was **frozen**: every visibility delay was above 300 s. It was slow, not dead: every id did appear.
 - **Not sure / open for debate**: at what sustained tx/s it froze cannot be read from today: it was already stale at 11:47, under ~1,500–2,000 tx/s network load.
@@ -221,6 +227,8 @@ Files: `data/mining-share-10m.csv` (ours = `Block submitted successfully` lines 
 | 14:40 | 9.77 | 0.0 | 0.0% |
 | 14:50 | 10.12 | 0.0 | 0.0% |
 | 15:00 | 10.15 | 0.0 | 0.0% |
+| 15:10 | 10.35 | 0.0 | 0.0% |
+| 15:20 | 8.71 | 0.0 | 0.0% |
 
 - **Claim (measured on TN10)**: with 4 miners and keel healthy (12:20–12:50) our share was 38–43% by miner logs and 35–36% by user agent in the block windows. It fell to 0–16% after 13:00 as keel fell behind (stale templates) and when run 5 cut to 1 miner (13:09–13:19), then 0 after the 13:30 stop.
 - **Not sure / open for debate**: miner-log counts include submitted blocks that may end up red; the user-agent count is the better number. keel DAA undercounts total blocks when keel lags; after 13:27 the public DAA/s (`bps` file) is the better denominator.
@@ -228,7 +236,7 @@ Files: `data/mining-share-10m.csv` (ours = `Block submitted successfully` lines 
 
 ## Box
 
-- Box clock: UDP NTP is blocked from the box (10/10 timeouts at 12:25). Fallback: HTTP `Date` second-boundary against two public servers, 5 samples each, accuracy about ±RTT/2. Start 12:25: offset −8 to −39 ms (RTT 10–38 ms). End reading at 15:30.
+- Box clock: UDP NTP is blocked from the box (10/10 timeouts at 12:25). Fallback: HTTP `Date` second-boundary against two public servers, 5 samples each, accuracy about ±RTT/2. Start 12:25: offset −8 to −39 ms (RTT 10–38 ms). End 15:30: offset −81 to +4 ms (RTT 10–64 ms). No move beyond the method's ±RTT/2 accuracy; the 50 ms flag cannot be scored with this method.
 - Box disk: 105.6–106.0 GB free on every 10-minute row (`data/status-10m.jsonl`).
 
 ## Ten-minute status block
@@ -260,6 +268,7 @@ The three n0 rows in "What 8 Oct left unread" are closed; n0 did not run.
 - stp raised the runner cap from 6 to 15 in chat (11:15–11:23). The plan says never eight box runners for the storm; that line still stands for tonight unless stp changes it.
 - The break rule changed at 11:08 to eventual ≥ 99% and p90 ≤ 10 s; the old 60 s / 95% rule is logged next to it on every step.
 - stp extended the end from 14:00 to 15:30 at 12:37. Loggers restarted at 14:00:56 (about 56 s gap in the 1 s mempool series).
+- The light-lane scaled trial never started: keel never got below 60 s lag before its 15:10 cutoff.
 - Box NTP used the HTTP Date fallback because UDP 123 is blocked.
 - Mining share uses miner logs and block user agents, not a full chain walk with transactions every 10 minutes, to keep keel's RPC light.
 
@@ -285,7 +294,7 @@ Each line: what to change · why (number) · how to see success · label. Nothin
 **Both**
 
 - One-side-only control: bot alone (10 min), Build alone (10 min), then combined, at fixed rates. · Today's duplicate share can't be split between sides. · Duplicate share and unique accepted/s per control step. · **Needs more testing**.
-- Read BPS from keel and from the public node side by side, so "network slow" and "keel behind" are told apart on every row. · Today keel was 1,270–7,175 DAA behind while the public node ran ~8.7 DAA/s. · Both columns on the row. · **Claim (measured on TN10)** that the method works.
+- Read BPS from keel and from the public node side by side, so "network slow" and "keel behind" are told apart on every row. · Today keel was 1,270–8,713 DAA behind while the public node ran ~9.64 DAA/s. · Both columns on the row. · **Claim (measured on TN10)** that the method works.
 
 ## Files
 

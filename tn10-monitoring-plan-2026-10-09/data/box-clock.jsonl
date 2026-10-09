@@ -8,4 +8,14 @@
 {"label": "start", "server": "www.cloudflare.com", "method": "http-date-boundary", "sample": 3, "offset_ms": -38.6, "rtt_ms": 38.1, "t": "2026-10-09T12:25:55Z"}
 {"label": "start", "server": "www.cloudflare.com", "method": "http-date-boundary", "sample": 4, "offset_ms": -26.4, "rtt_ms": 33.5, "t": "2026-10-09T12:25:56Z"}
 {"label": "start", "server": "www.cloudflare.com", "method": "http-date-boundary", "sample": 5, "offset_ms": -22.8, "rtt_ms": 29.6, "t": "2026-10-09T12:25:57Z"}
+{"label": "end", "server": "www.google.com", "method": "http-date-boundary", "sample": 1, "offset_ms": -5.9, "rtt_ms": 10.6, "t": "2026-10-09T15:30:09Z"}
+{"label": "end", "server": "www.google.com", "method": "http-date-boundary", "sample": 2, "offset_ms": -80.9, "rtt_ms": 64.0, "t": "2026-10-09T15:30:10Z"}
+{"label": "end", "server": "www.google.com", "method": "http-date-boundary", "sample": 3, "offset_ms": -8.0, "rtt_ms": 62.9, "t": "2026-10-09T15:30:11Z"}
+{"label": "end", "server": "www.google.com", "method": "http-date-boundary", "sample": 4, "offset_ms": -30.1, "rtt_ms": 62.9, "t": "2026-10-09T15:30:12Z"}
+{"label": "end", "server": "www.google.com", "method": "http-date-boundary", "sample": 5, "offset_ms": -58.4, "rtt_ms": 40.3, "t": "2026-10-09T15:30:13Z"}
+{"label": "end", "server": "www.cloudflare.com", "method": "http-date-boundary", "sample": 1, "offset_ms": -20.5, "rtt_ms": 40.4, "t": "2026-10-09T15:30:14Z"}
+{"label": "end", "server": "www.cloudflare.com", "method": "http-date-boundary", "sample": 2, "offset_ms": -28.3, "rtt_ms": 52.5, "t": "2026-10-09T15:30:15Z"}
+{"label": "end", "server": "www.cloudflare.com", "method": "http-date-boundary", "sample": 3, "offset_ms": -0.9, "rtt_ms": 35.5, "t": "2026-10-09T15:30:16Z"}
+{"label": "end", "server": "www.cloudflare.com", "method": "http-date-boundary", "sample": 4, "offset_ms": 4.0, "rtt_ms": 30.0, "t": "2026-10-09T15:30:17Z"}
+{"label": "end", "server": "www.cloudflare.com", "method": "http-date-boundary", "sample": 5, "offset_ms": -18.7, "rtt_ms": 29.3, "t": "2026-10-09T15:30:18Z"}
 {"note":"UDP/123 NTP to time.google.com and pool.ntp.org timed out 10/10 at 12:25Z; HTTP-Date fallback used"}
