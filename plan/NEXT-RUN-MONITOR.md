@@ -12,7 +12,13 @@ This page lists the monitor lines already written in [MONITOR.md](MONITOR.md) an
 
 If this page and the questions plan disagree, the plan wins. If they disagree on which node a side uses, [PLAN.md](PLAN.md) wins.
 
-The next run is Friday 9 Oct 2026, 21:30 UTC, for 8 hours, ending Saturday 10 Oct 2026, 05:30 UTC. If that day is not ready, Monday 13 Oct 2026, 21:30 UTC. The hours after 00:25 UTC stay unnamed until the storm GO chooses. His counter is 21:25 UTC through 05:35 UTC. It does not move T0.
+This evening only. No fallback day.
+
+The next run is Friday 9 Oct 2026, 23:00 Europe/Brussels (CEST, UTC+2), which is 21:00 UTC, for 8 hours, ending Saturday 10 Oct 2026, 07:00 local, which is 05:00 UTC.
+
+The old fallback "Monday 13 Oct 2026, 21:30 UTC" is dropped. 13 Oct 2026 is a Tuesday, not a Monday. This run is not Monday 12 Oct and not Tuesday 13 Oct.
+
+The hours after 00:25 UTC stay unnamed until the storm GO chooses. His counter is 21:25 UTC through 05:35 UTC. It does not move T0. Our T0 is 25 minutes before that counter.
 
 A required line with no reading is **not measured**. That fails the pass in [MONITOR.md](MONITOR.md). Do not invent the other side. Do not ping Kaspa Pulse. Do not send him the sheet. No key, no seed, and no txid in git. The mining address is the Grok Bot address named above.
 
@@ -126,6 +132,17 @@ These are already in the plan. They were not part of the 8 Oct desk rows.
 - Mining share per node, per step: blocks total, blocks ours, percent. The bot's miners use the keel tunnel and pay the Grok Bot address. Desk miners stay on locus while keel is syncing.
 - At T0, cite the SHA of the last commit that changed `plan/NEXT-STORM-PLAN.md`. A deviation gets a time and a reason.
 - Raw files next to the summary stay the plan's §8 list. They are not written by this page.
+
+## After the run, private
+
+Not in git. Not in this sheet. Nothing sent with the storm GO.
+
+He asked for two things after the run, both private:
+
+1. The step times from `steps-utc.json`, so his minutes line up with B0, 2×, 5×, and the rest.
+2. Our five ids per minute, so he can check on chain if and when each one landed.
+
+He can also count, from the chain, how many blocks paid the mining address per step. That is mining share from outside, next to our own number. Comparison comes to us first.
 
 ## Pass
 
