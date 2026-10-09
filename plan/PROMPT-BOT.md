@@ -6,7 +6,7 @@ Wording, Kaspa Pulse (@gokugalax), 7 Oct 2026: sign-and-send processes are sende
 
 # Prompt for the operator
 
-For tonight, paste [GO-BOT.md](GO-BOT.md) instead. It is the launch file. This page is the standing prompt. Paste this into the bot. Sending this GitHub to Grok Build or to the bot means go: start the operation. This file does not lock the questions plan and does not spend.
+For tonight, paste [GO-BOT.md](../go/bot/GO-BOT.md) instead. It is the launch file. This page is the standing prompt. Paste this into the bot. Sending this GitHub to Grok Build or to the bot means go: start the operation. This file does not lock the questions plan and does not spend.
 
 The bot's runner uses **keel**, the second kaspad on the desk, and it runs only during the storm and the rehearsal. Build uses locus. Each side mines where it sends: one bot miner on keel, one Build miner on locus. If this file and [PLAN.md](PLAN.md) disagree, the plan wins.
 
@@ -28,7 +28,7 @@ Read free disk before T0. Go only with at least 35 GB free. From 28 to 35 GB, th
 
 **Rehearsal.** Before T0, run [REHEARSAL-2026-10-09.md](REHEARSAL-2026-10-09.md) once keel's lag is at or under 60 seconds. If keel is not healthy by 20:15 UTC, write **not run** and skip it.
 
-The hours after 00:25 UTC are named in [GO-BOT.md](GO-BOT.md): long hold to 04:45 UTC, final drain to 05:00 UTC.
+The hours after 00:25 UTC are named in [GO-BOT.md](../go/bot/GO-BOT.md): long hold to 04:45 UTC, final drain to 05:00 UTC.
 
 ## This side
 

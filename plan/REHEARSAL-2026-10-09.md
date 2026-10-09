@@ -15,7 +15,7 @@ The rehearsal is not the storm. It does not move T0, it is not the storm GO, and
 - 30 minutes, once, at a fixed time: R = 20:30 UTC, ending 21:00 UTC. Both sides use the same clock without talking to each other.
 - It runs only if keel is synced and its lag is at or under 60 seconds at 20:15 UTC (T0 − 45) and again at 20:30 UTC. Keel lag = UTC now − timestamp of keel's sink block.
 - If not, the rehearsal is skipped. The log writes **not run**, with the last keel lag and the UTC of that read. A skipped rehearsal is not a failed storm gate. The miners still start at 20:30 UTC.
-- Every step below is R + minutes. The launch files [GO-BOT.md](GO-BOT.md) and [GO-BUILD.md](GO-BUILD.md) print the same steps in UTC.
+- Every step below is R + minutes. The launch files [GO-BOT.md](../go/bot/GO-BOT.md) and [GO-BUILD.md](../go/build/GO-BUILD.md) print the same steps in UTC.
 
 ## Rules
 

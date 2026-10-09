@@ -18,7 +18,7 @@ The next run is Friday 9 Oct 2026, 21:00 UTC, for 8 hours, ending Saturday 10 Oc
 
 The old fallback "Monday 13 Oct 2026, 21:30 UTC" is dropped. 13 Oct 2026 is a Tuesday, not a Monday. This run is not Monday 12 Oct and not Tuesday 13 Oct.
 
-The launch files [GO-BOT.md](GO-BOT.md) and [GO-BUILD.md](GO-BUILD.md) are the storm GO. They name the hours after 00:25 UTC: long hold to 04:45 UTC, final drain to 05:00 UTC. His counter is 21:25 UTC through 05:35 UTC. It does not move T0. Our T0 is 25 minutes before that counter.
+The launch files [GO-BOT.md](../go/bot/GO-BOT.md) and [GO-BUILD.md](../go/build/GO-BUILD.md) are the storm GO. They name the hours after 00:25 UTC: long hold to 04:45 UTC, final drain to 05:00 UTC. His counter is 21:25 UTC through 05:35 UTC. It does not move T0. Our T0 is 25 minutes before that counter.
 
 A required line with no reading is **not measured**. That fails the pass in [MONITOR.md](MONITOR.md). Do not invent the other side. Do not ping Kaspa Pulse. Do not send him the sheet. No key, no seed, and no txid in git. The mining address is the Grok Bot address named above.
 

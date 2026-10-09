@@ -6,7 +6,7 @@ Wording, Kaspa Pulse (@gokugalax), 7 Oct 2026: sign-and-send processes are sende
 
 # Prompt for Grok Build
 
-For tonight, paste [GO-BUILD.md](GO-BUILD.md) instead. It is the launch file. This page is the standing prompt. Paste this into Grok Build on the desk. Sending this GitHub to Grok Build or to the bot means go: start the operation. This file does not lock the questions plan and does not spend.
+For tonight, paste [GO-BUILD.md](../go/build/GO-BUILD.md) instead. It is the launch file. This page is the standing prompt. Paste this into Grok Build on the desk. Sending this GitHub to Grok Build or to the bot means go: start the operation. This file does not lock the questions plan and does not spend.
 
 Build uses **locus**, the first desk kaspad. The bot's runner uses keel, the second kaspad on the desk, and it runs only during the storm and the rehearsal. Each side mines where it sends: one Build miner on locus, one bot miner on keel. If this file and [PLAN.md](PLAN.md) disagree, the plan wins.
 
@@ -28,7 +28,7 @@ Also stop this side unless locus is synced and its UTXO index is on. If desk fre
 
 **Rehearsal.** Before T0, join [REHEARSAL-2026-10-09.md](REHEARSAL-2026-10-09.md) if keel is healthy: 1 miner on locus, and 60 tx/s in the 3-minute Build-only and both blocks, 20:53–20:59 UTC. The rehearsal is fixed at 20:30–21:00 UTC. If keel is not healthy at 20:15 UTC, it is **not run**.
 
-The hours after 00:25 UTC are named in [GO-BUILD.md](GO-BUILD.md): long hold to 04:45 UTC, final drain to 05:00 UTC.
+The hours after 00:25 UTC are named in [GO-BUILD.md](../go/build/GO-BUILD.md): long hold to 04:45 UTC, final drain to 05:00 UTC.
 
 keel's sync is not this side's gate. If the bot's runner is waiting, keep this side on locus. The bot's one miner uses the keel tunnel and is not this side's process.
 

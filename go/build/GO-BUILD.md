@@ -29,13 +29,13 @@ Pasting this file is the GO and the lock-in. It may be pasted hours before the s
 Rates are tx/s. **Bot level** starts at 60 and at most doubles at each clean step (60, 120, 240, 480, 960), never above the combined step; if a step is not clean it goes back to the last clean level. "Plan" in the Build column is that doubling path; Build uses it and never raises its target mid-step to cover a bot shortfall. The combined numbers are the fallback, used when B0's baseline B is below 50 or above 200 tx/s (on 9 Oct it was about 1,600). If 50 ≤ B ≤ 200, combined = (m − 1) × B for steps 2×, 5×, 10×, 20×, 30×, with 2× and the miners-off check capped at 250 tx/s total.
 
 
-> **Experimental. We are just trying this.** [Disclaimer](../DISCLAIMER.md)
+> **Experimental. We are just trying this.** [Disclaimer](../../DISCLAIMER.md)
 
 # GO, the Build side, TN10 storm, Friday 9 Oct 2026
 
 Wording, Kaspa Pulse (@gokugalax), 7 Oct 2026: sign-and-send processes are senders; runner is the setup; bot is reserved for the operator.
 
-Every clock time here is UTC. This file is self-contained. It was written from [PLAN.md](PLAN.md), [REHEARSAL-2026-10-09.md](REHEARSAL-2026-10-09.md), [MONITOR.md](MONITOR.md) and [NEXT-RUN-MONITOR.md](NEXT-RUN-MONITOR.md) at the commit that added it. If they disagree on tonight, this file is what you run. The bot's file is [GO-BOT.md](GO-BOT.md). It uses the same clock.
+Every clock time here is UTC. This file is self-contained. It was written from [PLAN.md](../../plan/PLAN.md), [REHEARSAL-2026-10-09.md](../../plan/REHEARSAL-2026-10-09.md), [MONITOR.md](../../plan/MONITOR.md) and [NEXT-RUN-MONITOR.md](../../plan/NEXT-RUN-MONITOR.md) at the commit that added it. If they disagree on tonight, this file is what you run. The bot's file is [GO-BOT.md](../bot/GO-BOT.md). It uses the same clock.
 
 ## 1. Role
 
@@ -70,7 +70,7 @@ Then:
 
 T0 is **21:00**. End is **Saturday 10 Oct 2026, 05:00**. His counter (Kaspa Pulse) is 21:25–05:35; it does not move T0.
 
-**Rehearsal, 20:30–21:00**, only if keel lag ≤ 60 s at 20:15 and at 20:30 (lag = UTC now − timestamp of keel's sink block). Otherwise write **not run** with the lag and its UTC. Details: [REHEARSAL-2026-10-09.md](REHEARSAL-2026-10-09.md). Your part:
+**Rehearsal, 20:30–21:00**, only if keel lag ≤ 60 s at 20:15 and at 20:30 (lag = UTC now − timestamp of keel's sink block). Otherwise write **not run** with the lag and its UTC. Details: [REHEARSAL-2026-10-09.md](../../plan/REHEARSAL-2026-10-09.md). Your part:
 
 | UTC | Rehearsal step | Build | Bot |
 |---|---|---|---|

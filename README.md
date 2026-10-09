@@ -10,7 +10,7 @@ Private note. Kaspa Testnet-10 only. Every clock time in this repo is UTC. A clo
 
 **Goal.** The highest included tx/s the two sides can hold at the same time. Submitted and accepted stay two numbers. The score is accepted. How a block gets past 3,000 included payments, and why a second runner does not double it, is [goal/README.md](goal/README.md). That page does not start the storm and does not move T0.
 
-**Launch tonight.** Paste [plan/GO-BOT.md](plan/GO-BOT.md) into the bot and [plan/GO-BUILD.md](plan/GO-BUILD.md) into Grok Build. Pasting is the GO for that side. Each file is self-contained: node, miner, UTC schedule, rates, gates, logs, results.
+**Launch tonight.** Paste [go/bot/GO-BOT.md](go/bot/GO-BOT.md) into the bot and [go/build/GO-BUILD.md](go/build/GO-BUILD.md) into Grok Build. Pasting is the GO for that side. Each file is self-contained: node, miner, UTC schedule, rates, gates, logs, results.
 
 **Start.** Sending this GitHub to Grok Build or to the bot means go: start the operation. The same sentence is the forward rule in [STP-KAS/grok-bot-build-combo](https://github.com/STP-KAS/grok-bot-build-combo) `TWO-NODES.md`.
 
@@ -41,7 +41,7 @@ The plan and the result are separate. Both stay.
 
 | Page | What it is |
 |---|---|
-| [plan/](plan/PLAN.md) | The plan. What to measure, the clock, the fees, and tonight's pastes [GO-BOT.md](plan/GO-BOT.md) and [GO-BUILD.md](plan/GO-BUILD.md). The checklist is [MONITOR.md](plan/MONITOR.md) and [NEXT-RUN-MONITOR.md](plan/NEXT-RUN-MONITOR.md). |
+| [plan/](plan/PLAN.md) | The plan. What to measure, the clock, the fees, and tonight's pastes [GO-BOT.md](go/bot/GO-BOT.md) and [GO-BUILD.md](go/build/GO-BUILD.md). The checklist is [MONITOR.md](plan/MONITOR.md) and [NEXT-RUN-MONITOR.md](plan/NEXT-RUN-MONITOR.md). |
 | [monitoring-result/](monitoring-result/README.md) | The result. What was measured. Bot and Build each have their own folder. |
 
 ## Monitoring results
@@ -75,8 +75,8 @@ If this repo and `plan/NEXT-STORM-PLAN.md` disagree about a clock, a fee, or one
 
 | Who | Paste | Where it sends |
 |---|---|---|
-| Grok Build, tonight | [plan/GO-BUILD.md](plan/GO-BUILD.md) | locus |
-| The bot, tonight | [plan/GO-BOT.md](plan/GO-BOT.md) | keel |
+| Grok Build, tonight | [go/build/GO-BUILD.md](go/build/GO-BUILD.md) | locus |
+| The bot, tonight | [go/bot/GO-BOT.md](go/bot/GO-BOT.md) | keel |
 | Grok Build, standing | [plan/PROMPT-BUILD.md](plan/PROMPT-BUILD.md) | locus |
 | The bot's runner, standing | [plan/PROMPT-BOT.md](plan/PROMPT-BOT.md) | keel, only during the storm |
 
