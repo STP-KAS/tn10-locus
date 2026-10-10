@@ -1,0 +1,232 @@
+{
+  "source": "go/build/GO-BUILD.md",
+  "source_commit": "2673e02f4ed4cadf11b8a73ba6653c51b7c0762c",
+  "questions_plan_commit": "fc9558e306cdea34de0234968d7c3c1e974cdcc4",
+  "t0": "2026-10-10T07:00:00Z",
+  "end": "2026-10-10T15:00:00Z",
+  "note": "Saturday 10 Oct 2026. Same rows as the voided 21:00Z file, plus 10 hours. T0 07:00Z, end 15:00Z. Refuse any other T0.",
+  "rows": [
+    {
+      "id": "health",
+      "phase": "stop-and-health",
+      "start": "2026-10-10T06:15:00Z",
+      "send_end": "2026-10-10T06:15:00Z",
+      "end": "2026-10-10T06:30:00Z",
+      "target": 0,
+      "stream": false,
+      "miner": "leave"
+    },
+    {
+      "id": "reh-wait",
+      "phase": "rehearsal-miners",
+      "start": "2026-10-10T06:30:00Z",
+      "send_end": "2026-10-10T06:30:00Z",
+      "end": "2026-10-10T06:53:00Z",
+      "target": 0,
+      "stream": false,
+      "miner": "one"
+    },
+    {
+      "id": "reh-60",
+      "phase": "rehearsal-60",
+      "start": "2026-10-10T06:53:00Z",
+      "send_end": "2026-10-10T06:59:00Z",
+      "end": "2026-10-10T06:59:00Z",
+      "target": 60,
+      "stream": true,
+      "miner": "one",
+      "rehearsal": true
+    },
+    {
+      "id": "wrap",
+      "phase": "rehearsal-wrap",
+      "start": "2026-10-10T06:59:00Z",
+      "send_end": "2026-10-10T06:59:00Z",
+      "end": "2026-10-10T07:00:00Z",
+      "target": 0,
+      "stream": false,
+      "miner": "one"
+    },
+    {
+      "id": "1",
+      "phase": "B0",
+      "start": "2026-10-10T07:00:00Z",
+      "send_end": "2026-10-10T07:00:00Z",
+      "end": "2026-10-10T07:10:00Z",
+      "target": 0,
+      "stream": false,
+      "miner": "one",
+      "baseline": true
+    },
+    {
+      "id": "2",
+      "phase": "C1",
+      "start": "2026-10-10T07:10:00Z",
+      "send_end": "2026-10-10T07:10:00Z",
+      "end": "2026-10-10T07:20:00Z",
+      "target": 0,
+      "stream": false,
+      "miner": "one"
+    },
+    {
+      "id": "3",
+      "phase": "C2",
+      "start": "2026-10-10T07:20:00Z",
+      "send_end": "2026-10-10T07:30:00Z",
+      "end": "2026-10-10T07:30:00Z",
+      "target": 60,
+      "stream": true,
+      "miner": "one"
+    },
+    {
+      "id": "4",
+      "phase": "C3",
+      "start": "2026-10-10T07:30:00Z",
+      "send_end": "2026-10-10T07:40:00Z",
+      "end": "2026-10-10T07:40:00Z",
+      "target": 60,
+      "stream": true,
+      "miner": "one"
+    },
+    {
+      "id": "5",
+      "phase": "2x",
+      "start": "2026-10-10T07:40:00Z",
+      "send_end": "2026-10-10T07:55:00Z",
+      "end": "2026-10-10T08:00:00Z",
+      "target": "rule",
+      "mult": 2,
+      "bot": 60,
+      "stream": true,
+      "miner": "one"
+    },
+    {
+      "id": "6",
+      "phase": "settle-off",
+      "start": "2026-10-10T08:00:00Z",
+      "send_end": "2026-10-10T08:00:00Z",
+      "end": "2026-10-10T08:05:00Z",
+      "target": 0,
+      "stream": false,
+      "miner": "off"
+    },
+    {
+      "id": "7",
+      "phase": "2x-miners-off",
+      "start": "2026-10-10T08:05:00Z",
+      "send_end": "2026-10-10T08:20:00Z",
+      "end": "2026-10-10T08:25:00Z",
+      "target": "same-as-5",
+      "stream": true,
+      "miner": "off"
+    },
+    {
+      "id": "8",
+      "phase": "settle-on",
+      "start": "2026-10-10T08:25:00Z",
+      "send_end": "2026-10-10T08:25:00Z",
+      "end": "2026-10-10T08:30:00Z",
+      "target": 0,
+      "stream": false,
+      "miner": "one"
+    },
+    {
+      "id": "9",
+      "phase": "5x",
+      "start": "2026-10-10T08:30:00Z",
+      "send_end": "2026-10-10T08:45:00Z",
+      "end": "2026-10-10T08:50:00Z",
+      "target": "rule",
+      "mult": 5,
+      "bot": 120,
+      "stream": true,
+      "miner": "one"
+    },
+    {
+      "id": "10",
+      "phase": "10x",
+      "start": "2026-10-10T08:50:00Z",
+      "send_end": "2026-10-10T09:05:00Z",
+      "end": "2026-10-10T09:10:00Z",
+      "target": "rule",
+      "mult": 10,
+      "bot": 240,
+      "stream": true,
+      "miner": "one"
+    },
+    {
+      "id": "11",
+      "phase": "20x",
+      "start": "2026-10-10T09:10:00Z",
+      "send_end": "2026-10-10T09:25:00Z",
+      "end": "2026-10-10T09:30:00Z",
+      "target": "rule",
+      "mult": 20,
+      "bot": 480,
+      "stream": true,
+      "miner": "one"
+    },
+    {
+      "id": "12",
+      "phase": "30x",
+      "start": "2026-10-10T09:30:00Z",
+      "send_end": "2026-10-10T09:45:00Z",
+      "end": "2026-10-10T09:50:00Z",
+      "target": "rule",
+      "mult": 30,
+      "bot": 960,
+      "stream": true,
+      "miner": "one"
+    },
+    {
+      "id": "13",
+      "phase": "max",
+      "start": "2026-10-10T09:50:00Z",
+      "send_end": "2026-10-10T10:05:00Z",
+      "end": "2026-10-10T10:15:00Z",
+      "target": "max",
+      "stream": true,
+      "miner": "one"
+    },
+    {
+      "id": "14",
+      "phase": "B1",
+      "start": "2026-10-10T10:15:00Z",
+      "send_end": "2026-10-10T10:15:00Z",
+      "end": "2026-10-10T10:25:00Z",
+      "target": 0,
+      "stream": false,
+      "miner": "one"
+    },
+    {
+      "id": "15",
+      "phase": "hold",
+      "start": "2026-10-10T10:25:00Z",
+      "send_end": "2026-10-10T14:45:00Z",
+      "end": "2026-10-10T14:45:00Z",
+      "target": "clean",
+      "stream": true,
+      "miner": "one"
+    },
+    {
+      "id": "16",
+      "phase": "final-drain",
+      "start": "2026-10-10T14:45:00Z",
+      "send_end": "2026-10-10T14:45:00Z",
+      "end": "2026-10-10T15:00:00Z",
+      "target": 0,
+      "stream": false,
+      "miner": "one"
+    },
+    {
+      "id": "end",
+      "phase": "end",
+      "start": "2026-10-10T15:00:00Z",
+      "send_end": "2026-10-10T15:00:00Z",
+      "end": "2026-10-10T15:00:00Z",
+      "target": 0,
+      "stream": false,
+      "miner": "off"
+    }
+  ]
+}
