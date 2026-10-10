@@ -6,6 +6,8 @@
 
 **What Build did:** the rehearsal send retried and did not submit while the node was down. One locus process was started again at 06:56Z on the same flags. By 06:57Z it was accepting blocks, synced, sink lag 1 s, and the rehearsal gate passed. Coin refresh then armed 5 senders at 06:58:30Z. The row closed at 06:59:02Z: target 60, mean submit 58, 100% of target, 30 seconds, clean. A desk watcher now starts locus again if that process is gone, with a five-minute wait if it dies within two minutes of a start.
 
-**Not sure / open for debate:** the cause of `0xc0000409` inside this kaspad build. It is not a sender crash. No sender was armed at 06:52Z.
+**Second abort, 07:26Z.** Same binary, same exception `0xc0000409`, same fault offset `0x14be877`. The desk watcher started locus again within one check. The node was accepting blocks again by 07:27Z. The five C2 senders from 07:21:30Z were still the ones running, aimed at 07:30Z. This is one bug in this kaspad build, hit twice. The watcher is the workaround that keeps the agenda moving.
+
+**Not sure / open for debate:** the cause of `0xc0000409` at that offset. It is not a sender crash. No sender was armed at 06:52Z.
 
 Counts only. No txid, key, seed, host, IP, port or address.
