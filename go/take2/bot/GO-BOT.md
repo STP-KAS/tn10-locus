@@ -1,17 +1,19 @@
-> The live GO is [go/take2/bot/GO-BOT.md](../take2/bot/GO-BOT.md). Paste that file. This copy is the earlier paste of the same clock.
+Pasting this file is the GO and the lock-in. It may be pasted hours before the start. Do nothing that sends or mines until the times below; then run each line at its time without asking. No further GO will come. If a gate fails, follow the stop rule and log it; do not ask.
 
-Do not paste this copy. The lock-in is the take2 file linked above. It may be pasted hours before the start. Do nothing that sends or mines until the times below; then run each line at its time without asking. No further GO will come. If a gate fails, follow the stop rule and log it; do not ask.
+## Take 2, Saturday 10 Oct 2026
 
-## This run, Saturday 10 Oct 2026
+This file is the GO. The copies in `go/bot/` and `go/build/` are the earlier paste of the same clock. Paste this file.
 
-Friday night failed as a test of the plan. The report is [RUN-REPORT.md](../../tn10-storm-2026-10-09/build/RUN-REPORT.md). Do not resume it. Do not mix its minutes into this run. Do not reuse its baseline.
+**Claim (measured on TN10):** the 06:15Z gate passed. Keel was synced, sink lag 1 s. Locus was synced and its UTXO index was on. One passing read does not open the rehearsal. The second read is still 06:30Z.
 
-The 21:00Z start was already void. Keel stalled from 19:30Z to 20:06Z (peak lag 1917 s at 19:50:47Z). By 20:45:09Z keel was synced, sink lag 1 s, virtual DAA 592448980. A lag pause still needs a fresh sink read. The measured stall is [desk-keel-log.md](../../tn10-storm-2026-10-09/build/desk-keel-log.md).
+Friday night failed as a test of the plan. The report is [RUN-REPORT.md](../../../tn10-storm-2026-10-09/build/RUN-REPORT.md). Do not resume it. Do not mix its minutes into this run. Do not reuse its baseline.
 
-This is the same plan from the first gate. Rates, step order, fees, and which node each side uses are unchanged.
+The 21:00Z start was already void. Keel stalled from 19:30Z to 20:06Z (peak lag 1917 s at 19:50:47Z). By 20:45:09Z keel was synced, sink lag 1 s, virtual DAA 592448980. A lag pause still needs a fresh sink read. The measured stall is [desk-keel-log.md](../../../tn10-storm-2026-10-09/build/desk-keel-log.md).
 
-- Prepare until 2026-10-10T06:15:00Z. Senders stay at 0. The miner stays off until 06:30Z.
-- Gate 2026-10-10T06:15:00Z. Second gate 2026-10-10T06:30:00Z. Each gate is a fresh keel sink lag ≤ 60 s. Friday's lag reads do not open this rehearsal.
+Same plan. Rates, step order, fees, and which node each side uses are unchanged. The clock does not move. If you open this after a row has ended, join the row that is open. Do not rerun a finished row.
+
+- The 06:15Z prepare window is over. Senders stay at 0 until the rehearsal slot. The miner stays off until 06:30Z.
+- Second gate 2026-10-10T06:30:00Z. It is a fresh keel sink lag ≤ 60 s. The 06:15Z read does not count as this one. Friday's lag reads do not open this rehearsal.
 - Rehearsal 06:30Z–07:00Z only if both gates pass. If not, write **not run** and wait for T0.
 - T0 is 2026-10-10T07:00:00Z. End is 2026-10-10T15:00:00Z.
 - B is this run's B0, 07:00Z–07:10Z. A baseline from before 06:15Z is not this B.
@@ -49,13 +51,13 @@ Before 06:15 UTC: prepare only (check the tunnel from the latest FOR-TN10-OPS.tx
 Rates are tx/s. **Bot level** starts at 60 and at most doubles at each clean step (60, 120, 240, 480, 960), never above the combined step; if a step is not clean it goes back to the last clean level. "Plan" in the Build column is that doubling path; Build uses it and never raises its target mid-step to cover a bot shortfall. The combined numbers are the fallback, used when B0's baseline B is below 50 or above 200 tx/s (on 9 Oct it was about 1,600). If 50 ≤ B ≤ 200, combined = (m − 1) × B for steps 2×, 5×, 10×, 20×, 30×, with 2× and the miners-off check capped at 250 tx/s total.
 
 
-> **Experimental. We are just trying this.** [Disclaimer](../../DISCLAIMER.md)
+> **Experimental. We are just trying this.** [Disclaimer](../../../DISCLAIMER.md)
 
 # GO, the bot side, TN10 storm, Saturday 10 Oct 2026
 
 Thank you, Kaspa Pulse (@gokugalax), for the guidance and the input over this stretch, from 4 Oct 2026 on. The 7 Oct 2026 wording stays: sign-and-send processes are senders; runner is the setup; bot is reserved for the operator.
 
-Every clock time here is UTC. This file is self-contained. It was written from [PLAN.md](../../plan/PLAN.md), [REHEARSAL-2026-10-09.md](../../plan/REHEARSAL-2026-10-09.md), [MONITOR.md](../../plan/MONITOR.md) and [NEXT-RUN-MONITOR.md](../../plan/NEXT-RUN-MONITOR.md) at the commit that added it. If they disagree on tonight, this file is what you run. Build's file is [GO-BUILD.md](../build/GO-BUILD.md). It uses the same clock.
+Every clock time here is UTC. This file is self-contained. It was written from [PLAN.md](../../../plan/PLAN.md), [REHEARSAL-2026-10-09.md](../../../plan/REHEARSAL-2026-10-09.md), [MONITOR.md](../../../plan/MONITOR.md) and [NEXT-RUN-MONITOR.md](../../../plan/NEXT-RUN-MONITOR.md) at the commit that added it. If they disagree on tonight, this file is what you run. Build's file is [GO-BUILD.md](../build/GO-BUILD.md). It uses the same clock.
 
 ## 1. Role
 
@@ -89,7 +91,7 @@ You are TN10 ops, on the box. You run the bot's runner (the senders) and exactly
 
 T0 is **07:00**. End is **Saturday 10 Oct 2026, 15:00**. Kaspa Pulse's previously announced counter is 21:25–05:35 for the voided 21:00Z T0. It does not set this T0.
 
-**Rehearsal, 06:30–07:00**, only if keel lag ≤ 60 s at 06:15 and at 06:30. Otherwise write **not run** with the last lag read and its UTC, and wait for 07:00. Details and pass rules: [REHEARSAL-2026-10-09.md](../../plan/REHEARSAL-2026-10-09.md). The 20:15Z and 20:30Z reads (0 s and 1 s) were the voided run. Take new reads.
+**Rehearsal, 06:30–07:00**, only if keel lag ≤ 60 s at 06:15 and at 06:30. Otherwise write **not run** with the last lag read and its UTC, and wait for 07:00. Details and pass rules: [REHEARSAL-2026-10-09.md](../../../plan/REHEARSAL-2026-10-09.md). The 20:15Z and 20:30Z reads (0 s and 1 s) were the voided run. Take new reads.
 
 | UTC | Rehearsal step | Bot | Build |
 |---|---|---|---|
@@ -148,7 +150,7 @@ The bot's row is keel, through the tunnel. Do not read locus. Build writes the s
 ## 6. Gates and stop rules
 
 - **Keel health gate.** Send only while keel is synced and lag ≤ 60 s. Lag > 120 s: halve the rate. Lag > 300 s: senders 0 and miner off. Resume at half the last rate once lag ≤ 60 s, then follow the bot level rule at the next step boundary. The row says `waiting` with the lag. A waiting minute adds 0 and is not a failed match.
-- **Fresh lag.** The lag in this gate and in the miner rule is the sink timestamp from the read you just made, with virtual DAA beside it. A remembered lag, a line from before 20:06Z, or about 23–32 minutes while virtual DAA is at or above 592448980, is not the gate. Re-read once. If that read is synced and lag ≤ 60 s, do not halve and do not stop. The 21:00Z run stays void. Run this clock from the 06:15Z gate. Do not resume the voided rows. Keel's mempool is not Build's send rate. Build sends on locus only. The desk log is [desk-keel-log.md](../../tn10-storm-2026-10-09/build/desk-keel-log.md).
+- **Fresh lag.** The lag in this gate and in the miner rule is the sink timestamp from the read you just made, with virtual DAA beside it. A remembered lag, a line from before 20:06Z, or about 23–32 minutes while virtual DAA is at or above 592448980, is not the gate. Re-read once. If that read is synced and lag ≤ 60 s, do not halve and do not stop. The 21:00Z run stays void. Run this clock from the 06:15Z gate. Do not resume the voided rows. Keel's mempool is not Build's send rate. Build sends on locus only. The desk log is [desk-keel-log.md](../../../tn10-storm-2026-10-09/build/desk-keel-log.md).
 - **Freeze.** keel's DAA score not moving for ≥ 60 s while the public node's moves. Log start, length, sink lag, and virtual DAA. Treat a live freeze through the gate. **Claim (measured on TN10):** the header-IBD series ended after 15:38Z. A later stall ran 19:30Z–20:06Z, peak lag 1917 s at 19:50:47Z, virtual DAA held at 592398778 from 19:41Z through 19:49Z, synced false at the peak. The desk read at 20:45:09Z was synced, sink lag 1 s, virtual DAA 592448980. That stall is closed.
 - **Fee gate.** At every step start, read keel's normal quote. If it is above 200, the bot sits out that step (`waiting: quote`, write the quote) and reads again at the next step start.
 - **Disk.** Box under 28 GB: senders 0 for the rest of the run.
@@ -203,7 +205,7 @@ A required line with no reading is **not measured**, with the UTC it was due.
 
 ## 12. Goal and scoring (same text in GO-BOT.md and GO-BUILD.md)
 
-From [goal/README.md](../../goal/README.md) and [goal/OPINION.md](../../goal/OPINION.md). This section changes how the run is counted and reported. It does not change any time, step, rate or order in the timeline above.
+From [goal/README.md](../../../goal/README.md) and [goal/OPINION.md](../../../goal/OPINION.md). This section changes how the run is counted and reported. It does not change any time, step, rate or order in the timeline above.
 
 **The headline is one number: network unique accepted tx/s, counted once, from chain data on one synced node.** Each accepted transaction id counts once per minute, when the virtual chain accepts it (`getVirtualChainFromBlock` `acceptedTransactionIds`, or the virtual-chain notification). locus and keel are two views of one chain. **Never add locus's accepted count to keel's.** That counts the same ids twice.
 

@@ -46,8 +46,8 @@ Plus our own: the highest **unique accepted** tx/s both sides can hold at the sa
 
 | Side | Paste this | Node |
 |---|---|---|
-| The bot | [go/bot/GO-BOT.md](go/bot/GO-BOT.md) | keel |
-| Grok Build | [go/build/GO-BUILD.md](go/build/GO-BUILD.md) | locus |
+| The bot | [go/take2/bot/GO-BOT.md](go/take2/bot/GO-BOT.md) | keel |
+| Grok Build | [go/take2/build/GO-BUILD.md](go/take2/build/GO-BUILD.md) | locus |
 
 Same 8-hour plan. T0 is 07:00 UTC (09:00 Brussels). End is 15:00 UTC (17:00 Brussels). No fallback day. The GO files are what each side runs. The table below is the same table as in both GO files.
 
